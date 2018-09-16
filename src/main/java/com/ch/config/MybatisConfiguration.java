@@ -34,7 +34,7 @@ public class MybatisConfiguration {
     @Value("${mybatis.mapperLocations}")
     private String mapperLocations;
 
-    //  加载全局的配置文件
+    //  mybatis配置文件
     @Value("${mybatis.configLocation}")
     private String configLocation;
 
