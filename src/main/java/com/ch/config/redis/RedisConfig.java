@@ -1,4 +1,4 @@
-package com.ch.config;
+package com.ch.config.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

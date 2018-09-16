@@ -1,4 +1,4 @@
-package com.ch.config;
+package com.ch.config.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration
-public class DruidConfiguration {
+public class DruidConfig {
 
     @Value("${spring.datasource.url}")
     private String dbUrl;

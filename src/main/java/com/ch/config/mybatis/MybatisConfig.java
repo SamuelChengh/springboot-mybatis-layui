@@ -1,5 +1,6 @@
-package com.ch.config;
+package com.ch.config.mybatis;
 
+import com.ch.config.druid.DruidConfig;
 import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -17,14 +18,13 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-@AutoConfigureAfter(DruidConfiguration.class)
+@AutoConfigureAfter(DruidConfig.class)
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.ch.dao")
-public class MybatisConfiguration {
+public class MybatisConfig {
 
     //  配置类型别名
     @Value("${mybatis.typeAliasesPackage}")
