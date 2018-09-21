@@ -2,24 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ch.dao.sys.UserDao">
     <insert id="insert" parameterType="com.ch.entity.sys.User" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO user (
-        `name`,
-        `age`,
-        `status`,
-        `created_date`
+        INSERT INTO sys_user (
+          `login_name`,
+          `nick_name`,
+          `password`,
+          `salt`,
+          `status`,
+          `created_date`
         ) VALUES (
-        #{name},
-        #{age},
-        1,
-        #{createdDate}
+          #{loginName},
+          #{nickName},
+          #{password},
+          #{salt},
+          1,
+          NOW()
         )
     </insert>
 
     <update id="update" parameterType="com.ch.entity.sys.User">
-        UPDATE user
+        UPDATE sys_user
         <set>
-            <if test="name != null"> `name` = #{name}, </if>
-            <if test="age != null"> `age` = #{age}, </if>
+            <if test="loginName != null"> `login_name` = #{name}, </if>
+            <if test="nickName != null"> `nick_name` = #{nickName}, </if>
+            <if test="password != null"> `password` = #{password}, </if>
+            <if test="salt != null"> `salt` = #{salt}, </if>
             <if test="status != null"> `status` = #{status}, </if>
             <if test="updatedDate != null"> `updated_date` = #{updatedDate}, </if>
         </set>
@@ -27,21 +33,54 @@
     </update>
 
     <delete id="deleteById" >
-        DELETE FROM user
-        <where>
-            `id`=#{id}
-        </where>
+        DELETE FROM sys_user WHERE `id` = #{id}
     </delete>
 
+    <!-- 查询sql片段 -->
+    <sql id="select_query_conditions">
+        <if test="loginName != null and loginName != ''">
+            AND login_name LIKE CONCAT("%",#{loginName},"%")
+        </if>
+        <if test="nickName != null and nickName != ''">
+            AND nick_name LIKE CONCAT("%",#{nickName},"%")
+        </if>
+    </sql>
+
+    <!-- 排序sql片段 -->
+    <sql id="select_order_conditions">
+        ORDER BY created_date DESC
+    </sql>
+
     <select id="findById" resultType="com.ch.entity.sys.User">
-        SELECT * FROM user
-        <where>
-            `id`=#{id}
-        </where>
+        SELECT
+          id,
+          login_name,
+          nick_name,
+          password,
+          salt,
+          status,
+          created_date,
+          updated_date
+        FROM
+          sys_user
+        WHERE
+          `id` = #{id}
     </select>
 
     <select id="findAll" resultType="com.ch.entity.sys.User">
-        SELECT * FROM user
+        SELECT
+          id,
+          login_name,
+          nick_name,
+          password,
+          salt,
+          status,
+          created_date,
+          updated_date
+        FROM
+          sys_user
+        <include refid="select_query_conditions"></include>
+        <include refid="select_order_conditions"></include>
     </select>
 
 </mapper>

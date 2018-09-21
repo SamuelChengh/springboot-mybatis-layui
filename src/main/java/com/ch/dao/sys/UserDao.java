@@ -1,7 +1,6 @@
 package com.ch.dao.sys;
 
 import com.ch.entity.sys.User;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,9 +11,9 @@ public interface UserDao {
 
     Integer update(User user);
 
-    Integer deleteById(@Param("id") Long id);
+    Integer deleteById(Long id);
 
-    User findById(@Param("id") Long id);
+    User findById(Long id);
 
     List<User> findAll();
 }

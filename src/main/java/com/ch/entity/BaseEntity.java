@@ -9,10 +9,15 @@ import java.sql.Timestamp;
 
 @Data
 @ToString
-public abstract class BaseEntity extends IdEntity implements Serializable {
+public class BaseEntity implements Serializable {
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    protected Timestamp createdDate;
+    private Timestamp createdDate; // 创建时间
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    protected Timestamp updatedDate;
-    protected Integer status;
+    private Timestamp updatedDate; // 修改时间
+
+    private Integer   page;        // 页码
+
+    private Integer   limit;       // 页面条数
 }
