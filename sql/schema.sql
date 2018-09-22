@@ -9,6 +9,7 @@ CREATE TABLE `sys_user` (
   `password` VARCHAR(50) NOT NULL COMMENT '密码',
   `salt` VARCHAR(50) NOT NULL COMMENT '密码盐',
   `status` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '状态 1:开启 0:禁用',
+  `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `created_date` TIMESTAMP NULL DEFAULT NULL,
   `updated_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
