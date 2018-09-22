@@ -14,4 +14,6 @@ public class UserDto {
     private Integer status;
     private String  remark;
     private List<Integer> roleIds;
+    private Integer page;          // 页码
+    private Integer limit;         // 页面条数
 }

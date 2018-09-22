@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +22,9 @@ public class UserService {
     private UserDao userDao;
 
 
-    public ResponsePageResult list(User user) {
-        Integer page = user.getPage();
-        Integer limit = user.getLimit();
+    public ResponsePageResult list(UserDto dto) {
+        Integer page = dto.getPage();
+        Integer limit = dto.getLimit();
 
         Page<User> pages = PageHelper.startPage(page, limit).doSelectPage(()-> userDao.findAll());
 

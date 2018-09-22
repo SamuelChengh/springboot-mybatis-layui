@@ -1,7 +1,6 @@
 package com.ch.web.sys;
 
 import com.ch.dto.user.UserDto;
-import com.ch.entity.sys.User;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
 import com.ch.service.sys.UserService;
@@ -24,9 +23,9 @@ public class UserController {
     *
     * */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponsePageResult list(@RequestBody User user){
+    public ResponsePageResult list(@RequestBody UserDto dto){
 
-        ResponsePageResult resp = userService.list(user);
+        ResponsePageResult resp = userService.list(dto);
         return resp;
     }
 

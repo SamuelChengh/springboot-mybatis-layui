@@ -16,8 +16,4 @@ public class BaseEntity implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Timestamp updatedDate; // 修改时间
-
-    private Integer   page;        // 页码
-
-    private Integer   limit;       // 页面条数
 }
