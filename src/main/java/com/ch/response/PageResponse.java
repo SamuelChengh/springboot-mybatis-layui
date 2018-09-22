@@ -10,7 +10,11 @@ import java.util.List;
 @ToString
 public class PageResponse<T> implements Serializable {
 
-    private List<T> rows;
-    private Integer pages;
-    private Long    count;
+    private Integer  code;
+
+    private String   message;
+
+    private Long     count;
+
+    private List<T>  data;
 }

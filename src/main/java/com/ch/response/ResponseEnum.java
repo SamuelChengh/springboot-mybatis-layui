@@ -2,24 +2,22 @@ package com.ch.response;
 
 public enum ResponseEnum {
 	
-	SUCCESS("0000", "成功!"),
-	UNKNOWN("9999", "未知异常!"),
-	URL_ILLEGAL("404","url拼接异常"),
-	PARAM_NOT_EXIST("601","属性不存在");
+	SUCCESS(0, "成功!"),
+	UNKNOWN(9999, "未知异常!");
 
-	private String  code;
-	private String message;
+	private Integer  code;
+	private String   message;
 	
-	ResponseEnum(String code, String message) {
+	ResponseEnum(Integer code, String message) {
 		this.code = code;
 		this.message = message;
 	}
 
-	public String getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 
@@ -30,6 +28,4 @@ public enum ResponseEnum {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
 }

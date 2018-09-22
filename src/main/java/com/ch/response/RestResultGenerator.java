@@ -1,18 +1,31 @@
 package com.ch.response;
 
+import com.github.pagehelper.Page;
+
 /*
-* 统一的响应体
+* 统一响应体
 * */
 public class RestResultGenerator {
+
+    /**
+     * 带分页正文的成功响应
+     */
+    public static <T> ResponsePageResult<T> createSuccessPageResult(Page<T> page) {
+        ResponsePageResult<T> result = ResponsePageResult.newInstance();
+        result.setResultInfo(ResponseEnum.SUCCESS, "");
+        result.setCount(page.getTotal());
+        result.setData(page.getResult());
+        return result;
+    }
 
     /**
      * 带正文的成功响应
      */
 	public static <T> ResponseResult<T> createSuccessResult(T data) {
         ResponseResult<T> result = ResponseResult.newInstance();
-        result.setData(data);
         result.setResultInfo(ResponseEnum.SUCCESS, "");
         result.setSuccess(true);
+        result.setData(data);
         return result;
     }
 
