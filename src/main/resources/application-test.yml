@@ -10,7 +10,7 @@ spring:
     #######################################
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost/test?useSSL=false&autoReconnectForPools=true&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost/ssm_layui?useSSL=false&autoReconnectForPools=true&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
