@@ -19,4 +19,6 @@ public class User extends BaseEntity{
     private String  salt;      // 密码盐
 
     private Integer status;    // 状态 1:开启 0:禁用
+
+    private String  remark;    // 备注
 }

@@ -8,12 +8,14 @@
           `password`,
           `salt`,
           `status`,
+          `remark`,
           `created_date`
         ) VALUES (
           #{loginName},
           #{nickName},
           #{password},
           #{salt},
+          #{remark},
           1,
           NOW()
         )
@@ -27,12 +29,13 @@
             <if test="password != null"> `password` = #{password}, </if>
             <if test="salt != null"> `salt` = #{salt}, </if>
             <if test="status != null"> `status` = #{status}, </if>
+            <if test="remark != null"> `remark` = #{remark}, </if>
             <if test="updatedDate != null"> `updated_date` = #{updatedDate}, </if>
         </set>
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteById" >
+    <delete id="deleteById" parameterType="java.lang.Integer">
         DELETE FROM sys_user WHERE `id` = #{id}
     </delete>
 
@@ -59,12 +62,33 @@
           password,
           salt,
           status,
+          remark,
           created_date,
           updated_date
         FROM
           sys_user
         WHERE
           `id` = #{id}
+    </select>
+
+    <select id="findByLoginName" resultType="com.ch.entity.sys.User">
+        SELECT
+          id,
+          login_name,
+          nick_name,
+          password,
+          salt,
+          status,
+          remark,
+          created_date,
+          updated_date
+        FROM
+          sys_user
+        <where>
+            <if test="loginName != null and loginName != ''">
+                `login_name` = #{loginName}
+            </if>
+        </where>
     </select>
 
     <select id="findAll" resultType="com.ch.entity.sys.User">
@@ -75,6 +99,7 @@
           password,
           salt,
           status,
+          remark,
           created_date,
           updated_date
         FROM
@@ -82,6 +107,17 @@
         <include refid="select_query_conditions"></include>
         <include refid="select_order_conditions"></include>
     </select>
+
+    <insert id="insertUserRole" parameterType="java.util.HashMap">
+        INSERT INTO sys_user_role (`user_id`, `role_id`) VALUES
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByUserId" parameterType="java.lang.Integer">
+        DELETE FROM sys_user_role WHERE `user_id` = #{userId}
+    </delete>
 
 </mapper>
 

@@ -4,6 +4,7 @@ import com.ch.entity.sys.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public interface UserDao {
@@ -11,9 +12,15 @@ public interface UserDao {
 
     Integer update(User user);
 
-    Integer deleteById(Long id);
+    Integer deleteById(Integer id);
 
-    User findById(Long id);
+    User findById(Integer id);
+
+    User findByLoginName(String loginName);
 
     List<User> findAll();
+
+    void insertUserRole(Map<String, Object> map);
+
+    void deleteByUserId(Integer userId);
 }
