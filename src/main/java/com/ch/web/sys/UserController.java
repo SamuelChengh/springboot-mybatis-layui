@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /**
+    /*
     * 用户列表
     *
     * */
@@ -29,7 +29,7 @@ public class UserController {
         return resp;
     }
 
-    /**
+    /*
      * 新增用户
      *
      * */
@@ -40,7 +40,7 @@ public class UserController {
         return resp;
     }
 
-    /**
+    /*
      * 编辑用户
      *
      * */
@@ -51,7 +51,7 @@ public class UserController {
         return resp;
     }
 
-    /**
+    /*
      * 删除用户
      *
      * */
