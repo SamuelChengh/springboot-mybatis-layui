@@ -15,8 +15,8 @@
           #{nickName},
           #{password},
           #{salt},
+          #{status},
           #{remark},
-          1,
           NOW()
         )
     </insert>
@@ -24,13 +24,13 @@
     <update id="update" parameterType="com.ch.entity.sys.User">
         UPDATE sys_user
         <set>
-            <if test="loginName != null"> `login_name` = #{name}, </if>
+            <if test="loginName != null"> `login_name` = #{loginName}, </if>
             <if test="nickName != null"> `nick_name` = #{nickName}, </if>
             <if test="password != null"> `password` = #{password}, </if>
             <if test="salt != null"> `salt` = #{salt}, </if>
             <if test="status != null"> `status` = #{status}, </if>
             <if test="remark != null"> `remark` = #{remark}, </if>
-            <if test="updatedDate != null"> `updated_date` = #{updatedDate}, </if>
+            `updated_date` = NOW(),
         </set>
         WHERE id = #{id}
     </update>
@@ -110,7 +110,7 @@
 
     <insert id="insertUserRole" parameterType="java.util.HashMap">
         INSERT INTO sys_user_role (`user_id`, `role_id`) VALUES
-        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+        <foreach collection="roleIds" item="roleId" separator=",">
             (#{userId}, #{roleId})
         </foreach>
     </insert>

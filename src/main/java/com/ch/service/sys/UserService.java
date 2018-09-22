@@ -21,7 +21,6 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-
     public ResponsePageResult list(UserDto dto) {
         Integer page = dto.getPage();
         Integer limit = dto.getLimit();

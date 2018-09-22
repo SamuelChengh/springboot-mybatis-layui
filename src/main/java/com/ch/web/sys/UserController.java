@@ -22,7 +22,7 @@ public class UserController {
     * 用户列表
     *
     * */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ResponsePageResult list(@RequestBody UserDto dto){
 
         ResponsePageResult resp = userService.list(dto);

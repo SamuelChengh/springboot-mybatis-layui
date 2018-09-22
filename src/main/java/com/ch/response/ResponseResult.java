@@ -1,9 +1,11 @@
 package com.ch.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
 public class ResponseResult<T> implements Serializable {
 

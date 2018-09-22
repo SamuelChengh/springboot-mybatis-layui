@@ -1,6 +1,7 @@
 package com.ch.dao.sys;
 
 import com.ch.entity.sys.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,15 +13,15 @@ public interface UserDao {
 
     Integer update(User user);
 
-    Integer deleteById(Integer id);
+    Integer deleteById(@Param("id") Integer id);
 
-    User findById(Integer id);
+    User findById(@Param("id") Integer id);
 
-    User findByLoginName(String loginName);
+    User findByLoginName(@Param("loginName") String loginName);
 
     List<User> findAll();
 
     void insertUserRole(Map<String, Object> map);
 
-    void deleteByUserId(Integer userId);
+    void deleteByUserId(@Param("userId") Integer userId);
 }
