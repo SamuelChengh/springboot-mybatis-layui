@@ -4,12 +4,16 @@ import com.ch.dto.user.UserDto;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
 import com.ch.service.sys.UserService;
+import com.ch.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -60,5 +64,17 @@ public class UserController {
 
         ResponseResult resp = userService.delete(dto);
         return resp;
+    }
+
+    /**
+     * 用户菜单
+     *
+     */
+    @RequestMapping(value = "/getMenuList", method = RequestMethod.GET)
+    public List<MenuVo> getMenuList(){
+
+        List<MenuVo> list = new ArrayList();
+
+        return list;
     }
 }

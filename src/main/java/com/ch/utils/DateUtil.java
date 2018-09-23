@@ -670,25 +670,6 @@ public class DateUtil {
         return dayNames[dayOfWeek - 1];
     }
 
-    /**
-     * 获取一个日期的农历日期和星期 <br>
-     * 
-     *  date -指定日期(yyyy-MM-dd)
-     * @return String - 返回字符串：YYYY年MM月日 农历YYYY年十二月初二 星期三
-     */
-    public static String getSystemDateStr(String inDateStr)
-            throws ParseException
-    {
-        Calendar today = Calendar.getInstance();
-        today.setTime(chineseDateFormat.parse(inDateStr));
-        Lunar lunar = new Lunar(today);
-        String outDateStr = inDateStr.substring(0, 4) + "年"
-                + inDateStr.substring(5, 7) + "月" + inDateStr.substring(8, 10)
-                + "日" + "　农历" + lunar + " " + getWeek(inDateStr);
-        return outDateStr;
-
-    }
-
     public static boolean compareAWithB(Date a, Date b)
     {
         return a.before(b);
