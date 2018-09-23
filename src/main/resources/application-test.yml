@@ -102,7 +102,7 @@ mybatis:
     ##             Shiro配置             ##
     #######################################
 shiro:
-  loginUrl: /login
+  loginUrl: /
   successUrl: /index
   unauthorizedUrl: /403
   filterChainDefinitions: /static/**=anon;/templates/**=anon;/user/**=anon
