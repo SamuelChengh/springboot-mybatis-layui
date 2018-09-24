@@ -1,7 +1,9 @@
 package com.ch.web.account;
 
 import com.ch.common.ConstantsCMP;
+import com.ch.dao.sys.RoleDao;
 import com.ch.dao.sys.UserDao;
+import com.ch.entity.sys.Role;
 import com.ch.entity.sys.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -27,6 +30,9 @@ public class LoginController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RoleDao roleDao;
 
     @RequestMapping(value = { "/" })
     public String login() {

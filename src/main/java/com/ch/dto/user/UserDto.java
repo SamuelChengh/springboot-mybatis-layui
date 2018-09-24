@@ -1,19 +1,15 @@
 package com.ch.dto.user;
 
+import com.ch.entity.sys.User;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UserDto extends User{
 
-    private Integer id;
-    private String  loginName;
-    private String  nickName;
-    private String  password;
-    private Integer status;
-    private String  remark;
     private List<Integer> roleIds;
-    private Integer page;          // 页码
-    private Integer limit;         // 页面条数
+    private Integer page;
+    private Integer limit;
+
 }

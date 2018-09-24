@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ch.dao.sys.RoleDao">
+    <insert id="insert" parameterType="com.ch.entity.sys.Role" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO sys_role (
+            `name`,
+            `remark`,
+            `created_date`
+        ) VALUES (
+            #{name},
+            #{remark},
+            NOW()
+        )
+    </insert>
+
+    <update id="update" parameterType="com.ch.entity.sys.Role">
+        UPDATE sys_role
+        <set>
+            <if test="name != null"> `name` = #{name}, </if>
+            <if test="remark != null"> `remark` = #{remark}, </if>
+            `updated_date` = NOW(),
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM sys_role WHERE `id` = #{id}
+    </delete>
+
+    <!-- 查询sql片段 -->
+    <sql id="select_query_conditions">
+        <if test="name != null and name != ''">
+            AND name LIKE CONCAT("%",#{name},"%")
+        </if>
+    </sql>
+
+    <!-- 排序sql片段 -->
+    <sql id="select_order_conditions">
+        ORDER BY created_date DESC
+    </sql>
+
+    <select id="findById" resultType="com.ch.entity.sys.Role">
+        SELECT
+          id,
+          name,
+          remark,
+          created_date,
+          updated_date
+        FROM
+          sys_role
+        WHERE
+          `id` = #{id}
+    </select>
+
+    <select id="findByName" resultType="com.ch.entity.sys.Role">
+        SELECT
+          id,
+          name,
+          remark,
+          created_date,
+          updated_date
+        FROM
+          sys_role
+        <where>
+            <if test="name != null and name != ''">
+                `name` = #{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAll" resultType="com.ch.entity.sys.Role">
+        SELECT
+          id,
+          name,
+          remark,
+          created_date,
+          updated_date
+        FROM
+          sys_role
+        <include refid="select_query_conditions"></include>
+        <include refid="select_order_conditions"></include>
+    </select>
+
+    <insert id="insertRoleAuth" parameterType="java.util.HashMap">
+        INSERT INTO sys_role_authority (`role_id`, `authority_id`) VALUES
+        <foreach collection="authIds" item="authId" separator=",">
+            (#{roleId}, #{authId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        DELETE FROM sys_role_authority WHERE `role_id` = #{roleId}
+    </delete>
+
+</mapper>
+

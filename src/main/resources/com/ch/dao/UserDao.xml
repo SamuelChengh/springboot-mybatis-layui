@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ch.dao.sys.UserDao">
+
+    <!-- user -->
+    <resultMap id="UserResult" type="com.ch.entity.sys.User">
+        <id column="id" property="id" />
+        <result column="login_name" property="loginName" />
+        <result column="nick_name" property="nickName" />
+        <result column="password" property="password" />
+        <result column="salt" property="salt" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="created_date" property="createdDate" />
+        <result column="updated_date" property="updatedDate" />
+    </resultMap>
+
+    <!-- user with role -->
+    <resultMap id="UserRoleResult" type="com.ch.entity.sys.User" extends="UserResult">
+        <collection property="roles" ofType="com.ch.entity.sys.Role">
+            <id column="role_id" property="id" />
+            <result column="role_name" property="name" />
+            <result column="role_remark" property="remark" />
+            <result column="role_created_date" property="createdDate" />
+            <result column="role_updated_date" property="updatedDate" />
+        </collection>
+    </resultMap>
+
     <insert id="insert" parameterType="com.ch.entity.sys.User" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO sys_user (
-          `login_name`,
-          `nick_name`,
-          `password`,
-          `salt`,
-          `status`,
-          `remark`,
-          `created_date`
+            `login_name`,
+            `nick_name`,
+            `password`,
+            `salt`,
+            `status`,
+            `remark`,
+            `created_date`
         ) VALUES (
-          #{loginName},
-          #{nickName},
-          #{password},
-          #{salt},
-          #{status},
-          #{remark},
-          NOW()
+            #{loginName},
+            #{nickName},
+            #{password},
+            #{salt},
+            #{status},
+            #{remark},
+            NOW()
         )
     </insert>
 
@@ -54,56 +79,50 @@
         ORDER BY created_date DESC
     </sql>
 
-    <select id="findById" resultType="com.ch.entity.sys.User">
+    <select id="findById" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
         SELECT
-          id,
-          login_name,
-          nick_name,
-          password,
-          salt,
-          status,
-          remark,
-          created_date,
-          updated_date
+          u.*,
+          r.id AS role_id,
+          r.name AS role_name,
+          r.remark AS role_remark,
+          r.created_date AS role_created_date,
+          r.updated_date AS role_updated_date
         FROM
-          sys_user
+          sys_user u,
+          sys_user_role ur,
+          sys_role r
         WHERE
-          `id` = #{id}
+          u.id = ur.user_id AND ur.role_id = r.id AND u.id = #{id}
     </select>
 
-    <select id="findByLoginName" resultType="com.ch.entity.sys.User">
+    <select id="findByLoginName" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
         SELECT
-          id,
-          login_name,
-          nick_name,
-          password,
-          salt,
-          status,
-          remark,
-          created_date,
-          updated_date
+          u.*,
+          r.id AS role_id,
+          r.name AS role_name,
+          r.remark AS role_remark,
+          r.created_date AS role_created_date,
+          r.updated_date AS role_updated_date
         FROM
-          sys_user
-        <where>
-            <if test="loginName != null and loginName != ''">
-                `login_name` = #{loginName}
-            </if>
-        </where>
+          sys_user u,
+          sys_user_role ur,
+          sys_role r
+        WHERE
+          u.id = ur.user_id AND ur.role_id = r.id AND u.login_name = #{loginName}
     </select>
 
-    <select id="findAll" resultType="com.ch.entity.sys.User">
+    <select id="findAll" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
         SELECT
-          id,
-          login_name,
-          nick_name,
-          password,
-          salt,
-          status,
-          remark,
-          created_date,
-          updated_date
+          u.*,
+          r.id AS role_id,
+          r.name AS role_name,
+          r.remark AS role_remark,
+          r.created_date AS role_created_date,
+          r.updated_date AS role_updated_date
         FROM
-          sys_user
+          sys_user u
+        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.id
         <include refid="select_query_conditions"></include>
         <include refid="select_order_conditions"></include>
     </select>

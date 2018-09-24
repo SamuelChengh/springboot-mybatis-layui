@@ -25,8 +25,7 @@ public class ShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
         String loginName = (String) principalCollection.fromRealm(getName()).iterator().next();
-        User user =userDao.findByLoginName(loginName);
-
+        User user = userDao.findByLoginName(loginName);
 
         return info;
     }

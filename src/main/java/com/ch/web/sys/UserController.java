@@ -22,10 +22,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /*
+    /**
     * 用户列表
-    *
-    * */
+    */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ResponsePageResult list(@RequestBody UserDto dto){
 
@@ -33,10 +32,9 @@ public class UserController {
         return resp;
     }
 
-    /*
+    /**
      * 新增用户
-     *
-     * */
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseResult add(@RequestBody UserDto dto){
 
@@ -44,10 +42,9 @@ public class UserController {
         return resp;
     }
 
-    /*
+    /**
      * 编辑用户
-     *
-     * */
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseResult update(@RequestBody UserDto dto){
 
@@ -55,10 +52,9 @@ public class UserController {
         return resp;
     }
 
-    /*
+    /**
      * 删除用户
-     *
-     * */
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ResponseResult delete(@RequestBody UserDto dto){
 
@@ -68,7 +64,6 @@ public class UserController {
 
     /**
      * 用户菜单
-     *
      */
     @RequestMapping(value = "/getMenuList", method = RequestMethod.GET)
     public List<MenuVo> getMenuList(){
