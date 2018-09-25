@@ -47,7 +47,7 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteById" parameterType="java.lang.Integer">
+    <delete id="delete" parameterType="java.lang.Integer">
         DELETE FROM sys_role WHERE `id` = #{id}
     </delete>
 
@@ -113,9 +113,9 @@
           a.created_date AS auth_created_date,
           a.updated_date AS auth_updated_date
         FROM
-          sys_role r,
-          sys_role_authority ra,
-          sys_authority a
+          sys_role r
+        LEFT JOIN sys_role_authority ra ON r.id = ra.role_id
+        LEFT JOIN sys_authority a ON ra.authority_id = a.id
         <include refid="select_query_conditions"></include>
         <include refid="select_order_conditions"></include>
     </select>

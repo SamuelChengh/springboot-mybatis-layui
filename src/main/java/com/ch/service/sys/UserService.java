@@ -89,7 +89,7 @@ public class UserService {
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
 
-        userDao.deleteById(dto.getId());
+        userDao.delete(dto.getId());
         userDao.deleteByUserId(dto.getId());
 
         return RestResultGenerator.createSuccessResult();

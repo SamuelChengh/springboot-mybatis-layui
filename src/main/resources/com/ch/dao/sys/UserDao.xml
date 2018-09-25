@@ -60,7 +60,7 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteById" parameterType="java.lang.Integer">
+    <delete id="delete" parameterType="java.lang.Integer">
         DELETE FROM sys_user WHERE `id` = #{id}
     </delete>
 

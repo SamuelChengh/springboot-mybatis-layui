@@ -14,7 +14,7 @@ public interface RoleDao {
 
     Integer update(Role role);
 
-    Integer deleteById(@Param("id") Integer id);
+    Integer delete(@Param("id") Integer id);
 
     Role findById(@Param("id") Integer id);
 

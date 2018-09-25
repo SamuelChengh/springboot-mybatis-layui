@@ -13,7 +13,7 @@ public interface UserDao {
 
     Integer update(User user);
 
-    Integer deleteById(@Param("id") Integer id);
+    Integer delete(@Param("id") Integer id);
 
     User findById(@Param("id") Integer id);
 

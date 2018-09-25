@@ -83,7 +83,7 @@ public class RoleService {
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
 
-        roleDao.deleteById(dto.getId());
+        roleDao.delete(dto.getId());
         roleDao.deleteByRoleId(dto.getId());
 
         return RestResultGenerator.createSuccessResult();
