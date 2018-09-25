@@ -26,15 +26,24 @@ public class AuthorityService {
         return RestResultGenerator.createSuccessPageResult(list);
     }
 
-    public ResponseResult add(AuthorityDto dto) {
-        return null;
+    public ResponseResult add(Authority authority) {
+
+        authorityDao.insert(authority);
+
+        return RestResultGenerator.createSuccessResult();
     }
 
-    public ResponseResult update(AuthorityDto dto) {
-        return null;
+    public ResponseResult update(Authority authority) {
+
+        authorityDao.update(authority);
+
+        return RestResultGenerator.createSuccessResult();
     }
 
-    public ResponseResult delete(AuthorityDto dto) {
-        return null;
+    public ResponseResult delete(Authority authority) {
+
+        authorityDao.delete(authority.getId());
+
+        return RestResultGenerator.createSuccessResult();
     }
 }

@@ -1,6 +1,7 @@
 package com.ch.web.sys;
 
 import com.ch.dto.sys.AuthorityDto;
+import com.ch.entity.sys.Authority;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
 import com.ch.service.sys.AuthorityService;
@@ -32,9 +33,9 @@ public class AuthorityController {
      * 新增菜单
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseResult add(@RequestBody AuthorityDto dto){
+    public ResponseResult add(@RequestBody Authority authority){
 
-        ResponseResult resp = authorityService.add(dto);
+        ResponseResult resp = authorityService.add(authority);
         return resp;
     }
 
@@ -42,9 +43,9 @@ public class AuthorityController {
      * 编辑菜单
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseResult update(@RequestBody AuthorityDto dto){
+    public ResponseResult update(@RequestBody Authority authority){
 
-        ResponseResult resp = authorityService.update(dto);
+        ResponseResult resp = authorityService.update(authority);
         return resp;
     }
 
@@ -52,9 +53,9 @@ public class AuthorityController {
      * 删除菜单
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseResult delete(@RequestBody AuthorityDto dto){
+    public ResponseResult delete(@RequestBody Authority authority){
 
-        ResponseResult resp = authorityService.delete(dto);
+        ResponseResult resp = authorityService.delete(authority);
         return resp;
     }
 }
