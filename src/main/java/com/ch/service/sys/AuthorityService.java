@@ -1,7 +1,6 @@
 package com.ch.service.sys;
 
 import com.ch.dao.sys.AuthorityDao;
-import com.ch.dto.sys.AuthorityDto;
 import com.ch.entity.sys.Authority;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;

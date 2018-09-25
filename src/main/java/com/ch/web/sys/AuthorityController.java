@@ -1,6 +1,5 @@
 package com.ch.web.sys;
 
-import com.ch.dto.sys.AuthorityDto;
 import com.ch.entity.sys.Authority;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
