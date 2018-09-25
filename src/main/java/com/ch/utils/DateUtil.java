@@ -7,9 +7,6 @@ import java.util.Date;
 
 public class DateUtil {
 
-    /**
-     * 定义日期时间格式的中间符号，可以是"-"或"/"或":"。日期默认为"-"时间默认为":"
-     */
     private static final String formatDateSign    = "-";
 
     private static final String formatDandTSign   = "/";
