@@ -63,7 +63,7 @@
         ORDER BY created_date DESC
     </sql>
 
-    <select id="findById" resultType="com.ch.entity.sys.Role">
+    <select id="findById" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
         SELECT
           r.*,
           a.id AS auth_id,
@@ -82,7 +82,7 @@
           r.id = ra.role_id AND ra.authority_id = a.id AND r.id = #{id}
     </select>
 
-    <select id="findByName" resultType="com.ch.entity.sys.Role">
+    <select id="findByName" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
         SELECT
           r.*,
           a.id AS auth_id,
@@ -101,7 +101,7 @@
           r.id = ra.role_id AND ra.authority_id = a.id AND r.name = #{name}
     </select>
 
-    <select id="findAll" resultType="com.ch.entity.sys.Role">
+    <select id="findAll" resultMap="RoleAuthorityResult">
         SELECT
           r.*,
           a.id AS auth_id,

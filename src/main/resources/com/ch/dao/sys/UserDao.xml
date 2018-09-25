@@ -111,7 +111,7 @@
           u.id = ur.user_id AND ur.role_id = r.id AND u.login_name = #{loginName}
     </select>
 
-    <select id="findAll" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
+    <select id="findAll" resultMap="UserRoleResult">
         SELECT
           u.*,
           r.id AS role_id,
