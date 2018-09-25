@@ -7,14 +7,14 @@
           `name`,
           `auth_url`,
           `parent`,
-          `dispaly_sort`,
+          `display_sort`,
           `remark`,
           `created_date`
         ) VALUES (
           #{name},
           #{authUrl},
           #{parent},
-          #{dispalySort},
+          #{displaySort},
           #{remark},
           NOW()
         )
@@ -26,7 +26,7 @@
             <if test="name != null"> `name` = #{name}, </if>
             <if test="authUrl != null"> `auth_url` = #{authUrl}, </if>
             <if test="parent != null"> `parent` = #{parent}, </if>
-            <if test="dispalySort != null"> `dispaly_sort` = #{dispalySort}, </if>
+            <if test="displaySort != null"> `display_sort` = #{displaySort}, </if>
             <if test="remark != null"> `remark` = #{remark}, </if>
             `updated_date` = NOW(),
         </set>
