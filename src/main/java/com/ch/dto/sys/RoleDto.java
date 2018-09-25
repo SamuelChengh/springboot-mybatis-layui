@@ -1,4 +1,4 @@
-package com.ch.dto.user;
+package com.ch.dto.sys;
 
 import com.ch.entity.sys.Role;
 import lombok.Data;
@@ -11,5 +11,4 @@ public class RoleDto extends Role{
     private List<Integer> authIds;
     private Integer       page;
     private Integer       limit;
-
 }

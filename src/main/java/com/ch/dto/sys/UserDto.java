@@ -1,4 +1,4 @@
-package com.ch.dto.user;
+package com.ch.dto.sys;
 
 import com.ch.entity.sys.User;
 import lombok.Data;
@@ -11,5 +11,4 @@ public class UserDto extends User{
     private List<Integer> roleIds;
     private Integer page;
     private Integer limit;
-
 }

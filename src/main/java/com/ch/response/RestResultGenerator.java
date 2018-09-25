@@ -2,6 +2,8 @@ package com.ch.response;
 
 import com.github.pagehelper.Page;
 
+import java.util.List;
+
 /*
 * 统一响应体
 * */
@@ -15,6 +17,14 @@ public class RestResultGenerator {
         result.setResultInfo(ResponseEnum.SUCCESS, "");
         result.setCount(page.getTotal());
         result.setData(page.getResult());
+        return result;
+    }
+
+    public static <T> ResponsePageResult<T> createSuccessPageResult(List<T> data) {
+        ResponsePageResult<T> result = ResponsePageResult.newInstance();
+        result.setResultInfo(ResponseEnum.SUCCESS, "");
+        result.setCount(Long.valueOf(data.size()));
+        result.setData(data);
         return result;
     }
 

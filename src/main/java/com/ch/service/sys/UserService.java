@@ -1,7 +1,7 @@
 package com.ch.service.sys;
 
 import com.ch.dao.sys.UserDao;
-import com.ch.dto.user.UserDto;
+import com.ch.dto.sys.UserDto;
 import com.ch.entity.sys.User;
 import com.ch.response.*;
 import com.ch.utils.PasswordUtil;

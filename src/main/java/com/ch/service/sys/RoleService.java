@@ -1,7 +1,7 @@
 package com.ch.service.sys;
 
 import com.ch.dao.sys.RoleDao;
-import com.ch.dto.user.RoleDto;
+import com.ch.dto.sys.RoleDto;
 import com.ch.entity.sys.Role;
 import com.ch.response.ResponseEnum;
 import com.ch.response.ResponsePageResult;
