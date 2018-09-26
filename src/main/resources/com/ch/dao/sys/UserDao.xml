@@ -8,7 +8,6 @@
         <result column="login_name" property="loginName" />
         <result column="nick_name" property="nickName" />
         <result column="password" property="password" />
-        <result column="salt" property="salt" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
         <result column="created_date" property="createdDate" />
@@ -31,7 +30,6 @@
             `login_name`,
             `nick_name`,
             `password`,
-            `salt`,
             `status`,
             `remark`,
             `created_date`
@@ -39,7 +37,6 @@
             #{loginName},
             #{nickName},
             #{password},
-            #{salt},
             #{status},
             #{remark},
             NOW()
@@ -52,7 +49,6 @@
             <if test="loginName != null"> `login_name` = #{loginName}, </if>
             <if test="nickName != null"> `nick_name` = #{nickName}, </if>
             <if test="password != null"> `password` = #{password}, </if>
-            <if test="salt != null"> `salt` = #{salt}, </if>
             <if test="status != null"> `status` = #{status}, </if>
             <if test="remark != null"> `remark` = #{remark}, </if>
             `updated_date` = NOW(),

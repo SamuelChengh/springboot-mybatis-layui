@@ -4,7 +4,7 @@ import com.ch.dao.sys.UserDao;
 import com.ch.dto.sys.UserDto;
 import com.ch.entity.sys.User;
 import com.ch.response.*;
-import com.ch.utils.PasswordUtil;
+import com.ch.utils.EncryptUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +39,7 @@ public class UserService {
         User user = new User();
         user.setLoginName(dto.getLoginName());
         user.setNickName(dto.getNickName());
-        String salt = PasswordUtil.createSalt(6);
-        user.setPassword(PasswordUtil.encryption(dto.getPassword(), salt));
-        user.setSalt(salt);
+        user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
         user.setStatus(dto.getStatus());
         user.setRemark(dto.getRemark());
         userDao.insert(user);
@@ -65,9 +63,7 @@ public class UserService {
 
         user.setLoginName(dto.getLoginName());
         user.setNickName(dto.getNickName());
-        String salt = PasswordUtil.createSalt(6);
-        user.setPassword(PasswordUtil.encryption(dto.getPassword(), salt));
-        user.setSalt(salt);
+        user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
         user.setStatus(dto.getStatus());
         user.setRemark(dto.getRemark());
         userDao.update(user);
