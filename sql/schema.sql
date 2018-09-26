@@ -7,15 +7,14 @@ CREATE TABLE `sys_user` (
   `login_name` VARCHAR(50) NOT NULL COMMENT '登录名',
   `nick_name` VARCHAR(50) NOT NULL COMMENT '昵称',
   `password` VARCHAR(50) NOT NULL COMMENT '密码',
-  `salt` VARCHAR(50) NOT NULL COMMENT '密码盐',
-  `status` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '状态 1:开启 0:禁用',
+  `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '状态 1:开启 0:禁用',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `created_date` TIMESTAMP NULL DEFAULT NULL,
   `updated_date` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `login_name` (`login_name`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
-INSERT INTO `sys_user`(`id`,`login_name`,`nick_name`,`password`,`salt`,`status`,`remark`,`created_date`,`updated_date`) VALUES (1,'admin','admin','50e6c4e6434d1856a4dca196db398b38','L7yGIl',1,'xxxxxx','2018-09-25 21:24:09',NULL);
+INSERT INTO `sys_user`(`id`,`login_name`,`nick_name`,`password`,`status`,`remark`,`created_date`,`updated_date`) VALUES (1,'admin','admin','d4dc566564e942188de625e9de521b89',1,'','2018-09-26 15:36:28',NULL);
 
 /*
 * 角色表
@@ -27,10 +26,11 @@ CREATE TABLE `sys_role` (
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `created_date` TIMESTAMP NULL DEFAULT NULL,
   `updated_date` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 INSERT INTO `sys_role`(`id`,`name`,`remark`,`created_date`,`updated_date`) VALUES (1,'系统管理员','管理员','2018-09-25 21:26:07',NULL);
+
 /*
 * 权限表
 */
@@ -44,7 +44,7 @@ CREATE TABLE `sys_authority` (
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `created_date` TIMESTAMP NULL DEFAULT NULL,
   `updated_date` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `auth_url` (`auth_url`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`remark`,`created_date`,`updated_date`) VALUES (1,'权限管理','',0,1,'系统权限','2018-09-25 21:30:04','2018-09-25 21:32:07');
@@ -61,10 +61,10 @@ CREATE TABLE `sys_role_authority` (
   `authority_id` INT(11) NOT NULL,
   PRIMARY KEY (`role_id`,`authority_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
-INSERT  INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,1);
-INSERT  INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,2);
-INSERT  INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,3);
-INSERT  INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,4);
+INSERT INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,1);
+INSERT INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,2);
+INSERT INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,3);
+INSERT INTO `sys_role_authority`(`role_id`,`authority_id`) VALUES (1,4);
 
 /*
 * 用户-角色
@@ -75,4 +75,4 @@ CREATE TABLE `sys_user_role` (
   `role_id` INT(12) NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
-INSERT  INTO `sys_user_role`(`user_id`,`role_id`) VALUES (1,1);
+INSERT INTO `sys_user_role`(`user_id`,`role_id`) VALUES (1,1);
