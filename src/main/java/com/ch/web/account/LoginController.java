@@ -3,8 +3,8 @@ package com.ch.web.account;
 import com.ch.common.ConstantsCMP;
 import com.ch.dao.sys.RoleDao;
 import com.ch.dao.sys.UserDao;
-import com.ch.entity.sys.Role;
 import com.ch.entity.sys.User;
+import com.ch.utils.EncryptUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -47,7 +48,7 @@ public class LoginController {
             , HttpSession session, RedirectAttributes ra) {
 
         Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(loginName, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(loginName, EncryptUtil.encryptMD5(password));
         token.setRememberMe(false);
         try {
             currentUser.login(token);
@@ -65,6 +66,18 @@ public class LoginController {
             ra.addFlashAttribute("msg", "该账号无访问系统的权限");
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }
+    }
+
+    /**
+     * 首页
+     */
+    @RequestMapping(value = "/index")
+    public String index(HttpServletRequest request, Model model) {
+
+        User user = ConstantsCMP.getSessionUser(request);
+        model.addAttribute("user", user);
+
+        return "index";
     }
 
     /**
