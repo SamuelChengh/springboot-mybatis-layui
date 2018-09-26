@@ -1,17 +1,26 @@
 package com.ch.service.sys;
 
+import com.ch.common.ConstantsCMP;
+import com.ch.dao.sys.RoleDao;
 import com.ch.dao.sys.UserDao;
 import com.ch.dto.sys.UserDto;
+import com.ch.entity.sys.Authority;
+import com.ch.entity.sys.Role;
 import com.ch.entity.sys.User;
 import com.ch.response.*;
 import com.ch.utils.EncryptUtil;
+import com.ch.vo.ChildMenu;
+import com.ch.vo.MenuVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,6 +29,9 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RoleDao roleDao;
 
     public ResponsePageResult list(UserDto dto) {
         Integer page = dto.getPage();
@@ -89,5 +101,49 @@ public class UserService {
         userDao.deleteByUserId(dto.getId());
 
         return RestResultGenerator.createSuccessResult();
+    }
+
+    public List<MenuVo> getMenuList(HttpServletRequest request) {
+
+        List<MenuVo> list = new ArrayList();
+
+        User user = ConstantsCMP.getSessionUser(request);
+        List<Role> roles = user.getRoles();
+        if(roles != null && roles.size() > 0){
+            for(Role role : roles){
+                Role r = roleDao.findById(role.getId());
+                List<Authority> authorities = r.getAuthorities();
+
+                List<Authority> parentMenuList = new ArrayList();   //  父节点菜单
+                List<Authority> childMenuList = new ArrayList();    //  子节点菜单
+                for(Authority authority : authorities){
+                    if(authority.getParent().equals(0)){
+                        parentMenuList.add(authority);
+                    }else{
+                        childMenuList.add(authority);
+                    }
+                }
+
+                for(Authority parentMenu : parentMenuList){
+                    MenuVo vo = new MenuVo();
+                    vo.setParentId(parentMenu.getId());
+                    vo.setParentName(parentMenu.getName());
+                    List<ChildMenu> childList = new ArrayList();
+                    for(Authority childMenu : childMenuList){
+                        if(childMenu.getParent().equals(parentMenu.getId())){
+                            ChildMenu child = new ChildMenu();
+                            child.setId(childMenu.getId());
+                            child.setName(childMenu.getName());
+                            child.setPageUrl(childMenu.getAuthUrl());
+                            childList.add(child);
+                        }
+                    }
+                    vo.setChildMenus(childList);
+                    list.add(vo);
+                }
+            }
+        }
+
+        return list;
     }
 }

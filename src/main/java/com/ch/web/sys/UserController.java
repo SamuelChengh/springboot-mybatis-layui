@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -66,10 +66,7 @@ public class UserController {
      * 用户菜单
      */
     @RequestMapping(value = "/getMenuList", method = RequestMethod.GET)
-    public List<MenuVo> getMenuList(){
-
-        List<MenuVo> list = new ArrayList();
-
-        return list;
+    public List<MenuVo> getMenuList(HttpServletRequest request){
+        return userService.getMenuList(request);
     }
 }
