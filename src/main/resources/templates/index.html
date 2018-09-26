@@ -35,7 +35,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <i class="layui-icon layui-icon-username"></i>
-                    admin
+                    <#if user?exists && user.nickname != ''>${user.nickname!''}</#if>
                 </a>
                 <dl class="layui-nav-child">
                     <dd>
