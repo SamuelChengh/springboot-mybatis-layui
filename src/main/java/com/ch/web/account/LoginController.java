@@ -1,7 +1,6 @@
 package com.ch.web.account;
 
 import com.ch.common.ConstantsCMP;
-import com.ch.dao.sys.RoleDao;
 import com.ch.dao.sys.UserDao;
 import com.ch.entity.sys.User;
 import com.ch.utils.EncryptUtil;
@@ -29,9 +28,6 @@ public class LoginController {
 
     @Autowired
     private UserDao userDao;
-
-    @Autowired
-    private RoleDao roleDao;
 
     @RequestMapping(value = { "/" })
     public String login() {
