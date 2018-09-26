@@ -105,4 +105,4 @@ shiro:
   loginUrl: /
   successUrl: /index
   unauthorizedUrl: /403
-  filterChainDefinitions: /static/**=anon;/templates/**=anon;/user/**=authc
+  filterChainDefinitions: /static/**=anon;/templates/**=anon;/login=authc;/user/**=authc;/**=user
