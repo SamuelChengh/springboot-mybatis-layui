@@ -62,7 +62,7 @@ public class LoginController {
             session.setAttribute(ConstantsCMP.USER_SESSION_INFO, user);
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/index";
         }else{
-            ra.addFlashAttribute("msg", "该帐号无访问系统的权限");
+            ra.addFlashAttribute("msg", "该账号无访问系统的权限");
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }
     }
