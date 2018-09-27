@@ -47,7 +47,7 @@ public class LoginController {
         try {
             currentUser.login(token);
         } catch (AuthenticationException e) {
-            logger.error(e.getMessage(), e);
+            logger.info(e.getMessage(), e);
             ra.addFlashAttribute("msg", "用户名或密码不正确");
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }

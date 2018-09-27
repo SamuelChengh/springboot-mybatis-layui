@@ -55,10 +55,10 @@ public class ShiroRealm extends AuthorizingRealm {
 
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         User user = userDao.findByLoginName(token.getUsername());
-        if(user != null){
-            return new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(), getName());
+        if(user == null){
+            throw new AuthenticationException();
         }
 
-        return null;
+        return new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(), getName());
     }
 }
