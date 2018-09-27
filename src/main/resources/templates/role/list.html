@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>角色管理 | 角色列表</title>
+<@fm.header />
+</head>
+
+<body>
+<!-- 搜索栏 -->
+<form class="layui-form" action="" lay-filter="searchForm">
+	<div class="layui-form-item">
+	
+		<div class="layui-inline">
+			<label class="layui-form-label">角色名称:</label>
+			<div class="layui-input-inline">
+				<input class="layui-input" id="roleName" name="roleName" autocomplete="off">
+			</div>
+		</div>
+		
+		<div class="layui-inline">
+			<label class="layui-form-label">角色代码:</label>
+			<div class="layui-input-inline">
+				<input class="layui-input" id="roles" name="roles" autocomplete="off">
+			</div>
+		</div>
+		
+		<div class="layui-inline">
+			<button class="layui-btn" lay-submit="" lay-filter="search"><i class="layui-icon layui-icon-search"></i>查询</button>
+			<button class="layui-btn layui-btn-primary" type="reset">重置</button>
+		</div>
+		
+	</div>	
+</form>
+
+<!-- table -->
+<table id="lay_table" class="layui-hide" lay-filter="tbf"></table>
+
+<!-- 头工具栏toolbar -->
+<script type="text/html" id="toolbar">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+	<button class="layui-btn layui-btn-sm" lay-event="auth"><i class="layui-icon layui-icon-auz"></i>设置权限</button>
+  </div>
+</script>
+
+<!-- 工具条tool -->
+<script type="text/html" id="tool">
+  <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+
+<script type="text/javascript">
+layui.use(['form', 'table'], function(){
+	$ = layui.jquery;       // 引入jquery
+	var form = layui.form,
+		table = layui.table;
+	
+	// 查询
+	form.on('submit(search)', function(data){
+		table.reload('tb', {
+			where : {
+				roleName : data.field.roleName,
+				roles: data.field.roles
+			}
+		});
+     	return false;
+    });
+  
+  	// 渲染table
+  	table.render({
+	  	id : 'tb',
+	  	title: '角色',
+	  	elem : '#lay_table',
+	  	method: 'post',
+	  	url : '/role/list',
+	  	page: {
+		  	layout: ['prev', 'page', 'next', 'skip', 'limit', 'count'], //自定义分页布局
+	      	groups: 1,     //只显示 1 个连续页码
+	      	first: false,  //不显示首页
+	      	last: false    //不显示尾页
+	  	},
+	  	limit: 15,
+	  	limits: [15, 30, 60, 100],
+	  	loading: true,
+	  	cellMinWidth: 100,
+	  	toolbar: '#toolbar',
+	  	cols : [ [
+	  	          {checkbox : true, fixed : true}, 
+	        	  {field : 'roleName', title : '角色名称', align: 'center'}, 
+	        	  {field : 'roles', title : '角色代码', align: 'center'}, 
+	        	  {field : 'description', title : '角色描述', align: 'center'}, 
+	        	  {field : 'createTime', title : '创建时间', align: 'center'}, 
+	        	  {field : 'modifyTime', title : '修改时间', align: 'center'},
+	        	  {title : '操作', align:'center', toolbar: '#tool'}
+	    ] ],
+	    text: {
+	    	none: '暂无相关数据'
+	    }
+	});	
+  	
+  	// 监听工具栏toolbar
+	table.on('toolbar(tbf)', function(obj){
+		switch(obj.event){
+		case 'add':
+			layer.open({
+				type: 2,
+				title : '新增角色',
+				content: '/role/add',
+				skin: 'layui-layer-molv',
+				offset: '50px',
+				resize: false,
+				success: function(layero, index){					
+					layer.iframeAuto(index);  // iframe层自适应
+				}
+			})
+			break;
+		case 'auth':
+			var checkStatus = table.checkStatus('tb');
+			var records = checkStatus.data;
+			if(records.length == 0){
+				layer.alert('请先选中一条记录!', {
+					icon: 5,
+					offset: '120px'
+				});
+				return;
+			}else if(records.length > 1){
+				layer.alert('不能同时选择多条记录!', {
+					icon: 2,
+					offset: '120px'
+				});
+				return;
+			}
+			layer.open({
+				type: 2,
+				title : '设置权限',
+				content: '/role/authority/'+records[0].roleId,
+				skin: 'layui-layer-molv',
+				offset: '40px',
+				area: ["450px", "400px"],
+				resize: false
+			})
+			break;
+		}
+	});
+  
+	// 监听工具条tool
+	table.on('tool(tbf)', function(obj){
+		var record = obj.data;
+
+		switch(obj.event){	
+		case 'edit':
+			layer.open({
+				id: record.roleId,
+				type: 2,
+				title : '编辑角色',
+				content: '/role/update/'+record.roleId,
+				skin: 'layui-layer-molv',
+				offset: '50px',
+				resize: false,
+				success: function(layero, index){					
+					layer.iframeAuto(index);  // iframe层自适应
+				}
+			})
+		    break;
+		case 'delete':
+			parent.layer.confirm('您确定要删除该条记录吗？', {
+				title: '温馨提示',
+				icon: 3
+			}, function(index){
+				$.post('/role/delete/'+record.roleId, function(res) {
+				  	if (res.return_code == '1') {
+				  		layer.alert(res.return_msg, {
+	    					icon: 1,
+	    				},function(){    					
+	    					location.reload();
+	    				});				  		
+					} else {
+						layer.msg(res.return_msg, {icon: 2});
+					}
+				});
+		        layer.close(index);
+		    });
+			break;
+		};
+	});
+	
+	// 监听行双击事件
+	table.on('rowDouble(tbf)', function(obj){
+		var record = obj.data;
+		layer.open({
+			id: record.roleId,
+			type: 2,
+			title : '编辑角色',
+			content: '/role/update/'+record.roleId,
+			skin: 'layui-layer-molv',
+			offset: '50px',
+			resize: false,
+			success: function(layero, index){					
+				layer.iframeAuto(index);  // iframe层自适应
+			}
+		})
+	});
+});
+</script>
+</body>
+</html>

@@ -7,15 +7,16 @@ import com.ch.service.sys.UserService;
 import com.ch.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserController {
 
@@ -25,8 +26,14 @@ public class UserController {
     /**
     * 用户列表
     */
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(){
+        return "user/list";
+    }
+
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResponsePageResult list(@RequestBody UserDto dto){
+    @ResponseBody
+    public ResponsePageResult list(UserDto dto){
 
         ResponsePageResult resp = userService.list(dto);
         return resp;
@@ -35,8 +42,14 @@ public class UserController {
     /**
      * 新增用户
      */
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add(){
+        return "user/add";
+    }
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseResult add(@RequestBody UserDto dto){
+    @ResponseBody
+    public ResponseResult add(UserDto dto){
 
         ResponseResult resp = userService.add(dto);
         return resp;
@@ -45,8 +58,14 @@ public class UserController {
     /**
      * 编辑用户
      */
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update(){
+        return "user/update";
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseResult update(@RequestBody UserDto dto){
+    @ResponseBody
+    public ResponseResult update(UserDto dto){
 
         ResponseResult resp = userService.update(dto);
         return resp;
@@ -56,7 +75,8 @@ public class UserController {
      * 删除用户
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseResult delete(@RequestBody UserDto dto){
+    @ResponseBody
+    public ResponseResult delete(UserDto dto){
 
         ResponseResult resp = userService.delete(dto);
         return resp;
@@ -66,6 +86,7 @@ public class UserController {
      * 用户菜单
      */
     @RequestMapping(value = "/getMenuList", method = RequestMethod.GET)
+    @ResponseBody
     public List<MenuVo> getMenuList(HttpServletRequest request){
         return userService.getMenuList(request);
     }

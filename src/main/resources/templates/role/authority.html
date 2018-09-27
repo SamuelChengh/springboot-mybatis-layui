@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>设置权限</title>
+<@fm.header />
+</head>
+
+<style type="text/css">
+.parent-label{
+	position: relative;
+	top: 5px;
+	font-size: 25px;
+	font-weight: bold;
+}
+</style>
+
+<body>
+<form class="layui-form" action="" lay-filter="form" style="padding: 10px 30px;">
+
+	<div id="auth-form" class="layui-form-item">
+	</div>
+	
+	<div style="text-align: center; padding-top: 10px;">
+		<button class="layui-btn" lay-submit="" lay-filter="checkAll">全选</button>
+		<button class="layui-btn" lay-submit="" lay-filter="unCheckAll">取消全选</button>
+		<button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+layui.use('form', function(){
+	$ = layui.jquery;     // 引入jquery
+	var form = layui.form;
+	
+	createAuth(form);
+	
+	// 全选
+	form.on('submit(checkAll)', function(data){
+		$("input[name='resId']").each(function() {
+			$(this).prop("checked", true);
+		})
+		form.render('checkbox');
+		return false;
+	});
+	
+	// 取消全选
+	form.on('submit(unCheckAll)', function(data){
+		$("input[name='resId']").each(function() {
+			$(this).prop("checked", false);
+		})
+		form.render('checkbox');
+		return false;
+	});
+	
+  	// 提交
+    form.on('submit(submit)', function(data){
+    	var idsStr = '';  	
+    	$("input:checkbox[name='resId']:checked").each(function() { // 遍历name=resId选中的复选框
+    		var resId = $(this).val();    		
+    		idsStr += ";" + resId;
+    	});
+    	
+    	if(idsStr == ''){
+    		layer.alert('对不起，您选择的权限为空！',{
+    			icon: 5
+    		});
+			return false;
+    	}
+    	
+    	var roleId = "${role.roleId}";    	 	
+    	$.ajax({
+    		type : "POST",
+    		url : "/role/authority/"+ roleId,
+    		data: {resObj: idsStr},
+    		dataType : "json",
+    		success : function(res) {
+    			if (res.return_code == '1') {    				
+    				layer.alert(res.return_msg, {
+    					icon: 1,
+    				},function(){
+        				window.parent.location.reload();
+    				});   				
+    			}else{
+    				layer.msg(res.return_msg, {icon: 2});
+    			}
+    		}
+    	})
+     	return false;
+    });
+});
+
+function createAuth(form){
+	var roleId = "${role.roleId}";
+	$.ajax({
+		type : "GET",
+		url : "/role/form",
+		data: {roleId: roleId},
+		dataType : "json",
+		success : function(res) {
+			var parentHtml = document.getElementById("auth-form");
+			for(var i=0; i<res.length; i++){
+				var parentMenu = res[i];
+					
+				// parentDiv
+				var parentDiv = document.createElement("div");
+				parentDiv.setAttribute("class", "layui-inline");
+				var input = document.createElement("input");   // input
+				input.setAttribute("type", "checkbox");
+				input.setAttribute("name", "resId");
+				input.setAttribute("value", parentMenu.parentId);
+				input.setAttribute("lay-skin", "primary");
+				if(parentMenu.checked){
+					input.setAttribute("checked", "");
+				}
+				parentDiv.appendChild(input);
+				var label = document.createElement("label");   // label
+				label.setAttribute("class", "parent-label");
+				label.appendChild(document.createTextNode(parentMenu.parentName));
+				parentDiv.appendChild(label);
+				parentHtml.appendChild(parentDiv);
+				
+				// childDiv
+				var childDiv = document.createElement("div");
+				childDiv.setAttribute("class", "layui-inline");
+				for(var j=0; j<parentMenu.childMenus.length; j++){
+					var childInput = document.createElement("input");   // input
+					childInput.setAttribute("type", "checkbox");
+					childInput.setAttribute("name", "resId");
+					childInput.setAttribute("value", parentMenu.childMenus[j].id);
+					childInput.setAttribute("lay-skin", "primary");
+					childInput.setAttribute("title", parentMenu.childMenus[j].name);
+					if(parentMenu.childMenus[j].checked){
+						childInput.setAttribute("checked", "");
+					}
+					childDiv.appendChild(childInput);
+				}
+				parentHtml.appendChild(childDiv);
+			}
+			
+			form.render('checkbox');
+		}
+	})
+}
+</script>
+</body>
+</html>

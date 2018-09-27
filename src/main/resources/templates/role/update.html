@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>编辑 | 角色</title>
+<@fm.header />
+</head>
+
+<body>
+<form class="layui-form" action="" lay-filter="form" style="padding: 10px;">
+
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">角色名称:<font color="red">*</font></label>
+			<div class="layui-input-inline">
+				<input class="layui-input" type="text" name="roleName" lay-verify="required" autocomplete="off">
+			</div>
+		</div>
+		
+		<div class="layui-inline">
+			<label class="layui-form-label">角色代码:<font color="red">*</font></label>
+			<div class="layui-input-inline">
+				<input class="layui-input" type="text" name="roles" lay-verify="required" autocomplete="off">
+			</div>
+		</div>
+		
+		<div class="layui-inline">
+			<label class="layui-form-label">角色描述:</label>
+			<div class="layui-input-inline">
+				<textarea class="layui-textarea" name="description" autocomplete="off"></textarea>
+			</div>
+		</div>	
+	</div>
+	
+	<div style="text-align: center; padding-top: 10px;">
+		<button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+      	<button class="layui-btn layui-btn-primary" type="reset" >重置</button>
+    </div>
+	
+</form>
+
+<script type="text/javascript">
+layui.use('form', function(){
+	$ = layui.jquery;     // 引入jquery
+	var form = layui.form;
+  
+	//表单初始赋值
+ 	form.val('form', {
+    	"roleName": "${role.roleName}",
+    	"roles": "${role.roles}",
+    	"description": "${role.description}"
+  	})
+  	
+  	// 提交
+    form.on('submit(submit)', function(data){
+    	var record = data.field;
+    	
+    	var roleId = "${role.roleId}";
+    	$.ajax({
+    		type : "POST",
+    		url : "/role/update/"+ roleId,
+    		data: record,
+    		dataType : "json",
+    		success : function(res) {
+    			if (res.return_code == '1') {    				
+    				layer.alert(res.return_msg, {
+    					icon: 1,
+    				},function(){
+        				window.parent.location.reload();
+    				});   				
+    			}else{
+    				layer.msg(res.return_msg, {icon: 2});
+    			}
+    		}
+    	})	
+     	return false;
+    });
+});
+</script>
+</body>
+</html>

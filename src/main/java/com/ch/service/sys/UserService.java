@@ -56,10 +56,12 @@ public class UserService {
         user.setRemark(dto.getRemark());
         userDao.insert(user);
 
-        Map<String, Object> map = new HashMap();
-        map.put("userId", user.getId());
-        map.put("roleIds", dto.getRoleIds());
-        userDao.insertUserRole(map);
+        if(dto.getRoleIds() != null && dto.getRoleIds().size() > 0){
+            Map<String, Object> map = new HashMap();
+            map.put("userId", user.getId());
+            map.put("roleIds", dto.getRoleIds());
+            userDao.insertUserRole(map);
+        }
 
         return RestResultGenerator.createSuccessResult();
     }
@@ -80,12 +82,14 @@ public class UserService {
         user.setRemark(dto.getRemark());
         userDao.update(user);
 
-        userDao.deleteByUserId(dto.getId());
+        if(dto.getRoleIds() != null && dto.getRoleIds().size() > 0){
+            userDao.deleteByUserId(dto.getId());
 
-        Map<String, Object> map = new HashMap();
-        map.put("userId", dto.getId());
-        map.put("roleIds", dto.getRoleIds());
-        userDao.insertUserRole(map);
+            Map<String, Object> map = new HashMap();
+            map.put("userId", dto.getId());
+            map.put("roleIds", dto.getRoleIds());
+            userDao.insertUserRole(map);
+        }
 
         return RestResultGenerator.createSuccessResult();
     }
