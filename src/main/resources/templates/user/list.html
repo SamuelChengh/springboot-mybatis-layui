@@ -20,7 +20,9 @@
         </div>
 
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="search"><i class="layui-icon layui-icon-search"></i>查询</button>
+            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="search">
+                <i class="layui-icon layui-icon-search"></i>查询
+            </button>
             <button class="layui-btn layui-btn-primary" type="reset">重置</button>
         </div>
 
@@ -33,22 +35,29 @@
 <!-- 头工具栏toolbar -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+        <button class="layui-btn layui-btn-sm" lay-event="add">
+            <i class="layui-icon layui-icon-add-1"></i>新增
+        </button>
     </div>
 </script>
 
 <!-- 工具条tool -->
 <script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">
+        <i class="layui-icon layui-icon-edit"></i>编辑
+    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
+        <i class="layui-icon layui-icon-delete"></i>删除
+    </a>
 </script>
 
 <!-- 状态templet -->
 <script type="text/html" id="statusTemp">
     {{#  if(d.status === 1){ }}
-        <input type="checkbox" checked name="status" value="{{ d.id }}" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">
+    <input type="checkbox" checked name="status" value="{{ d.id }}" lay-skin="switch" lay-text="开启|禁用"
+           lay-filter="status">
     {{#  } else { }}
-        <input type="checkbox" name="status" value="{{ d.id }}" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">
+    <input type="checkbox" name="status" value="{{ d.id }}" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">
     {{#  } }}
 </script>
 
@@ -190,24 +199,24 @@
         });
 
         // 监听switch开关: 状态status
-        form.on('switch(status)', function(data){
+        form.on('switch(status)', function (data) {
             var record = {};
             record.id = data.value;
-            if(data.elem.checked){
+            if (data.elem.checked) {
                 record.status = 1;
-            }else{
+            } else {
                 record.status = 0;
             }
 
             $.ajax({
-                type : "POST",
-                url : "/user/update",
+                type: "POST",
+                url: "/user/update",
                 data: record,
-                dataType : "json",
-                success : function(res) {
-                    if(res.success){
+                dataType: "json",
+                success: function (res) {
+                    if (res.success) {
                         table.reload("tb");
-                    }else{
+                    } else {
                         layer.msg(res.message, {icon: 2});
                     }
                 }
