@@ -79,7 +79,9 @@ public class UserService {
         user.setLoginName(dto.getLoginName());
         user.setNickName(dto.getNickName());
         if(!StringUtils.isEmpty(dto.getPassword())){
-            user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
+            if(!dto.getPassword().equals(user.getPassword())){
+                user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
+            }
         }
         user.setStatus(dto.getStatus());
         user.setRemark(dto.getRemark());
