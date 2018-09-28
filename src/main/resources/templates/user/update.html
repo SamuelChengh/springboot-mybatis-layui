@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="utf-8">
     <title>编辑 | 账号</title>
@@ -9,46 +9,57 @@
 
 <body>
 <form class="layui-form" action="" lay-filter="form" style="padding: 10px;">
-
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">账号:<font color="red">*</font></label>
-            <div class="layui-input-inline">
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <label class="layui-form-label">账号:<font color="red">*</font></label>
+            </div>
+            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
                 <input class="layui-input" type="text" name="loginName" lay-verify="required" autocomplete="off">
             </div>
         </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">昵称:<font color="red">*</font></label>
-            <div class="layui-input-inline">
-                <input class="layui-input" type="text" name="nickName" lay-verify="required" autocomplete="off">
+        <div class="layui-row">
+            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <label class="layui-form-label">昵称:<font color="red">*</font></label>
+            </div>
+            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
+                <input class="layui-input" type="text" name="loginName" lay-verify="required" autocomplete="off">
             </div>
         </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">密码:<font color="red">*</font></label>
-            <div class="layui-input-inline">
+        <div class="layui-row">
+            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <label class="layui-form-label">密码:<font color="red">*</font></label>
+            </div>
+            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
                 <input class="layui-input" type="password" name="password" lay-verify="required" autocomplete="off">
             </div>
         </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">所属角色:</label>
-            <div class="layui-input-inline">
+        <div class="layui-row">
+            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <label class="layui-form-label">所属角色:</label>
+            </div>
+            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
                 <select id="roleIds" name="roleIds" lay-filter="roleIds"></select>
             </div>
         </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">状态:</label>
-            <div class="layui-input-inline">
+        <div class="layui-row">
+            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <label class="layui-form-label">状态:</label>
+            </div>
+            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
                 <input type="checkbox" name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
             </div>
         </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">备注:</label>
-            <div class="layui-input-inline">
+        <div class="layui-row">
+            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <label class="layui-form-label">备注:</label>
+            </div>
+            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
                 <textarea class="layui-textarea" name="remark" autocomplete="off"></textarea>
             </div>
         </div>
