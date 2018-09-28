@@ -39,10 +39,10 @@
 
         <div class="layui-row">
             <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
-                <label class="layui-form-label">所属角色:</label>
+                <label class="layui-form-label">所属角色:<font color="red">*</font></label>
             </div>
             <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
-                <select id="roleIds" name="roleIds" lay-filter="roleIds"></select>
+                <select id="roleIds" name="roleIds" lay-verify="required" lay-filter="roleIds"></select>
             </div>
         </div>
 
@@ -135,13 +135,28 @@
     function getRole(form) {
         var roles = record.roles;
 
-        var html = '<option value=""></option>';
-        for (var i = 0; i < roles.length; i++) {
-            html += '<option value=' + roles[i].id + ' selected>' + roles[i].name + '</option>';
-        }
-        $("#roleIds").append(html);
+        $.ajax({
+            type: "GET",
+            url: "/role/getRole",
+            dataType: "json",
+            success: function (res) {
+                var data = res.data;
 
-        form.render('select');
+                var html = '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    for (var j = 0; j < roles.length; j++) {
+                        if(roles[j].id == data[i].roleId){
+                            html += '<option value=' + data[i].id + ' selected>' + data[i].name + '</option>';
+                        }else{
+                            html += '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                        }
+                    }
+                }
+                $("#roleIds").append(html);
+
+                form.render('select');
+            }
+        })
     }
 </script>
 </body>
