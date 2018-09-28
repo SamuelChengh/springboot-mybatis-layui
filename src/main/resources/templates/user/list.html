@@ -73,7 +73,7 @@
         form.on('submit(search)', function (data) {
             table.reload('tb', {
                 where: {
-                    userName: data.field.userName,
+                    userName: data.field.loginName,
                     rId: data.field.rId
                 }
             });
@@ -161,7 +161,7 @@
                                 layer.alert(res.return_msg, {
                                     icon: 1,
                                 }, function () {
-                                    location.reload();
+                                    table.reload("tb");
                                 });
                             } else {
                                 layer.msg(res.return_msg, {icon: 2});
