@@ -159,7 +159,7 @@
                         title: '温馨提示',
                         icon: 3
                     }, function (index) {
-                        $.post('/user/delete/' + record.userId, function (res) {
+                        $.post('/user/delete', {id: record.id}, function (res) {
                             if (res.success) {
                                 layer.alert(res.message, {
                                     icon: 1,
