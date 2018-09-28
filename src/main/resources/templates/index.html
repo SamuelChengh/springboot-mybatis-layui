@@ -71,9 +71,9 @@
     </div>
 
     <!-- 底部 -->
-    <!--<div class="layui-footer footer">
-        <center><@fm.copyright date="${.now?string('yyyy')}" /></center>
-    </div>-->
+    <<div class="layui-footer footer">
+        <center>Copyright © 2011-2018, All Rights Reserved. </center>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -160,9 +160,14 @@
     }
 
     function createFrame(url) {
-        var s = '<iframe id="mainiframe" scrolling="auto" frameborder="0" src="' + url
-            + '" style="min-height:750px;width:100%;height:100%;"></iframe>';
+        var s = '<iframe id="mainiframe" scrolling="no" onload="changeFrameHeight()" frameborder="0" src="' + url
+            + '" style="width:100%;"></iframe>';
         return s;
+    }
+
+    function changeFrameHeight(){
+        var ifm = document.getElementById("mainiframe");
+        ifm.height = document.documentElement.clientHeight - 100;
     }
 
     //修改密码
