@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -87,5 +89,21 @@ public class RoleService {
         roleDao.deleteByRoleId(dto.getId());
 
         return RestResultGenerator.createSuccessResult();
+    }
+
+    public ResponseResult getRole() {
+
+        List<Map<String, Object>> listMap = new ArrayList();
+
+        List<Role> list = roleDao.findAll();
+        Map<String, Object> jsonMap = null;
+        for (Role role : list) {
+            jsonMap = new HashMap();
+            jsonMap.put("roleId", role.getId());
+            jsonMap.put("roleName", role.getName());
+            listMap.add(jsonMap);
+        }
+
+        return RestResultGenerator.createSuccessResult(listMap);
     }
 }

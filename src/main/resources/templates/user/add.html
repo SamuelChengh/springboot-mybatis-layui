@@ -89,14 +89,15 @@
                 data: record,
                 dataType: "json",
                 success: function (res) {
-                    if (res.return_code == '1') {
-                        layer.alert(res.return_msg, {
+                    if (res.success) {
+                        layer.alert(res.message, {
                             icon: 1,
                         }, function () {
-                            window.parent.table.reload("tb");
+                            parent.layer.closeAll();
+                            parent.layui.table.reload("tb");
                         });
                     } else {
-                        layer.msg(res.return_msg, {icon: 2});
+                        layer.msg(res.message, {icon: 2});
                     }
                 }
             })
@@ -110,9 +111,11 @@
             url: "/role/getRole",
             dataType: "json",
             success: function (res) {
+                var data = res.data;
+
                 var html = '<option value=""></option>';
-                for (var i = 0; i < res.length; i++) {
-                    html += '<option value=' + res[i].roleId + '>' + res[i].roleName + '</option>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value=' + data[i].roleId + '>' + data[i].roleName + '</option>';
                 }
                 $("#roleIds").append(html);
 

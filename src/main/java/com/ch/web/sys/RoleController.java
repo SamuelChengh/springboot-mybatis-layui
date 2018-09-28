@@ -6,9 +6,10 @@ import com.ch.response.ResponseResult;
 import com.ch.service.sys.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping(value = "/role", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class RoleController {
 
@@ -19,7 +20,8 @@ public class RoleController {
      * 角色列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResponsePageResult list(@RequestBody RoleDto dto){
+    @ResponseBody
+    public ResponsePageResult list(RoleDto dto){
 
         ResponsePageResult resp = roleService.list(dto);
         return resp;
@@ -29,7 +31,8 @@ public class RoleController {
      * 新增角色
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseResult add(@RequestBody RoleDto dto){
+    @ResponseBody
+    public ResponseResult add(RoleDto dto){
 
         ResponseResult resp = roleService.add(dto);
         return resp;
@@ -39,7 +42,8 @@ public class RoleController {
      * 编辑角色
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseResult update(@RequestBody RoleDto dto){
+    @ResponseBody
+    public ResponseResult update(RoleDto dto){
 
         ResponseResult resp = roleService.update(dto);
         return resp;
@@ -49,9 +53,18 @@ public class RoleController {
      * 删除用户
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseResult delete(@RequestBody RoleDto dto){
+    @ResponseBody
+    public ResponseResult delete(RoleDto dto){
 
         ResponseResult resp = roleService.delete(dto);
+        return resp;
+    }
+
+    @RequestMapping(value = "/getRole", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseResult getRole(){
+
+        ResponseResult resp = roleService.getRole();
         return resp;
     }
 }
