@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>编辑 | 账号</title>
@@ -42,7 +42,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">状态:</label>
             <div class="layui-input-inline">
-                <input type="checkbox" checked name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
+                <input type="checkbox" name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
             </div>
         </div>
 
@@ -74,10 +74,17 @@
         getRole(form);
 
         //表单初始赋值
+        var status;
+        if(record.status == 1){
+            status = true;
+        }else{
+            status = false;
+        }
         form.val('form', {
             "loginName": record.loginName,
             "nickName": record.nickName,
             "password": "",
+            "status": status,
             "remark": record.remark,
         })
 
