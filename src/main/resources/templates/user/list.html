@@ -146,7 +146,6 @@
                         area: ['350px', '300px'],
                         resize: false,
                         success: function (layero, index) {
-                            // 获取子页面的iframe
                             var iframe = layero.find("iframe")[0].contentWindow;
                             // 向子页面的全局函数setRecordData传参
                             iframe.setRecordData(record);
@@ -191,7 +190,6 @@
                 area: ['350px', '300px'],
                 resize: false,
                 success: function (layero, index) {
-                    // 获取子页面的iframe
                     var iframe = layero.find("iframe")[0].contentWindow;
                     // 向子页面的全局函数setRecordData传参
                     iframe.setRecordData(record);
