@@ -91,7 +91,7 @@
                 {type: 'numbers'},
                 {field: 'loginName', title: '账号', align: 'center'},
                 {field: 'nickName', title: '昵称', align: 'center'},
-                {field: 'description', title: '备注', width: '200', align: 'center'},
+                {field: 'remark', title: '备注', width: '200', align: 'center'},
                 {field: 'status', title: '状态', align: 'center', templet: '#statusTemp'},
                 {field: 'createdDate', title: '创建时间', width: '160', align: 'center'},
                 {field: 'updatedDate', title: '修改时间', width: '160', align: 'center'},
@@ -131,11 +131,16 @@
                         id: record.userId,
                         type: 2,
                         title: '编辑账号',
-                        content: '/user/update/' + record.userId,
+                        content: '/user/update',
                         skin: 'layui-layer-molv',
                         offset: '0px',
                         resize: false,
                         success: function (layero, index) {
+                            // 获取子页面的iframe
+                            var iframe = layero.find("iframe")[0].contentWindow;
+                            // 向子页面的全局函数setRecordData传参
+                            iframe.setRecordData(record);
+
                             layer.iframeAuto(index);  // iframe层自适应
                         }
                     })
@@ -146,14 +151,14 @@
                         icon: 3
                     }, function (index) {
                         $.post('/user/delete/' + record.userId, function (res) {
-                            if (res.return_code == '1') {
-                                layer.alert(res.return_msg, {
+                            if (res.success) {
+                                layer.alert(res.message, {
                                     icon: 1,
                                 }, function () {
                                     table.reload("tb");
                                 });
                             } else {
-                                layer.msg(res.return_msg, {icon: 2});
+                                layer.msg(res.message, {icon: 2});
                             }
                         });
                         layer.close(index);
@@ -170,11 +175,16 @@
                 id: record.userId,
                 type: 2,
                 title: '编辑账号',
-                content: '/user/update/' + record.userId,
+                content: '/user/update',
                 skin: 'layui-layer-molv',
                 offset: '0px',
                 resize: false,
                 success: function (layero, index) {
+                    // 获取子页面的iframe
+                    var iframe = layero.find("iframe")[0].contentWindow;
+                    // 向子页面的全局函数setRecordData传参
+                    iframe.setRecordData(record);
+
                     layer.iframeAuto(index);  // iframe层自适应
                 }
             })
@@ -199,7 +209,7 @@
                     if(res.success){
                         table.reload("tb");
                     }else{
-                        layer.msg(res.return_msg, {icon: 2});
+                        layer.msg(res.message, {icon: 2});
                     }
                 }
             })

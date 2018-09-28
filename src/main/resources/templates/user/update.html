@@ -1,136 +1,132 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>编辑 | 账号</title>
-<@fm.header />
+    <meta charset="utf-8">
+    <title>编辑 | 账号</title>
+    <link href="/resources/static/layui/css/layui.css" rel="stylesheet"/>
+    <script src="/resources/static/layui/layui.js"></script>
 </head>
 
 <body>
 <form class="layui-form" action="" lay-filter="form" style="padding: 10px;">
 
-	<div class="layui-form-item">
-		<div class="layui-inline">
-			<label class="layui-form-label">账号:<font color="red">*</font></label>
-			<div class="layui-input-inline">
-				<input class="layui-input" type="text" name="userName" lay-verify="required" autocomplete="off">
-			</div>
-		</div>
-		
-		<div class="layui-inline">
-			<label class="layui-form-label">昵称:<font color="red">*</font></label>
-			<div class="layui-input-inline">
-				<input class="layui-input" type="text" name="nickname" lay-verify="required" autocomplete="off">
-			</div>
-		</div>
-		
-		<div class="layui-inline">
-			<label class="layui-form-label">密码:<font color="red">*</font></label>
-			<div class="layui-input-inline">
-				<input class="layui-input" type="password" name="password" lay-verify="required" autocomplete="off">
-			</div>
-		</div>
-		
-		<div class="layui-inline">
-			<label class="layui-form-label">所属角色:</label>
-			<div class="layui-input-inline">
-				<select id="roleId" name="roleId" lay-filter="roleId"></select>
-			</div>
-		</div>
-		
-		<div class="layui-inline">
-			<label class="layui-form-label">状态:</label>
-			<div class="layui-input-inline">
-				<#if user.status == '1'>
-					<input type="checkbox" checked name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
-				</#if>
-				<#if user.status == '0'>
-					<input type="checkbox" name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
-				</#if>
-			</div>
-		</div>
-		
-		<div class="layui-inline">
-			<label class="layui-form-label">备注:</label>
-			<div class="layui-input-inline">
-				<textarea class="layui-textarea" name="description" autocomplete="off"></textarea>
-			</div>
-		</div>
-	</div>
-	
-	<div style="text-align: center; padding-top: 10px;">
-		<button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-      	<button class="layui-btn layui-btn-primary" type="reset" >重置</button>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">账号:<font color="red">*</font></label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="loginName" lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">昵称:<font color="red">*</font></label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="text" name="nickName" lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">密码:<font color="red">*</font></label>
+            <div class="layui-input-inline">
+                <input class="layui-input" type="password" name="password" lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">所属角色:</label>
+            <div class="layui-input-inline">
+                <select id="roleIds" name="roleIds" lay-filter="roleIds"></select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">状态:</label>
+            <div class="layui-input-inline">
+                <input type="checkbox" checked name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-inline">
+                <textarea class="layui-textarea" name="remark" autocomplete="off"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding-top: 10px;">
+        <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
+        <button class="layui-btn layui-btn-primary" type="reset">重置</button>
     </div>
 </form>
 
 <script type="text/javascript">
-layui.use('form', function(){
-	$ = layui.jquery;     // 引入jquery
-	var form = layui.form;
-  
-	// 获取角色
-	getRole(form);
-	
-	//表单初始赋值
- 	form.val('form', {
-    	"userName": "${user.userName}",
-    	"nickname": "${user.nickname}",
-    	"password": "",
-    	"description": "${user.description}"
-  	})
-  	
-  	// 提交
-    form.on('submit(submit)', function(data){
-    	var record = data.field;
+    var record;
+    function setRecordData(rec) {
+        record = rec;
+    }
 
-    	if(record.status == "on"){
-    		record.status = 1;
-    	}else{
-    		record.status = 0;
-    	}
-    	var userId = "${user.userId}";
-    	$.ajax({
-    		type : "POST",
-    		url : "/user/update/"+ userId,
-    		data: record,
-    		dataType : "json",
-    		success : function(res) {
-    			if (res.return_code == '1') {    				
-    				layer.alert(res.return_msg, {
-    					icon: 1,
-    				},function(){
-        				window.parent.location.reload();
-    				});
-    			}else{
-    				layer.msg(res.return_msg, {icon: 2});
-    			}
-    		}
-    	})	
-     	return false;
+    layui.use('form', function () {
+        $ = layui.jquery;     // 引入jquery
+        var form = layui.form;
+
+        // 获取角色
+        getRole(form);
+
+        //表单初始赋值
+        form.val('form', {
+            "loginName": record.loginName,
+            "nickName": record.nickName,
+            "password": "",
+            "remark": record.remark,
+        })
+
+        // 提交
+        form.on('submit(submit)', function (data) {
+            var rec = data.field;
+
+            if (rec.status == "on") {
+                rec.status = 1;
+            } else {
+                rec.status = 0;
+            }
+            rec.id = record.id;
+            $.ajax({
+                type: "POST",
+                url: "/user/update",
+                data: rec,
+                dataType: "json",
+                success: function (res) {
+                    if (res.success) {
+                        layer.alert(res.message, {
+                            icon: 1,
+                        }, function () {
+                            parent.layer.closeAll();
+                            parent.layui.table.reload("tb");
+                        });
+                    } else {
+                        layer.msg(res.message, {icon: 2});
+                    }
+                }
+            });
+
+            return false;
+        });
     });
-});
 
-function getRole(form){
-	$.ajax({
-		type : "GET",
-		url : "/role/content?defaultValues=${user.roleNames}",
-		dataType : "json",
-		success : function(res) {
-			var html = '<option value=""></option>';
-			for(var i=0; i<res.length; i++){
-				if(res[i].selected){
-					html += '<option value='+ res[i].roleId +' selected>'+ res[i].roleName +'</option>';
-				}else{
-					html += '<option value='+ res[i].roleId +'>'+ res[i].roleName +'</option>';
-				}				
-			}
-			$("#roleId").append(html);
-			
-			form.render('select');
-		}
-	})
-}
+    function getRole(form) {
+
+        var roles = record.roles;
+
+        var html = '<option value=""></option>';
+        for (var i = 0; i < roles.length; i++) {
+            html += '<option value=' + roles[i].id + ' selected>' + roles[i].name + '</option>';
+        }
+        $("#roleIds").append(html);
+
+        // 重新渲染
+        form.render('select');
+    }
 </script>
 </body>
 </html>
