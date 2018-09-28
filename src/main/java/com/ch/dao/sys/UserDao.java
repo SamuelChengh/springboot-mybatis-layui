@@ -1,5 +1,6 @@
 package com.ch.dao.sys;
 
+import com.ch.dto.sys.UserDto;
 import com.ch.entity.sys.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public interface UserDao {
 
     User findByLoginName(@Param("loginName") String loginName);
 
-    List<User> findAll();
+    List<User> findAll(UserDto dto);
 
     void insertUserRole(Map<String, Object> map);
 

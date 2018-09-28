@@ -107,7 +107,7 @@
           u.id = ur.user_id AND ur.role_id = r.id AND u.login_name = #{loginName}
     </select>
 
-    <select id="findAll" resultMap="UserRoleResult">
+    <select id="findAll" resultMap="UserRoleResult" parameterType="com.ch.dto.sys.UserDto">
         SELECT
           u.*,
           r.id AS role_id,
@@ -119,7 +119,9 @@
           sys_user u
         LEFT JOIN sys_user_role ur ON u.id = ur.user_id
         LEFT JOIN sys_role r ON ur.role_id = r.id
-        <include refid="select_query_conditions"></include>
+        <where>
+            <include refid="select_query_conditions"></include>
+        </where>
         <include refid="select_order_conditions"></include>
     </select>
 

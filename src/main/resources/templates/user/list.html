@@ -15,14 +15,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">账号:</label>
             <div class="layui-input-inline">
-                <input class="layui-input" id="userName" name="userName" autocomplete="off">
-            </div>
-        </div>
-
-        <div class="layui-inline">
-            <label class="layui-form-label">所属角色:</label>
-            <div class="layui-input-inline">
-                <select id="rId" name="rId" lay-filter="rId"></select>
+                <input class="layui-input" id="loginName" name="loginName" autocomplete="off">
             </div>
         </div>
 
@@ -66,15 +59,11 @@
         var form = layui.form,
             table = layui.table;
 
-        // 获取角色
-        //getRole(form);
-
         // 查询
         form.on('submit(search)', function (data) {
             table.reload('tb', {
                 where: {
-                    userName: data.field.loginName,
-                    rId: data.field.rId
+                    loginName: data.field.loginName
                 }
             });
             return false;
@@ -216,23 +205,6 @@
             })
         });
     });
-
-    function getRole(form) {
-        $.ajax({
-            type: "GET",
-            url: "/role/content",
-            dataType: "json",
-            success: function (res) {
-                var html = '<option value=""></option>';
-                for (var i = 0; i < res.length; i++) {
-                    html += '<option value=' + res[i].roleId + '>' + res[i].roleName + '</option>';
-                }
-                $("#rId").append(html);
-
-                form.render('select');
-            }
-        })
-    }
 </script>
 </body>
 </html>

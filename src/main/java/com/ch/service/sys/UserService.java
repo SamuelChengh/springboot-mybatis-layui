@@ -37,7 +37,7 @@ public class UserService {
         Integer page = dto.getPage();
         Integer limit = dto.getLimit();
 
-        Page<User> pages = PageHelper.startPage(page, limit).doSelectPage(()-> userDao.findAll());
+        Page<User> pages = PageHelper.startPage(page, limit).doSelectPage(()-> userDao.findAll(dto));
 
         return RestResultGenerator.createSuccessPageResult(pages);
     }
