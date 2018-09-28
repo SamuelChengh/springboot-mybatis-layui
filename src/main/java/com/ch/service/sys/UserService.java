@@ -16,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -77,7 +78,9 @@ public class UserService {
 
         user.setLoginName(dto.getLoginName());
         user.setNickName(dto.getNickName());
-        user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
+        if(!StringUtils.isEmpty(dto.getPassword())){
+            user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
+        }
         user.setStatus(dto.getStatus());
         user.setRemark(dto.getRemark());
         userDao.update(user);
