@@ -160,14 +160,9 @@
     }
 
     function createFrame(url) {
-        var s = '<iframe id="mainiframe" scrolling="no" onload="changeFrameHeight()" frameborder="0" src="' + url
-            + '" style="width:100%;"></iframe>';
+        var s = '<iframe id="mainiframe" scrolling="no" frameborder="0" src="' + url
+            + '" style="height: 600px;width: 100%;"></iframe>';
         return s;
-    }
-
-    function changeFrameHeight(){
-        var ifm = document.getElementById("mainiframe");
-        ifm.height = document.documentElement.clientHeight - 100;
     }
 
     //修改密码
