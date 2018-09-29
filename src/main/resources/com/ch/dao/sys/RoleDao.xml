@@ -74,12 +74,11 @@
           a.remark AS auth_remark,
           a.created_date AS auth_created_date,
           a.updated_date AS auth_updated_date
-        FROM
-          sys_role r,
-          sys_role_authority ra,
-          sys_authority a
+        FROM sys_role r
+        LEFT JOIN sys_role_authority ra ON ra.role_id = r.id
+        LEFT JOIN sys_authority a ON a.id = ra.authority_id
         WHERE
-          r.id = ra.role_id AND ra.authority_id = a.id AND r.id = #{id}
+          r.id = #{id}
     </select>
 
     <select id="findByName" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
@@ -93,12 +92,11 @@
           a.remark AS auth_remark,
           a.created_date AS auth_created_date,
           a.updated_date AS auth_updated_date
-        FROM
-          sys_role r,
-          sys_role_authority ra,
-          sys_authority a
+        FROM sys_role r
+        LEFT JOIN sys_role_authority ra ON ra.role_id = r.id
+        LEFT JOIN sys_authority a ON a.id = ra.authority_id
         WHERE
-          r.id = ra.role_id AND ra.authority_id = a.id AND r.name = #{name}
+          r.name = #{name}
     </select>
 
     <select id="findAll" resultMap="RoleAuthorityResult" parameterType="com.ch.dto.sys.RoleDto">
