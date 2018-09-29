@@ -54,13 +54,13 @@
     <!-- 查询sql片段 -->
     <sql id="select_query_conditions">
         <if test="name != null and name != ''">
-            AND name LIKE CONCAT("%",#{name},"%")
+            AND r.name LIKE CONCAT("%",#{name},"%")
         </if>
     </sql>
 
     <!-- 排序sql片段 -->
     <sql id="select_order_conditions">
-        ORDER BY created_date DESC
+        ORDER BY r.created_date DESC
     </sql>
 
     <select id="findById" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
@@ -101,7 +101,7 @@
           r.id = ra.role_id AND ra.authority_id = a.id AND r.name = #{name}
     </select>
 
-    <select id="findAll" resultMap="RoleAuthorityResult">
+    <select id="findAll" resultMap="RoleAuthorityResult" parameterType="com.ch.dto.sys.RoleDto">
         SELECT
           r.*,
           a.id AS auth_id,
@@ -116,7 +116,9 @@
           sys_role r
         LEFT JOIN sys_role_authority ra ON r.id = ra.role_id
         LEFT JOIN sys_authority a ON ra.authority_id = a.id
-        <include refid="select_query_conditions"></include>
+        <where>
+            <include refid="select_query_conditions"></include>
+        </where>
         <include refid="select_order_conditions"></include>
     </select>
 

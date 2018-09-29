@@ -29,7 +29,7 @@ public class RoleService {
         Integer page = dto.getPage();
         Integer limit = dto.getLimit();
 
-        Page<Role> pages = PageHelper.startPage(page, limit).doSelectPage(()-> roleDao.findAll());
+        Page<Role> pages = PageHelper.startPage(page, limit).doSelectPage(()-> roleDao.findAll(dto));
 
         return RestResultGenerator.createSuccessPageResult(pages);
     }
@@ -46,10 +46,12 @@ public class RoleService {
         role.setRemark(dto.getRemark());
         roleDao.insert(role);
 
-        Map<String, Object> map = new HashMap();
-        map.put("roleId", role.getId());
-        map.put("authIds", dto.getAuthIds());
-        roleDao.insertRoleAuth(map);
+        if(dto.getAuthIds() != null && dto.getAuthIds().size() > 0){
+            Map<String, Object> map = new HashMap();
+            map.put("roleId", role.getId());
+            map.put("authIds", dto.getAuthIds());
+            roleDao.insertRoleAuth(map);
+        }
 
         return RestResultGenerator.createSuccessResult();
     }
@@ -68,12 +70,14 @@ public class RoleService {
         role.setRemark(dto.getRemark());
         roleDao.update(role);
 
-        roleDao.deleteByRoleId(dto.getId());
+        if(dto.getAuthIds() != null && dto.getAuthIds().size() > 0){
+            roleDao.deleteByRoleId(dto.getId());
 
-        Map<String, Object> map = new HashMap();
-        map.put("roleId", dto.getId());
-        map.put("authIds", dto.getAuthIds());
-        roleDao.insertRoleAuth(map);
+            Map<String, Object> map = new HashMap();
+            map.put("roleId", dto.getId());
+            map.put("authIds", dto.getAuthIds());
+            roleDao.insertRoleAuth(map);
+        }
 
         return RestResultGenerator.createSuccessResult();
     }
@@ -95,7 +99,7 @@ public class RoleService {
 
         List<Map<String, Object>> listMap = new ArrayList();
 
-        List<Role> list = roleDao.findAll();
+        List<Role> list = roleDao.findAll(null);
         Map<String, Object> jsonMap = null;
         for (Role role : list) {
             jsonMap = new HashMap();

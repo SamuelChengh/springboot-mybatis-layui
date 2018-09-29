@@ -19,6 +19,11 @@ public class RoleController {
     /**
      * 角色列表
      */
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(){
+        return "role/list";
+    }
+
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public ResponsePageResult list(RoleDto dto){
@@ -30,6 +35,11 @@ public class RoleController {
     /**
      * 新增角色
      */
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add(){
+        return "role/add";
+    }
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult add(RoleDto dto){
@@ -41,6 +51,11 @@ public class RoleController {
     /**
      * 编辑角色
      */
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update(){
+        return "role/update";
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult update(RoleDto dto){
