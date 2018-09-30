@@ -181,18 +181,19 @@
                         title: '温馨提示',
                         icon: 3
                     }, function (index) {
-                        $.post('/role/delete/' + record.roleId, function (res) {
-                            if (res.return_code == '1') {
-                                layer.alert(res.return_msg, {
+                        $.post('/role/delete', {id: record.id}, function (res) {
+                            if (res.success) {
+                                layer.alert(res.message, {
                                     icon: 1,
-                                }, function () {
-                                    location.reload();
+                                }, function (index) {
+                                    layer.close(index);
+                                    table.reload("tb");
                                 });
                             } else {
-                                layer.msg(res.return_msg, {icon: 2});
+                                layer.msg(res.message, {icon: 2});
                             }
                         });
-                        layer.close(index);
+                        parent.layer.close(index);
                     });
                     break;
             }
