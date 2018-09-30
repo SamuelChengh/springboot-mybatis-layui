@@ -68,10 +68,10 @@
 
         // 提交
         form.on('submit(submit)', function (data) {
-            var authIds = new Array();
+            var authIds = [];
             $("input:checkbox[name='authId']:checked").each(function () { // 遍历name=authId选中的复选框
                 var authId = $(this).val();
-                authIds.push(authId);
+                authIds.push(parseInt(authId));
             });
 
             if (authIds.length == 0) {
