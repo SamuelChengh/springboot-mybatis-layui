@@ -80,6 +80,9 @@ public class RoleService {
         if(role == null){
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
+        if(role.getAuthorities().size() > 0){
+            return RestResultGenerator.createErrorResult(ResponseEnum.DATA_RELATED);
+        }
 
         roleDao.delete(dto.getId());
         roleDao.deleteByRoleId(dto.getId());

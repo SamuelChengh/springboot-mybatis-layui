@@ -105,6 +105,9 @@ public class UserService {
         if(user == null){
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
+        if(user.getRoles().size() > 0){
+            return RestResultGenerator.createErrorResult(ResponseEnum.DATA_RELATED);
+        }
 
         userDao.delete(dto.getId());
         userDao.deleteByUserId(dto.getId());

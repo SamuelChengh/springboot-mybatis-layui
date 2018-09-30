@@ -8,7 +8,8 @@ public enum ResponseEnum {
 	AUTHORITY_NOT(1001, "无权限访问系统!"),
 	USER_NOT_EXIST(1002, "用户不存在!"),
 	ACCOUNT_EXIST(1003, "账号已存在!"),
-	NAME_EXIST(1004, "名称已存在!");
+	NAME_EXIST(1004, "名称已存在!"),
+	DATA_RELATED(2000, "数据已被关联, 不能删除!");
 
 	private Integer  code;
 	private String   message;
