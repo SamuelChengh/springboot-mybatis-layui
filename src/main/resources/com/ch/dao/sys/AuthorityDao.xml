@@ -46,12 +46,19 @@
 
     <!-- 排序sql片段 -->
     <sql id="select_order_conditions">
-        ORDER BY dispaly_sort ASC
+        ORDER BY display_sort ASC
     </sql>
 
     <select id="findById" resultType="com.ch.entity.sys.Authority">
         SELECT
-          *
+          id,
+          name,
+          auth_url,
+          parent,
+          display_sort,
+          remark,
+          created_date,
+          updated_date
         FROM
           sys_authority
         WHERE
@@ -60,16 +67,32 @@
 
     <select id="findAll" resultType="com.ch.entity.sys.Authority">
         SELECT
-          *
+          id,
+          name,
+          auth_url,
+          parent,
+          display_sort,
+          remark,
+          created_date,
+          updated_date
         FROM
           sys_authority
-        <include refid="select_query_conditions"></include>
+        <where>
+            <include refid="select_query_conditions"></include>
+        </where>
         <include refid="select_order_conditions"></include>
     </select>
 
     <select id="findByParent" resultType="com.ch.entity.sys.Authority">
         SELECT
-          *
+          id,
+          name,
+          auth_url,
+          parent,
+          display_sort,
+          remark,
+          created_date,
+          updated_date
         FROM
           sys_authority
         WHERE

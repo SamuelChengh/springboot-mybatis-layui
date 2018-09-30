@@ -4,10 +4,13 @@ import com.ch.dto.sys.RoleDto;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
 import com.ch.service.sys.RoleService;
+import com.ch.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/role", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -65,7 +68,7 @@ public class RoleController {
     }
 
     /**
-     * 删除用户
+     * 删除角色
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
@@ -81,5 +84,22 @@ public class RoleController {
 
         ResponseResult resp = roleService.getRole();
         return resp;
+    }
+
+    /**
+     * 角色权限
+     */
+    @RequestMapping(value = "/getAuthority", method = RequestMethod.GET)
+    @ResponseBody
+    public List<MenuVo> getAuthority(Integer roleId){
+        return roleService.getAuthority(roleId);
+    }
+
+    /**
+     * 设置权限
+     */
+    @RequestMapping(value = "/authority", method = RequestMethod.GET)
+    public String authority(){
+        return "role/authority";
     }
 }

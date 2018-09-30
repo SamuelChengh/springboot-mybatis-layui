@@ -137,11 +137,18 @@
                     layer.open({
                         type: 2,
                         title: '设置权限',
-                        content: '/role/authority/' + records[0].roleId,
+                        content: '/role/authority',
                         skin: 'layui-layer-molv',
                         offset: '40px',
                         area: ["450px", "400px"],
-                        resize: false
+                        resize: false,
+                        success: function (layero, index) {
+                            var iframe = layero.find("iframe")[0].contentWindow;
+                            // 向子页面的全局函数setRecordData传参
+                            iframe.setRecordData(records[0]);
+
+                            layer.iframeAuto(index);  // iframe层自适应
+                        }
                     })
                     break;
             }
