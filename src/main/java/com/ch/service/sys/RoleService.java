@@ -16,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -162,12 +163,19 @@ public class RoleService {
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
 
-        if(dto.getAuthIds() != null && dto.getAuthIds().size() > 0){
+        if(!StringUtils.isEmpty(dto.getAuthIds())){
             roleDao.deleteByRoleId(dto.getId());
 
             Map<String, Object> map = new HashMap();
             map.put("roleId", dto.getId());
-            map.put("authIds", dto.getAuthIds());
+
+            List<Integer> authIds = new ArrayList();
+            String[] ids = dto.getAuthIds().split(",");
+            for(String authId: ids){
+                authIds.add(Integer.valueOf(authId));
+            }
+            map.put("authIds", authIds);
+
             roleDao.insertRoleAuth(map);
         }
 

@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class RoleDto extends Role{
 
-    private List<Integer> authIds;
-    private Integer       page;
-    private Integer       limit;
+    private String     authIds;
+    private Integer    page;
+    private Integer    limit;
 }
