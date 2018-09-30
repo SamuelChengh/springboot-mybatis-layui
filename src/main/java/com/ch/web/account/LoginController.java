@@ -49,7 +49,7 @@ public class LoginController {
             currentUser.login(token);
         } catch (AuthenticationException e) {
             logger.info(e.getMessage(), e);
-            ra.addFlashAttribute("msg", ResponseEnum.USER_WRONG_AUT);
+            ra.addFlashAttribute("msg", ResponseEnum.USER_WRONG_AUT.getMessage());
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }
         boolean validUser = currentUser.isAuthenticated();
@@ -58,7 +58,7 @@ public class LoginController {
             session.setAttribute(ConstantsCMP.USER_SESSION_INFO, user);
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/index";
         }else{
-            ra.addFlashAttribute("msg", ResponseEnum.AUTHORITY_NOT);
+            ra.addFlashAttribute("msg", ResponseEnum.AUTHORITY_NOT.getMessage());
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }
     }
