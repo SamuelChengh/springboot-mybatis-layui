@@ -8,18 +8,25 @@
 </head>
 
 <style type="text/css">
-    .parent-label {
-        position: relative;
-        top: 5px;
+    .layui-group{
+        margin-top: 10px;
+    }
+
+    .layui-parent-col {
+        margin-bottom: 5px;
+    }
+
+    .layui-parent-label {
         font-size: 25px;
         font-weight: bold;
     }
 </style>
 
 <body>
-<form class="layui-form" action="" lay-filter="form" style="padding: 10px 30px;">
+<form class="layui-form" action="" lay-filter="form" style="padding: 10px">
 
-    <div id="auth-form" class="layui-form-item">
+    <div id="auth-container" class="layui-container">
+
     </div>
 
     <div style="text-align: center; padding-top: 10px;">
@@ -43,7 +50,7 @@
 
         // 全选
         form.on('submit(checkAll)', function (data) {
-            $("input[name='resId']").each(function () {
+            $("input[name='authId']").each(function () {
                 $(this).prop("checked", true);
             })
             form.render('checkbox');
@@ -52,7 +59,7 @@
 
         // 取消全选
         form.on('submit(unCheckAll)', function (data) {
-            $("input[name='resId']").each(function () {
+            $("input[name='authId']").each(function () {
                 $(this).prop("checked", false);
             })
             form.render('checkbox');
@@ -61,34 +68,38 @@
 
         // 提交
         form.on('submit(submit)', function (data) {
-            var idsStr = '';
-            $("input:checkbox[name='resId']:checked").each(function () { // 遍历name=resId选中的复选框
-                var resId = $(this).val();
-                idsStr += ";" + resId;
+            var authIds = new Array();
+            $("input:checkbox[name='authId']:checked").each(function () { // 遍历name=authId选中的复选框
+                var authId = $(this).val();
+                authIds.push(authId);
             });
 
-            if (idsStr == '') {
+            if (authIds.length == 0) {
                 layer.alert('对不起，您选择的权限为空！', {
                     icon: 5
                 });
                 return false;
             }
 
-            var roleId = "${role.roleId}";
+            var rec = {};
+            rec.id = record.id;
+            rec.authIds = authIds;
+            console.log(rec);
             $.ajax({
                 type: "POST",
-                url: "/role/authority/" + roleId,
-                data: {resObj: idsStr},
+                url: "/role/updateAuthority",
+                data: rec,
                 dataType: "json",
                 success: function (res) {
-                    if (res.return_code == '1') {
-                        layer.alert(res.return_msg, {
+                    if (res.success) {
+                        layer.alert(res.message, {
                             icon: 1,
                         }, function () {
-                            window.parent.location.reload();
+                            parent.layer.closeAll();
+                            parent.layui.table.reload("tb");
                         });
                     } else {
-                        layer.msg(res.return_msg, {icon: 2});
+                        layer.msg(res.message, {icon: 2});
                     }
                 }
             })
@@ -103,44 +114,65 @@
             data: {roleId: record.id},
             dataType: "json",
             success: function (res) {
-                var parentHtml = document.getElementById("auth-form");
+                var parentHtml = document.getElementById("auth-container");
                 for (var i = 0; i < res.length; i++) {
                     var parentMenu = res[i];
 
-                    // parentDiv
+                    var div = document.createElement("div");
+                    div.setAttribute("class", "layui-group");
+
+                    // 父节点
                     var parentDiv = document.createElement("div");
-                    parentDiv.setAttribute("class", "layui-inline");
+                    parentDiv.setAttribute("class", "layui-row");
+
+                    var parentColDiv = document.createElement("div");
+                    parentColDiv.setAttribute("class", "layui-col-xs12 layui-col-sm12 layui-col-md12 layui-parent-col");
+
                     var input = document.createElement("input");   // input
                     input.setAttribute("type", "checkbox");
-                    input.setAttribute("name", "resId");
+                    input.setAttribute("name", "authId");
                     input.setAttribute("value", parentMenu.parentId);
                     input.setAttribute("lay-skin", "primary");
-                    if (parentMenu.checked) {
+                    if(parentMenu.checked){
                         input.setAttribute("checked", "");
                     }
-                    parentDiv.appendChild(input);
-                    var label = document.createElement("label");   // label
-                    label.setAttribute("class", "parent-label");
-                    label.appendChild(document.createTextNode(parentMenu.parentName));
-                    parentDiv.appendChild(label);
-                    parentHtml.appendChild(parentDiv);
+                    parentColDiv.appendChild(input);
 
-                    // childDiv
+                    var label = document.createElement("label");   // label
+                    label.setAttribute("class", "layui-parent-label");
+                    label.appendChild(document.createTextNode(parentMenu.parentName));
+                    parentColDiv.appendChild(label);
+
+                    parentDiv.appendChild(parentColDiv);
+
+                    div.appendChild(parentDiv);
+
+                    // 子节点
                     var childDiv = document.createElement("div");
-                    childDiv.setAttribute("class", "layui-inline");
-                    for (var j = 0; j < parentMenu.childMenus.length; j++) {
+                    childDiv.setAttribute("class", "layui-row");
+
+                    for(var j=0; j<parentMenu.childMenus.length; j++){
+                        var childColDiv = document.createElement("div");
+                        childColDiv.setAttribute("class", "layui-col-xs4 layui-col-sm4 layui-col-md4");
+
                         var childInput = document.createElement("input");   // input
                         childInput.setAttribute("type", "checkbox");
-                        childInput.setAttribute("name", "resId");
+                        childInput.setAttribute("name", "authId");
                         childInput.setAttribute("value", parentMenu.childMenus[j].id);
                         childInput.setAttribute("lay-skin", "primary");
                         childInput.setAttribute("title", parentMenu.childMenus[j].name);
-                        if (parentMenu.childMenus[j].checked) {
+                        if(parentMenu.childMenus[j].checked){
                             childInput.setAttribute("checked", "");
                         }
-                        childDiv.appendChild(childInput);
+
+                        childColDiv.appendChild(childInput);
+
+                        childDiv.appendChild(childColDiv);
                     }
-                    parentHtml.appendChild(childDiv);
+
+                    div.appendChild(childDiv);
+
+                    parentHtml.appendChild(div);
                 }
 
                 form.render('checkbox');

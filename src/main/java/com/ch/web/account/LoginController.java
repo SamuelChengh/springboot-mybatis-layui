@@ -3,6 +3,7 @@ package com.ch.web.account;
 import com.ch.common.ConstantsCMP;
 import com.ch.dao.sys.UserDao;
 import com.ch.entity.sys.User;
+import com.ch.response.ResponseEnum;
 import com.ch.utils.EncryptUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -48,7 +49,7 @@ public class LoginController {
             currentUser.login(token);
         } catch (AuthenticationException e) {
             logger.info(e.getMessage(), e);
-            ra.addFlashAttribute("msg", "用户名或密码不正确");
+            ra.addFlashAttribute("msg", ResponseEnum.USER_WRONG_AUT);
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }
         boolean validUser = currentUser.isAuthenticated();
@@ -57,7 +58,7 @@ public class LoginController {
             session.setAttribute(ConstantsCMP.USER_SESSION_INFO, user);
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/index";
         }else{
-            ra.addFlashAttribute("msg", "该账号无访问系统的权限");
+            ra.addFlashAttribute("msg", ResponseEnum.AUTHORITY_NOT);
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }
     }

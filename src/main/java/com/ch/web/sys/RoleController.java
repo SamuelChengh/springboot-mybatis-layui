@@ -98,8 +98,16 @@ public class RoleController {
     /**
      * 设置权限
      */
-    @RequestMapping(value = "/authority", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateAuthority", method = RequestMethod.GET)
     public String authority(){
         return "role/authority";
+    }
+
+    @RequestMapping(value = "/updateAuthority", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult updateAuthority(RoleDto dto){
+
+        ResponseResult resp = roleService.updateAuthority(dto);
+        return resp;
     }
 }

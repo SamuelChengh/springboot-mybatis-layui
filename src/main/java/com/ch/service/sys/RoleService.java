@@ -53,13 +53,6 @@ public class RoleService {
         role.setRemark(dto.getRemark());
         roleDao.insert(role);
 
-        if(dto.getAuthIds() != null && dto.getAuthIds().size() > 0){
-            Map<String, Object> map = new HashMap();
-            map.put("roleId", role.getId());
-            map.put("authIds", dto.getAuthIds());
-            roleDao.insertRoleAuth(map);
-        }
-
         return RestResultGenerator.createSuccessResult();
     }
 
@@ -76,15 +69,6 @@ public class RoleService {
         role.setName(dto.getName());
         role.setRemark(dto.getRemark());
         roleDao.update(role);
-
-        if(dto.getAuthIds() != null && dto.getAuthIds().size() > 0){
-            roleDao.deleteByRoleId(dto.getId());
-
-            Map<String, Object> map = new HashMap();
-            map.put("roleId", dto.getId());
-            map.put("authIds", dto.getAuthIds());
-            roleDao.insertRoleAuth(map);
-        }
 
         return RestResultGenerator.createSuccessResult();
     }
@@ -169,5 +153,24 @@ public class RoleService {
         }
 
         return list;
+    }
+
+    public ResponseResult updateAuthority(RoleDto dto) {
+
+        Role role = roleDao.findById(dto.getId());
+        if(role == null){
+            return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
+        }
+
+        if(dto.getAuthIds() != null && dto.getAuthIds().size() > 0){
+            roleDao.deleteByRoleId(dto.getId());
+
+            Map<String, Object> map = new HashMap();
+            map.put("roleId", dto.getId());
+            map.put("authIds", dto.getAuthIds());
+            roleDao.insertRoleAuth(map);
+        }
+
+        return RestResultGenerator.createSuccessResult();
     }
 }
