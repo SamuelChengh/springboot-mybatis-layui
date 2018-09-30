@@ -84,11 +84,11 @@
           r.created_date AS role_created_date,
           r.updated_date AS role_updated_date
         FROM
-          sys_user u,
-          sys_user_role ur,
-          sys_role r
+          sys_user u
+        LEFT JOIN sys_user_role ur ON ur.user_id = u.id
+        LEFT JOIN sys_role r ON r.id = ur.role_id
         WHERE
-          u.id = ur.user_id AND ur.role_id = r.id AND u.id = #{id}
+          u.id = #{id}
     </select>
 
     <select id="findByLoginName" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
@@ -100,11 +100,11 @@
           r.created_date AS role_created_date,
           r.updated_date AS role_updated_date
         FROM
-          sys_user u,
-          sys_user_role ur,
-          sys_role r
+          sys_user u
+        LEFT JOIN sys_user_role ur ON ur.user_id = u.id
+        LEFT JOIN sys_role r ON r.id = ur.role_id
         WHERE
-          u.id = ur.user_id AND ur.role_id = r.id AND u.login_name = #{loginName}
+          u.login_name = #{loginName}
     </select>
 
     <select id="findAll" resultMap="UserRoleResult" parameterType="com.ch.dto.sys.UserDto">
