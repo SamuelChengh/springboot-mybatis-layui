@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <div class="layui-row">
+        <div id="menu_parent" class="layui-row">
             <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
                 <label class="layui-form-label">所属模块:</label>
             </div>
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="layui-row">
+        <div id="menu_url" class="layui-row">
             <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
                 <label class="layui-form-label">菜单地址:</label>
             </div>
@@ -135,12 +135,14 @@
     function getParent(form) {
         $.ajax({
             type: "GET",
-            url: "/menu/parent",
+            url: "/menu/getParent",
             dataType: "json",
             success: function (res) {
+                var rec = res.data;
+
                 var html = '<option value=""></option>';
-                for (var i = 0; i < res.length; i++) {
-                    html += '<option value=' + res[i].resourceId + '>' + res[i].resourceName + '</option>';
+                for (var i = 0; i < rec.length; i++) {
+                    html += '<option value=' + rec[i].id + '>' + rec[i].name + '</option>';
                 }
                 $("#parent").append(html);
 

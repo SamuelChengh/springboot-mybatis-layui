@@ -68,4 +68,16 @@ public class AuthorityController {
         ResponseResult resp = authorityService.delete(authority);
         return resp;
     }
+
+    /**
+     * 获取父节点菜单
+     *
+     */
+    @RequestMapping(value = "/getParent", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseResult getParent() {
+
+        ResponseResult resp = authorityService.getParent();
+        return resp;
+    }
 }

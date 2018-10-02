@@ -45,4 +45,11 @@ public class AuthorityService {
 
         return RestResultGenerator.createSuccessResult();
     }
+
+    public ResponseResult getParent() {
+
+        List<Authority> list = authorityDao.findByParent(0);
+
+        return RestResultGenerator.createSuccessResult(list);
+    }
 }
