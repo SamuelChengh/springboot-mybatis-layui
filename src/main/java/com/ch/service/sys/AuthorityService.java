@@ -18,11 +18,11 @@ public class AuthorityService {
     @Autowired
     private AuthorityDao authorityDao;
 
-    public ResponsePageResult list() {
+    public ResponseResult list() {
 
         List<Authority> list = authorityDao.findAll();
 
-        return RestResultGenerator.createSuccessPageResult(list);
+        return RestResultGenerator.createSuccessResult(list);
     }
 
     public ResponseResult add(Authority authority) {
