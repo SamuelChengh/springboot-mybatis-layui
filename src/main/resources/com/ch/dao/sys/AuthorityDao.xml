@@ -8,6 +8,7 @@
           `auth_url`,
           `parent`,
           `display_sort`,
+          `display_type`,
           `remark`,
           `created_date`
         ) VALUES (
@@ -15,6 +16,7 @@
           #{authUrl},
           #{parent},
           #{displaySort},
+          #{displayType},
           #{remark},
           NOW()
         )
@@ -27,6 +29,7 @@
             <if test="authUrl != null"> `auth_url` = #{authUrl}, </if>
             <if test="parent != null"> `parent` = #{parent}, </if>
             <if test="displaySort != null"> `display_sort` = #{displaySort}, </if>
+            <if test="displayType != null"> `display_type` = #{displayType}, </if>
             <if test="remark != null"> `remark` = #{remark}, </if>
             `updated_date` = NOW(),
         </set>
@@ -56,6 +59,7 @@
           auth_url,
           parent,
           display_sort,
+          display_type,
           remark,
           created_date,
           updated_date
@@ -72,6 +76,7 @@
           auth_url,
           parent,
           display_sort,
+          display_type,
           remark,
           created_date,
           updated_date
@@ -90,6 +95,7 @@
           auth_url,
           parent,
           display_sort,
+          display_type,
           remark,
           created_date,
           updated_date

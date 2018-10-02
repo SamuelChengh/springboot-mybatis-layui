@@ -18,5 +18,7 @@ public class Authority extends BaseEntity{
 
     private Integer displaySort; // 排序
 
+    private Integer displayType; // 类型 1:模块 2:菜单
+
     private String  remark;      // 备注
 }
