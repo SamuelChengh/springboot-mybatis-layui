@@ -13,6 +13,9 @@ import com.ch.vo.ChildMenu;
 import com.ch.vo.MenuVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -154,5 +157,37 @@ public class UserService {
         }
 
         return list;
+    }
+
+    public ResponseResult resetPwd(HttpServletRequest request) {
+
+        String pwd = request.getParameter("pwd").trim();
+        String npwd = request.getParameter("npwd").trim();
+        String rpwd = request.getParameter("rpwd").trim();
+
+        User user = ConstantsCMP.getSessionUser(request);
+        // 验证当前密码是否正确
+        if(!user.getPassword().equals(EncryptUtil.encryptMD5(pwd))){
+            return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "原密码输入不正确!");
+        }
+
+        // 验证验证新密码是否相等
+        if(!npwd.equals(rpwd)){
+            return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "新密码两次输入不一致!");
+        }
+
+        // 修改密码
+        user.setPassword(EncryptUtil.encryptMD5(npwd));
+        userDao.update(user);
+
+        // 退出系统
+        Subject currentUser = SecurityUtils.getSubject();
+        try {
+            currentUser.logout();
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        }
+
+        return RestResultGenerator.createSuccessResult();
     }
 }

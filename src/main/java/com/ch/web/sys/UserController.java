@@ -8,7 +8,6 @@ import com.ch.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -89,5 +88,21 @@ public class UserController {
     @ResponseBody
     public List<MenuVo> getMenuList(HttpServletRequest request){
         return userService.getMenuList(request);
+    }
+
+    /*
+    * 修改密码
+    * */
+    @RequestMapping(value = "/resetPwd", method = RequestMethod.GET)
+    public String resetPwd(){
+        return "user/password";
+    }
+
+    @RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult resetPwd(HttpServletRequest request){
+
+        ResponseResult resp = userService.resetPwd(request);
+        return resp;
     }
 }
