@@ -30,17 +30,16 @@ public class LoginController {
     @Autowired
     private UserDao userDao;
 
-    @RequestMapping(value = { "/" })
+    @RequestMapping(value = {"/"})
     public String login() {
         return "login";
     }
 
     /**
-    * 登录
-    */
-    @RequestMapping(value = { "/login" }, method = RequestMethod.POST)
-    public String login(String loginName, String password
-            , HttpSession session, RedirectAttributes ra) {
+     * 登录
+     */
+    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+    public String login(String loginName, String password, HttpSession session, RedirectAttributes ra) {
 
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginName, EncryptUtil.encryptMD5(password));
@@ -57,7 +56,7 @@ public class LoginController {
             User user = userDao.findByLoginName(loginName);
             session.setAttribute(ConstantsCMP.USER_SESSION_INFO, user);
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/index";
-        }else{
+        } else {
             ra.addFlashAttribute("msg", ResponseEnum.AUTHORITY_NOT.getMessage());
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
         }
@@ -78,7 +77,7 @@ public class LoginController {
     /**
      * 退出
      */
-    @RequestMapping(value = { "/logout" })
+    @RequestMapping(value = {"/logout"})
     public String logout() {
         Subject currentUser = SecurityUtils.getSubject();
         try {
