@@ -1,18 +1,15 @@
 package com.ch.web.sys;
 
 import com.ch.entity.sys.Authority;
-import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
 import com.ch.service.sys.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping(value = "/authority", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Controller
+@RequestMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AuthorityController {
 
     @Autowired
@@ -21,18 +18,30 @@ public class AuthorityController {
     /**
      * 菜单列表
      */
-    @RequestMapping(value="list", method = RequestMethod.POST)
-    public ResponsePageResult list(){
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(){
+        return "menu/list";
+    }
 
-        ResponsePageResult resp = authorityService.list();
+    @RequestMapping(value="list", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult list(Authority authority){
+
+        ResponseResult resp = authorityService.list();
         return resp;
     }
 
     /**
      * 新增菜单
      */
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add(){
+        return "menu/add";
+    }
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseResult add(@RequestBody Authority authority){
+    @ResponseBody
+    public ResponseResult add(Authority authority){
 
         ResponseResult resp = authorityService.add(authority);
         return resp;
@@ -42,7 +51,8 @@ public class AuthorityController {
      * 编辑菜单
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseResult update(@RequestBody Authority authority){
+    @ResponseBody
+    public ResponseResult update(Authority authority){
 
         ResponseResult resp = authorityService.update(authority);
         return resp;
@@ -52,9 +62,22 @@ public class AuthorityController {
      * 删除菜单
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
     public ResponseResult delete(@RequestBody Authority authority){
 
         ResponseResult resp = authorityService.delete(authority);
+        return resp;
+    }
+
+    /**
+     * 获取父节点菜单
+     *
+     */
+    @RequestMapping(value = "/getParent", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseResult getParent() {
+
+        ResponseResult resp = authorityService.getParent();
         return resp;
     }
 }

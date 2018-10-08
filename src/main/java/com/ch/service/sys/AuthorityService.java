@@ -18,11 +18,11 @@ public class AuthorityService {
     @Autowired
     private AuthorityDao authorityDao;
 
-    public ResponsePageResult list() {
+    public ResponseResult list() {
 
         List<Authority> list = authorityDao.findAll();
 
-        return RestResultGenerator.createSuccessPageResult(list);
+        return RestResultGenerator.createSuccessResult(list);
     }
 
     public ResponseResult add(Authority authority) {
@@ -44,5 +44,12 @@ public class AuthorityService {
         authorityDao.delete(authority.getId());
 
         return RestResultGenerator.createSuccessResult();
+    }
+
+    public ResponseResult getParent() {
+
+        List<Authority> list = authorityDao.findByParent(0);
+
+        return RestResultGenerator.createSuccessResult(list);
     }
 }
