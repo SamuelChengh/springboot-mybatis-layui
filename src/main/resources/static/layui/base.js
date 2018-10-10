@@ -136,7 +136,6 @@ layui.define(['layer', 'form', 'table'], function (exports) {
 
         // 查询
         querySubmit: function () {
-
             form.on('submit(search)', function (data) {
                 var where = {};
                 var formArray = $("#searchForm").serializeArray();
