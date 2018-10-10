@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<form class="layui-form" action="" lay-filter="form" style="padding: 10px;">
+<form id="addForm" class="layui-form" action="" lay-filter="form" style="padding: 10px;">
     <div class="layui-container">
         <div class="layui-row">
             <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
@@ -36,39 +36,14 @@
 </form>
 
 <script type="text/javascript">
-    layui.use('form', function () {
-        $ = layui.jquery;     // 引入jquery
-        var form = layui.form;
-
-        //表单初始赋值
-        form.val('form', {
-            "name": "",
-            "remark": ""
-        })
+    layui.config({
+        base: '/resources/static/layui/base/'
+    }).use(['form', 'baseadd'], function () {
+        var form = layui.form,
+            baseadd = layui.baseadd;
 
         // 提交
-        form.on('submit(submit)', function (data) {
-            var record = data.field;
-            $.ajax({
-                type: "POST",
-                url: "/role/add",
-                data: record,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success) {
-                        layer.alert(res.message, {
-                            icon: 1,
-                        }, function () {
-                            parent.layer.closeAll();
-                            parent.layui.table.reload("tb");
-                        });
-                    } else {
-                        layer.msg(res.message, {icon: 2});
-                    }
-                }
-            })
-            return false;
-        });
+        baseadd.submitForm("/role/add");
     });
 </script>
 </body>
