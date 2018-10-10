@@ -135,10 +135,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 查询
-        querySubmit: function (dom) {
+        querySubmit: function () {
             form.on('submit(search)', function (data) {
                 var where = {};
-                var formArray = $(dom).serializeArray();
+                var formArray = $("#searchForm").serializeArray();
                 for (var i = 0; i < formArray.length; i++) {
                     where[formArray[i].name] = formArray[i].value;
                 }
