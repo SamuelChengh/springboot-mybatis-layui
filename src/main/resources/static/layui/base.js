@@ -7,7 +7,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
     var base = {
 
         // 渲染表格
-        renderTable: function(param){
+        renderTable: function (param) {
 
             // 表格基础参数
             var cfg = {
@@ -31,13 +31,13 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             };
 
             // 重写cfg参数, 让param继承cfg
-            for(var c in cfg){
-                for(var p in param){
-                    if(c == p){
-                        if(cfg[c] != param[p]){
+            for (var c in cfg) {
+                for (var p in param) {
+                    if (c == p) {
+                        if (cfg[c] != param[p]) {
                             cfg[c] = param[p];
                         }
-                    }else{
+                    } else {
                         cfg[p] = param[p];
                     }
                 }
@@ -47,7 +47,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 新增
-        createRow: function(param){
+        createRow: function (param) {
 
             // 弹出层基础参数
             var cfg = {
@@ -57,13 +57,13 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             };
 
             // 重写cfg参数, 让param继承cfg
-            for(var c in cfg){
-                for(var p in param){
-                    if(c == p){
-                        if(cfg[c] != param[p]){
+            for (var c in cfg) {
+                for (var p in param) {
+                    if (c == p) {
+                        if (cfg[c] != param[p]) {
                             cfg[c] = param[p];
                         }
-                    }else{
+                    } else {
                         cfg[p] = param[p];
                     }
                 }
@@ -73,7 +73,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 编辑
-        updateRow: function(param, record){
+        updateRow: function (param, record) {
 
             // 弹出层基础参数
             var cfg = {
@@ -88,13 +88,13 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             };
 
             // 重写cfg参数, 让param继承cfg
-            for(var c in cfg){
-                for(var p in param){
-                    if(c == p){
-                        if(cfg[c] != param[p]){
+            for (var c in cfg) {
+                for (var p in param) {
+                    if (c == p) {
+                        if (cfg[c] != param[p]) {
                             cfg[c] = param[p];
                         }
-                    }else{
+                    } else {
                         cfg[p] = param[p];
                     }
                 }
@@ -104,7 +104,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 删除
-        removeRow: function(url, record){
+        removeRow: function (url, record) {
             parent.layer.confirm('您确定要删除该条记录吗？', {
                 title: '温馨提示',
                 icon: 3
@@ -117,7 +117,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                             layer.close(index);
                             table.reload("tb");
                         });
-                    }else{
+                    } else {
                         layer.msg(res.message, {icon: 2});
                     }
                 });
@@ -126,7 +126,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 双击行
-        doubleRow: function(param){
+        doubleRow: function (param) {
             table.on('rowDouble(tbf)', function (obj) {
                 var record = obj.data;
 
@@ -135,11 +135,11 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 查询
-        querySubmit: function(dom){
+        querySubmit: function (dom) {
             form.on('submit(search)', function (data) {
                 var where = {};
                 var formArray = $(dom).serializeArray();
-                for(var i=0; i<formArray.length; i++){
+                for (var i = 0; i < formArray.length; i++) {
                     where[formArray[i].name] = formArray[i].value;
                 }
                 table.reload('tb', {
@@ -150,7 +150,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 验证必须只有一行选中
-        validateSingleSelected: function(){
+        validateSingleSelected: function () {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
@@ -158,7 +158,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                     icon: 5
                 });
                 return false;
-            }else if(records.length > 1){
+            } else if (records.length > 1) {
                 parent.layer.alert('不能同时选择多条记录!', {
                     icon: 2
                 });
@@ -168,7 +168,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 验证必须选中
-        validateSelected: function(){
+        validateSelected: function () {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
