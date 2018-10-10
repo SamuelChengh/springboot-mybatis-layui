@@ -1,8 +1,8 @@
 layui.define(['layer', 'form', 'table'], function (exports) {
-    var $ = layui.jquery;
-    var layer = layui.layer;
-    var form = layui.form;
-    var table = layui.table;
+    var $ = layui.jquery,
+        layer = layui.layer,
+        form = layui.form,
+        table = layui.table;
 
     var baselist = {
 
@@ -13,8 +13,11 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var cfg = {
                 id: 'tb',
                 elem: '#lay_table',
+                title: '',
                 method: 'post',
+                url: '',
                 toolbar: '#toolbar',
+                cols: [],
                 page: {
                     layout: ['prev', 'page', 'next', 'skip', 'limit', 'count'], //自定义分页布局
                     groups: 1,     //只显示 1 个连续页码
@@ -43,61 +46,27 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 }
             }
 
+            // 参数校验
+            if (!baselist.checkTableCfg(cfg)) {
+                return;
+            }
+
             table.render(cfg);
         },
 
         // 新增
         createRow: function (param) {
-
-            // 弹出层基础参数
-            var cfg = {
-                type: 2,
-                skin: 'layui-layer-molv',
-                resize: false
-            };
-
-            // 重写cfg参数, 让param继承cfg
-            for (var c in cfg) {
-                for (var p in param) {
-                    if (c == p) {
-                        if (cfg[c] != param[p]) {
-                            cfg[c] = param[p];
-                        }
-                    } else {
-                        cfg[p] = param[p];
-                    }
-                }
-            }
+            var cfg = baselist.iframeLayerConfig(param);
 
             layer.open(cfg);
         },
 
         // 编辑
         updateRow: function (param, record) {
-
-            // 弹出层基础参数
-            var cfg = {
-                type: 2,
-                skin: 'layui-layer-molv',
-                resize: false,
-                success: function (layero, index) {
-                    var iframe = layero.find("iframe")[0].contentWindow;
-                    // 向子页面的全局函数setRecordData传参
-                    iframe.setRecordData(record);
-                }
-            };
-
-            // 重写cfg参数, 让param继承cfg
-            for (var c in cfg) {
-                for (var p in param) {
-                    if (c == p) {
-                        if (cfg[c] != param[p]) {
-                            cfg[c] = param[p];
-                        }
-                    } else {
-                        cfg[p] = param[p];
-                    }
-                }
+            var cfg = baselist.iframeLayerConfig(param);
+            cfg.success = function(layero, index){
+                var iframe = layero.find("iframe")[0].contentWindow;
+                iframe.setRecordData(record);
             }
 
             layer.open(cfg);
@@ -125,7 +94,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             });
         },
 
-        // 双击行
+        // 双击行事件
         doubleRow: function (param) {
             table.on('rowDouble(tbf)', function (obj) {
                 var record = obj.data;
@@ -147,6 +116,45 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 });
                 return false;
             });
+        },
+
+        // iframe弹出层参数
+        iframeLayerConfig: function(param){
+
+            // 弹出层基础参数
+            var cfg = {
+                type: 2,
+                skin: 'layui-layer-molv',
+                resize: false
+            };
+
+            // 重写cfg参数, 让param继承cfg
+            for (var c in cfg) {
+                for (var p in param) {
+                    if (c == p) {
+                        if (cfg[c] != param[p]) {
+                            cfg[c] = param[p];
+                        }
+                    } else {
+                        cfg[p] = param[p];
+                    }
+                }
+            }
+
+            return cfg;
+        },
+
+        // 表格参数校验
+        checkTableCfg: function (cfg) {
+            if(cfg.url == ""){
+                parent.layer.msg('参数url不能为空', {icon: 5});
+                return false;
+            }
+            if(cfg.cols == ""){
+                parent.layer.msg('参数cols不能为空', {icon: 5});
+                return false;
+            }
+            return true;
         },
 
         // 验证必须只有一行选中
