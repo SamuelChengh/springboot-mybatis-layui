@@ -4,7 +4,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
     var form = layui.form;
     var table = layui.table;
 
-    var base = {
+    var baselist = {
 
         // 渲染表格
         renderTable: function (param) {
@@ -130,7 +130,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             table.on('rowDouble(tbf)', function (obj) {
                 var record = obj.data;
 
-                base.updateRow(param, record);
+                baselist.updateRow(param, record);
             });
         },
 
@@ -181,5 +181,5 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         }
     };
 
-    exports('base', base);
+    exports('baselist', baselist);
 });

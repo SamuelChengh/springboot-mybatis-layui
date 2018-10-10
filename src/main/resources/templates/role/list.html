@@ -32,40 +32,32 @@
 <!-- table -->
 <table id="lay_table" class="layui-hide" lay-filter="tbf"></table>
 
-<!-- 头工具栏toolbar -->
+<!-- 工具栏toolbar -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">
-            <i class="layui-icon layui-icon-add-1"></i>新增
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="auth">
-            <i class="layui-icon layui-icon-auz"></i>设置权限
-        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+        <button class="layui-btn layui-btn-sm" lay-event="auth"><i class="layui-icon layui-icon-auz"></i>设置权限</button>
     </div>
 </script>
 
 <!-- 工具条tool -->
 <script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">
-        <i class="layui-icon layui-icon-edit"></i>编辑
-    </a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
-        <i class="layui-icon layui-icon-delete"></i>删除
-    </a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 
 <script type="text/javascript">
     layui.config({
         base: '/resources/static/layui/'
-    }).use(['table', 'base'], function () {
+    }).use(['table', 'baselist'], function () {
         var table = layui.table,
-            base = layui.base;
+            baselist = layui.baselist;
 
         // 查询
-        base.querySubmit();
+        baselist.querySubmit();
 
         // 渲染表格
-        base.renderTable({
+        baselist.renderTable({
             title: '角色',
             url: '/role/list',
             cols: [[
@@ -81,7 +73,7 @@
         table.on('toolbar(tbf)', function (obj) {
             switch (obj.event) {
                 case 'add':
-                    base.createRow({
+                    baselist.createRow({
                         title: '新增角色',
                         content: '/role/add',
                         offset: '50px',
@@ -89,7 +81,7 @@
                     });
                     break;
                 case 'auth':
-                    var record = base.validateSingleSelected();
+                    var record = baselist.validateSingleSelected();
                     if (!record) {
                         return;
                     }
@@ -116,7 +108,7 @@
 
             switch (obj.event) {
                 case 'edit':
-                    base.updateRow({
+                    baselist.updateRow({
                         title: '编辑角色',
                         content: '/role/update',
                         offset: '50px',
@@ -124,12 +116,12 @@
                     }, record);
                     break;
                 case 'delete':
-                    base.removeRow('/role/delete', record);
+                    baselist.removeRow('/role/delete', record);
                     break;
             }
         });
 
-        base.doubleRow({
+        baselist.doubleRow({
             title: '编辑角色',
             content: '/role/update',
             offset: '50px',
