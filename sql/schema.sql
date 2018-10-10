@@ -41,6 +41,7 @@ CREATE TABLE `sys_authority` (
   `auth_url` VARCHAR(100) NOT NULL COMMENT '路径',
   `parent` INT(11) DEFAULT NULL COMMENT '父节点',
   `display_sort` INT(11) DEFAULT NULL COMMENT '顺序',
+  `display_type` INT(11) DEFAULT NULL COMMENT '类型',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `created_date` TIMESTAMP NULL DEFAULT NULL,
   `updated_date` TIMESTAMP NULL DEFAULT NULL,
