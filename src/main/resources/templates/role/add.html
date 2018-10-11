@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<form id="addForm" class="layui-form" action="" lay-filter="form" style="padding: 10px;">
+<form class="layui-form" action="" lay-filter="form" style="padding: 10px;">
     <div class="layui-container">
         <div class="layui-row">
             <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
@@ -41,12 +41,6 @@
     }).use(['form', 'baseedit'], function () {
         var form = layui.form,
             baseedit = layui.baseedit;
-
-        // 表单初始赋值
-        form.val('form', {
-            "name": "",
-            "remark": ""
-        })
 
         // 提交
         form.on('submit(submit)', function (data) {
