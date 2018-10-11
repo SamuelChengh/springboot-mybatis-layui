@@ -62,39 +62,20 @@
 </script>
 
 <script type="text/javascript">
-    layui.use(['form', 'table'], function () {
-        $ = layui.jquery;       // 引入jquery
-        var form = layui.form,
-            table = layui.table;
+    layui.config({
+        base: '/resources/static/layui/base/'
+    }).use(['table', 'form', 'baselist'], function () {
+        var table = layui.table,
+            form = layui.form,
+            baselist = layui.baselist;
 
         // 查询
-        form.on('submit(search)', function (data) {
-            table.reload('tb', {
-                where: {
-                    loginName: data.field.loginName
-                }
-            });
-            return false;
-        });
+        baselist.querySubmit();
 
-        // 渲染table
-        table.render({
-            id: 'tb',
+        // 渲染表格
+        baselist.renderTable({
             title: '账号',
-            elem: '#lay_table',
-            method: 'post',
             url: '/user/list',
-            page: {
-                layout: ['prev', 'page', 'next', 'skip', 'limit', 'count'], //自定义分页布局
-                groups: 1,     //只显示 1 个连续页码
-                first: false,  //不显示首页
-                last: false    //不显示尾页
-            },
-            limit: 15,
-            limits: [15, 30, 60, 100],
-            loading: true,
-            cellMinWidth: 100,
-            toolbar: '#toolbar',
             cols: [[
                 {type: 'numbers'},
                 {field: 'loginName', title: '账号', align: 'center'},
@@ -104,99 +85,44 @@
                 {field: 'createdDate', title: '创建时间', width: '160', align: 'center'},
                 {field: 'updatedDate', title: '修改时间', width: '160', align: 'center'},
                 {title: '操作', width: '150', align: 'center', toolbar: '#tool'}
-            ]],
-            text: {
-                none: '暂无相关数据'
-            }
+            ]]
         });
 
-        // 监听头工具栏toolbar
         table.on('toolbar(tbf)', function (obj) {
             switch (obj.event) {
                 case 'add':
-                    layer.open({
-                        type: 2,
+                    baselist.createRow({
                         title: '新增账号',
                         content: '/user/add',
-                        skin: 'layui-layer-molv',
                         offset: '20px',
                         area: ['360px', '300px'],
-                        resize: false,
-                        success: function (layero, index) {
-                            layer.iframeAuto(index);  // iframe层自适应
-                        }
-                    })
+                    });
                     break;
             }
         });
 
-        // 监听操作栏tool
         table.on('tool(tbf)', function (obj) {
             var record = obj.data;
-
             switch (obj.event) {
                 case 'edit':
-                    layer.open({
-                        id: record.userId,
-                        type: 2,
+                    baselist.updateRow({
                         title: '编辑账号',
                         content: '/user/update',
-                        skin: 'layui-layer-molv',
                         offset: '20px',
                         area: ['360px', '300px'],
-                        resize: false,
-                        success: function (layero, index) {
-                            var iframe = layero.find("iframe")[0].contentWindow;
-                            // 向子页面的全局函数setRecordData传参
-                            iframe.setRecordData(record);
-
-                            layer.iframeAuto(index);  // iframe层自适应
-                        }
-                    })
+                    }, record);
                     break;
                 case 'delete':
-                    parent.layer.confirm('您确定要删除该条记录吗？', {
-                        title: '温馨提示',
-                        icon: 3
-                    }, function (index) {
-                        $.post('/user/delete', {id: record.id}, function (res) {
-                            if (res.success) {
-                                layer.alert(res.message, {
-                                    icon: 1,
-                                }, function (index) {
-                                    layer.close(index);
-                                    table.reload("tb");
-                                });
-                            } else {
-                                layer.msg(res.message, {icon: 2});
-                            }
-                        });
-                        parent.layer.close(index);
-                    });
+                    baselist.removeRow('/user/delete', record);
                     break;
-            };
+            }
         });
 
-        // 监听行双击事件
-        table.on('rowDouble(tbf)', function (obj) {
-            var record = obj.data;
-            layer.open({
-                id: record.userId,
-                type: 2,
-                title: '编辑账号',
-                content: '/user/update',
-                skin: 'layui-layer-molv',
-                offset: '20px',
-                area: ['360px', '300px'],
-                resize: false,
-                success: function (layero, index) {
-                    var iframe = layero.find("iframe")[0].contentWindow;
-                    // 向子页面的全局函数setRecordData传参
-                    iframe.setRecordData(record);
-
-                    layer.iframeAuto(index);  // iframe层自适应
-                }
-            })
+        baselist.doubleRow({
+            title: '编辑账号',
+            content: '/user/update',
+            offset: '20px',
+            area: ['360px', '300px'],
         });
 
         // 监听switch开关: 状态status
@@ -209,19 +135,7 @@
                 record.status = 0;
             }
 
-            $.ajax({
-                type: "POST",
-                url: "/user/update",
-                data: record,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success) {
-                        table.reload("tb");
-                    } else {
-                        layer.msg(res.message, {icon: 2});
-                    }
-                }
-            })
+            baselist.ajaxPost("/user/update", record);
         });
     });
 </script>

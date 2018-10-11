@@ -186,7 +186,24 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 return false;
             }
             return true;
-        }
+        },
+
+        // 单元格编辑时,提交后台
+        ajaxPost: function (url, record) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: record,
+                dataType: "json",
+                success: function (res) {
+                    if (res.success) {
+                        table.reload("tb");
+                    } else {
+                        layer.msg(res.message, {icon: 2});
+                    }
+                }
+            })
+        },
     };
 
     exports('baselist', baselist);
