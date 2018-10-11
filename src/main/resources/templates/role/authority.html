@@ -84,7 +84,6 @@
             var rec = {};
             rec.id = record.id;
             rec.authIds = authIdArray.toString();
-            console.log(rec);
             $.ajax({
                 type: "POST",
                 url: "/role/updateAuthority",
