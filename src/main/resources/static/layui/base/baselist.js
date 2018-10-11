@@ -80,14 +80,14 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             }, function (index) {
                 $.post(url, {id: record.id}, function (res) {
                     if (res.success) {
-                        layer.alert(res.message, {
+                        parent.layer.alert(res.message, {
                             icon: 1,
                         }, function (index) {
-                            layer.close(index);
+                            parent.layer.close(index);
                             table.reload("tb");
                         });
                     } else {
-                        layer.msg(res.message, {icon: 2});
+                        parent.layer.msg(res.message, {icon: 2});
                     }
                 });
                 parent.layer.close(index);

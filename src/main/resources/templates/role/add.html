@@ -43,7 +43,13 @@
             baseadd = layui.baseadd;
 
         // 提交
-        baseadd.submitForm("/role/add");
+        form.on('submit(submit)', function (data) {
+            var record = data.field;
+
+            baseadd.submitForm("/role/add", record);
+
+            return false;
+        });
     });
 </script>
 </body>

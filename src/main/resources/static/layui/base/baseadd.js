@@ -14,29 +14,25 @@ layui.define(['layer', 'form'], function (exports) {
     var baseadd = {
 
         // 提交
-        submitForm: function (url) {
-            form.on('submit(submit)', function (data) {
-                var record = data.field;
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: record,
-                    dataType: "json",
-                    success: function (res) {
-                        if (res.success) {
-                            layer.alert(res.message, {
-                                icon: 1,
-                            }, function () {
-                                parent.layer.closeAll();
-                                parent.layui.table.reload("tb");
-                            });
-                        } else {
-                            layer.msg(res.message, {icon: 2});
-                        }
+        submitForm: function (url, record) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: record,
+                dataType: "json",
+                success: function (res) {
+                    if (res.success) {
+                        layer.alert(res.message, {
+                            icon: 1,
+                        }, function () {
+                            parent.layer.closeAll();
+                            parent.layui.table.reload("tb");
+                        });
+                    } else {
+                        layer.msg(res.message, {icon: 2});
                     }
-                })
-                return false;
-            });
+                }
+            })
         }
     };
 
