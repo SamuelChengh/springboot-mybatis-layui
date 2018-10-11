@@ -9,9 +9,8 @@
 
 <body>
 <!-- 搜索栏 -->
-<form class="layui-form" action="" lay-filter="searchForm">
+<form id="searchForm" class="layui-form" action="" lay-filter="searchForm">
     <div class="layui-form-item">
-
         <div class="layui-inline">
             <label class="layui-form-label">账号:</label>
             <div class="layui-input-inline">
@@ -20,12 +19,9 @@
         </div>
 
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="search">
-                <i class="layui-icon layui-icon-search"></i>查询
-            </button>
+            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="search"><i class="layui-icon layui-icon-search"></i>查询</button>
             <button class="layui-btn layui-btn-primary" type="reset">重置</button>
         </div>
-
     </div>
 </form>
 
@@ -35,20 +31,14 @@
 <!-- 头工具栏toolbar -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">
-            <i class="layui-icon layui-icon-add-1"></i>新增
-        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
     </div>
 </script>
 
 <!-- 工具条tool -->
 <script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">
-        <i class="layui-icon layui-icon-edit"></i>编辑
-    </a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
-        <i class="layui-icon layui-icon-delete"></i>删除
-    </a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 
 <!-- 状态templet -->
