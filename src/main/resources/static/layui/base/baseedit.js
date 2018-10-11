@@ -1,15 +1,6 @@
-layui.define(['layer', 'form'], function (exports) {
+layui.define(['layer'], function (exports) {
     var $ = layui.jquery,
-        layer = layui.layer,
-        form = layui.form;
-
-    // 表单初始赋值
-    var formVal = {};
-    var formArray = $("#addForm").serializeArray();
-    for (var i = 0; i < formArray.length; i++) {
-        formVal[formArray[i].name] = "";
-    }
-    form.val('form', formVal);
+        layer = layui.layer;
 
     var baseedit = {
 

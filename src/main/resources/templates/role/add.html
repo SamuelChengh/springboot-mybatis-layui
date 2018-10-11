@@ -42,6 +42,12 @@
         var form = layui.form,
             baseedit = layui.baseedit;
 
+        // 表单初始赋值
+        form.val('form', {
+            "name": "",
+            "remark": ""
+        })
+
         // 提交
         form.on('submit(submit)', function (data) {
             var record = data.field;

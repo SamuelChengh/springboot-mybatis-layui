@@ -72,12 +72,12 @@
 </form>
 
 <script type="text/javascript">
-    layui.use('form', function () {
-        $ = layui.jquery;     // 引入jquery
-        var form = layui.form;
-
-        // 获取角色
-        getRole(form);
+    layui.config({
+        base: '/resources/static/layui/base/'
+    }).use(['form', 'baseedit'], function () {
+        $ = layui.jquery;
+        var form = layui.form,
+            baseedit = layui.baseedit;
 
         // 表单初始赋值
         form.val('form', {
@@ -87,33 +87,20 @@
             "remark": ""
         })
 
+        // 获取角色
+        getRole(form);
+
         // 提交
         form.on('submit(submit)', function (data) {
             var record = data.field;
-
             if (record.status == "on") {
                 record.status = 1;
             } else {
                 record.status = 0;
             }
-            $.ajax({
-                type: "POST",
-                url: "/user/add",
-                data: record,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success) {
-                        layer.alert(res.message, {
-                            icon: 1,
-                        }, function () {
-                            parent.layer.closeAll();
-                            parent.layui.table.reload("tb");
-                        });
-                    } else {
-                        layer.msg(res.message, {icon: 2});
-                    }
-                }
-            })
+
+            baseedit.submitForm("/user/add", record);
+
             return false;
         });
     });
