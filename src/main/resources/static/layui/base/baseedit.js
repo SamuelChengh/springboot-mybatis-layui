@@ -11,7 +11,7 @@ layui.define(['layer', 'form'], function (exports) {
     }
     form.val('form', formVal);
 
-    var baseadd = {
+    var baseedit = {
 
         // 提交
         submitForm: function (url, record) {
@@ -36,5 +36,5 @@ layui.define(['layer', 'form'], function (exports) {
         }
     };
 
-    exports('baseadd', baseadd);
+    exports('baseedit', baseedit);
 });

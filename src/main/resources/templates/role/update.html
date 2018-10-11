@@ -41,11 +41,13 @@
         record = rec;
     }
 
-    layui.use('form', function () {
-        $ = layui.jquery;     // 引入jquery
-        var form = layui.form;
+    layui.config({
+        base: '/resources/static/layui/base/'
+    }).use(['form', 'baseedit'], function () {
+        var form = layui.form,
+            baseedit = layui.baseedit;
 
-        //表单初始赋值
+        // 表单初始赋值
         form.val('form', {
             "name": record.name,
             "remark": record.remark
@@ -54,26 +56,10 @@
         // 提交
         form.on('submit(submit)', function (data) {
             var rec = data.field;
-
             rec.id = record.id;
-            $.ajax({
-                type: "POST",
-                url: "/role/update",
-                data: rec,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success == '1') {
-                        layer.alert(res.message, {
-                            icon: 1,
-                        }, function () {
-                            parent.layer.closeAll();
-                            parent.layui.table.reload("tb");
-                        });
-                    } else {
-                        layer.msg(res.message, {icon: 2});
-                    }
-                }
-            })
+
+            baseedit.submitForm("/role/update", rec);
+
             return false;
         });
     });

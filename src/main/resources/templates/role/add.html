@@ -38,15 +38,15 @@
 <script type="text/javascript">
     layui.config({
         base: '/resources/static/layui/base/'
-    }).use(['form', 'baseadd'], function () {
+    }).use(['form', 'baseedit'], function () {
         var form = layui.form,
-            baseadd = layui.baseadd;
+            baseedit = layui.baseedit;
 
         // 提交
         form.on('submit(submit)', function (data) {
             var record = data.field;
 
-            baseadd.submitForm("/role/add", record);
+            baseedit.submitForm("/role/add", record);
 
             return false;
         });
