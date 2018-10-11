@@ -51,7 +51,7 @@
                 <label class="layui-form-label">状态:</label>
             </div>
             <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
-                <input type="checkbox" name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
+                <input type="checkbox" checked name="status" lay-filter="status" lay-skin="switch" lay-text="开启|禁用">
             </div>
         </div>
 
@@ -78,14 +78,6 @@
         $ = layui.jquery;
         var form = layui.form,
             baseedit = layui.baseedit;
-
-        // 表单初始赋值
-        form.val('form', {
-            "loginName": "",
-            "nickName": "",
-            "status": true,
-            "remark": ""
-        })
 
         // 获取角色
         getRole(form);

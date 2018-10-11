@@ -77,12 +77,11 @@
         record = rec;
     }
 
-    layui.use('form', function () {
-        $ = layui.jquery;     // 引入jquery
-        var form = layui.form;
-
-        // 获取角色
-        getRole(form);
+    layui.config({
+        base: '/resources/static/layui/base/'
+    }).use(['form', 'baseedit'], function () {
+        var form = layui.form,
+            baseedit = layui.baseedit;
 
         //表单初始赋值
         var status;
@@ -99,34 +98,20 @@
             "remark": record.remark,
         })
 
+        // 获取角色
+        getRole(form);
+
         // 提交
         form.on('submit(submit)', function (data) {
             var rec = data.field;
-
             if (rec.status == "on") {
                 rec.status = 1;
             } else {
                 rec.status = 0;
             }
             rec.id = record.id;
-            $.ajax({
-                type: "POST",
-                url: "/user/update",
-                data: rec,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success) {
-                        layer.alert(res.message, {
-                            icon: 1,
-                        }, function () {
-                            parent.layer.closeAll();
-                            parent.layui.table.reload("tb");
-                        });
-                    } else {
-                        layer.msg(res.message, {icon: 2});
-                    }
-                }
-            });
+
+            baseedit.submitForm("/user/update", rec);
 
             return false;
         });
