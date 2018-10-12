@@ -122,7 +122,7 @@
 
             switch (obj.event) {
                 case 'delete':
-                    parent.layer.confirm('您确定要删除该条记录吗？', {
+                    layer.confirm('您确定要删除该条记录吗？', {
                         title: '温馨提示',
                         icon: 3
                     }, function (index) {
@@ -132,13 +132,13 @@
                                     icon: 1,
                                 }, function () {
                                     layer.close(index);
-                                    renderTable();
                                 });
+                                renderTable();
                             } else {
                                 layer.msg(res.message, {icon: 2});
                             }
                         });
-                        parent.layer.close(index);
+                       layer.close(index);
                     });
                     break;
             };
