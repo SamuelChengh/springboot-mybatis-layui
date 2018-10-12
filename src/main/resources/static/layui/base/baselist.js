@@ -74,23 +74,23 @@ layui.define(['layer', 'form', 'table'], function (exports) {
 
         // 删除
         removeRow: function (url, record) {
-            parent.layer.confirm('您确定要删除该条记录吗？', {
+            layer.confirm('您确定要删除该条记录吗？', {
                 title: '温馨提示',
                 icon: 3
             }, function (index) {
                 $.post(url, {id: record.id}, function (res) {
                     if (res.success) {
-                        parent.layer.alert(res.message, {
+                        layer.alert(res.message, {
                             icon: 1,
                         }, function (index) {
-                            parent.layer.close(index);
-                            table.reload("tb");
+                            layer.close(index);
                         });
+                        table.reload("tb");
                     } else {
-                        parent.layer.msg(res.message, {icon: 2});
+                        layer.msg(res.message, {icon: 2});
                     }
                 });
-                parent.layer.close(index);
+                layer.close(index);
             });
         },
 
