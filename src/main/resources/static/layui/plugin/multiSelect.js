@@ -14,11 +14,11 @@ layui.define(['jquery', 'layer'], function (exports) {
         //初始化设置参数
         this.config = {
             elem: '',       // 选择器id或class
+            name: '',       // input的name不设置与选择器相同(去#.)
             tips: '请选择', // 空值项提示
             max: 999,       // 最多选中个数
             width: null,    // 选择框宽度
             verify: '',     // 值验证，与lay-verify一致
-            name: '',       // input的name不设置与选择器相同(去#.)
             delimiter: ',', // 值的分隔符
             data: [],       // 选项数据[{id:"1",name:"名称1",status:0},{id:"2",name:"名称2",status:1}]
             selected: [],   // 默认选中值

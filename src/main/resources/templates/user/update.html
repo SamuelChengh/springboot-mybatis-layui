@@ -108,12 +108,12 @@
         var selectedData = getSelectedData();
         var multi = multiSelect({
             elem: '#roleIds',
+            name: 'roleIds',
+            verify: 'required',
+            delimiter: ',',
             data: roleData,
             selected: selectedData,
-            name: 'roleIds',
-            delimiter: ',',
-            verify: 'required',
-            field: {idName:'id', titleName:'name', statusName:'status'}
+            field: {idName:'roleId', titleName:'roleName', statusName:'status'}
         });
 
         // 提交
@@ -140,14 +140,7 @@
             dataType: "json",
             async: false,
             success: function (res) {
-                var data = res.data;
-                for (var i = 0; i < data.length; i++) {
-                    var arr = {};
-                    arr['id'] = data[i].roleId;
-                    arr['name'] = data[i].roleName;
-                    arr['status'] = 1;
-                    roleData.push(arr);
-                }
+                roleData = res.data;
             }
         })
         return roleData;
