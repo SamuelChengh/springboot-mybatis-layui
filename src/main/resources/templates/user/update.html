@@ -42,7 +42,7 @@
                 <label class="layui-form-label">所属角色:<font color="red">*</font></label>
             </div>
             <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
-                <select id="roleIds" name="roleIds" lay-verify="required" lay-filter="roleIds" multiple="multiple"></select>
+                <div id="roleIds" name="roleIds"></div>
             </div>
         </div>
 
@@ -103,30 +103,28 @@
             "remark": record.remark,
         })
 
-        // 获取角色
-        getRole(multiSelect);
+        // 获取角色 参数配置
+        var roleData = getRoleData();
+        var selectedData = getSelectedData();
+        var multi = multiSelect({
+            elem: '#roleIds',
+            data: roleData,
+            selected: selectedData,
+            name: 'roleIds',
+            delimiter: ',',
+            verify: 'required',
+            field: {idName:'id', titleName:'name', statusName:'status'}
+        });
 
         // 提交
         form.on('submit(submit)', function (data) {
             var rec = data.field;
+            rec.id = record.id;
             if (rec.status == "on") {
                 rec.status = 1;
             } else {
                 rec.status = 0;
             }
-            rec.id = record.id;
-            var roleIds = [];
-            $('select[multiple] option:selected').each(function() { // 遍历多选框选中的值
-                var roleId = $(this).val();
-                roleIds.push(parseInt(roleId));
-            })
-            if (roleIds.length == 0) {
-                layer.msg('必选项不能为空！', {
-                    icon: 5
-                });
-                return false;
-            }
-            rec.roleIds = roleIds.toString();
 
             baseedit.submitForm("/user/update", rec);
 
@@ -134,23 +132,36 @@
         });
     });
 
-    function getRole(multiSelect) {
+    function getRoleData() {
+        var roleData = [];
         $.ajax({
             type: "GET",
             url: "/role/getRole",
             dataType: "json",
+            async: false,
             success: function (res) {
                 var data = res.data;
-
-                var html = '<option value=""></option>';
                 for (var i = 0; i < data.length; i++) {
-                    html += '<option value=' + data[i].roleId + '>' + data[i].roleName + '</option>';
+                    var arr = {};
+                    arr['id'] = data[i].roleId;
+                    arr['name'] = data[i].roleName;
+                    arr['status'] = 1;
+                    roleData.push(arr);
                 }
-                $("#roleIds").append(html);
-
-                multiSelect.render();
             }
         })
+        return roleData;
+    }
+
+    function getSelectedData(){
+        var selectedData = [];
+
+        var roles = record.roles;
+        for(var i=0; i<roles.length; i++){
+            selectedData.push(roles[i].id);
+        }
+
+        return selectedData;
     }
 </script>
 </body>
