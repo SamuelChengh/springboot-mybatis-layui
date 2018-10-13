@@ -74,7 +74,6 @@
 <script type="text/javascript">
     var record;
     function setRecordData(rec) {
-        console.log(rec);
         record = rec;
     }
 
@@ -116,6 +115,18 @@
                 rec.status = 0;
             }
             rec.id = record.id;
+            var roleIds = [];
+            $('select[multiple] option:selected').each(function() { // 遍历多选框选中的值
+                var roleId = $(this).val();
+                roleIds.push(parseInt(roleId));
+            })
+            if (roleIds.length == 0) {
+                layer.msg('必选项不能为空！', {
+                    icon: 5
+                });
+                return false;
+            }
+            rec.roleIds = roleIds.toString();
 
             baseedit.submitForm("/user/update", rec);
 
