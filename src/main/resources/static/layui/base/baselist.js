@@ -4,6 +4,19 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         form = layui.form,
         table = layui.table;
 
+    // 查询
+    form.on('submit(search)', function (data) {
+        var where = {};
+        var formArray = $("#searchForm").serializeArray();
+        for (var i = 0; i < formArray.length; i++) {
+            where[formArray[i].name] = formArray[i].value;
+        }
+        table.reload('tb', {
+            where: where
+        });
+        return false;
+    });
+
     var baselist = {
 
         // 渲染表格
@@ -89,21 +102,6 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 var record = obj.data;
 
                 baselist.updateRow(param, record);
-            });
-        },
-
-        // 查询
-        querySubmit: function () {
-            form.on('submit(search)', function (data) {
-                var where = {};
-                var formArray = $("#searchForm").serializeArray();
-                for (var i = 0; i < formArray.length; i++) {
-                    where[formArray[i].name] = formArray[i].value;
-                }
-                table.reload('tb', {
-                    where: where
-                });
-                return false;
             });
         },
 
