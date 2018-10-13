@@ -17,8 +17,8 @@ layui.define(['layer'], function (exports) {
                             icon: 1,
                         }, function () {
                             parent.layer.closeAll();
-                            parent.layui.table.reload("tb");
                         });
+                        parent.layui.table.reload("tb");
                     } else {
                         layer.msg(res.message, {icon: 2});
                     }
