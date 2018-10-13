@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class UserDto extends User{
 
-    private List<Integer> roleIds;
+    private String  roleIds;
     private Integer page;
     private Integer limit;
 }

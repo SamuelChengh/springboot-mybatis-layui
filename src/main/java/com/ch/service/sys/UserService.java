@@ -60,10 +60,15 @@ public class UserService {
         user.setRemark(dto.getRemark());
         userDao.insert(user);
 
-        if(dto.getRoleIds() != null && dto.getRoleIds().size() > 0){
+        if(!StringUtils.isEmpty(dto.getRoleIds())){
             Map<String, Object> map = new HashMap();
             map.put("userId", user.getId());
-            map.put("roleIds", dto.getRoleIds());
+            List<Integer> roleIds = new ArrayList();
+            String[] ids = dto.getRoleIds().split(",");
+            for(String roleId: ids){
+                roleIds.add(Integer.valueOf(roleId));
+            }
+            map.put("roleIds", roleIds);
             userDao.insertUserRole(map);
         }
 
@@ -90,12 +95,17 @@ public class UserService {
         user.setRemark(dto.getRemark());
         userDao.update(user);
 
-        if(dto.getRoleIds() != null && dto.getRoleIds().size() > 0){
+        if(!StringUtils.isEmpty(dto.getRoleIds())){
             userDao.deleteByUserId(dto.getId());
 
             Map<String, Object> map = new HashMap();
-            map.put("userId", dto.getId());
-            map.put("roleIds", dto.getRoleIds());
+            map.put("userId", user.getId());
+            List<Integer> roleIds = new ArrayList();
+            String[] ids = dto.getRoleIds().split(",");
+            for(String roleId: ids){
+                roleIds.add(Integer.valueOf(roleId));
+            }
+            map.put("roleIds", roleIds);
             userDao.insertUserRole(map);
         }
 
