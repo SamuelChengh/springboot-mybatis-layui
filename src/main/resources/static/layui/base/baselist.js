@@ -33,18 +33,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 }
             };
 
-            // 重写cfg参数, 让param继承cfg
-            for (var c in cfg) {
-                for (var p in param) {
-                    if (c == p) {
-                        if (cfg[c] != param[p]) {
-                            cfg[c] = param[p];
-                        }
-                    } else {
-                        cfg[p] = param[p];
-                    }
-                }
-            }
+            cfg = $.extend(cfg, param);
 
             // 参数校验
             if (!baselist.checkTableCfg(cfg)) {
@@ -128,18 +117,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 resize: false
             };
 
-            // 重写cfg参数, 让param继承cfg
-            for (var c in cfg) {
-                for (var p in param) {
-                    if (c == p) {
-                        if (cfg[c] != param[p]) {
-                            cfg[c] = param[p];
-                        }
-                    } else {
-                        cfg[p] = param[p];
-                    }
-                }
-            }
+            cfg = $.extend(cfg, param);
 
             return cfg;
         },
