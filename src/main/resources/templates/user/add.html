@@ -42,7 +42,7 @@
                 <label class="layui-form-label">所属角色:<font color="red">*</font></label>
             </div>
             <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
-                <select id="roleIds" name="roleIds" lay-verify="required" lay-filter="roleIds"></select>
+                <select id="roleIds" name="roleIds" lay-verify="required" lay-filter="roleIds" multiple="multiple"></select>
             </div>
         </div>
 
@@ -73,14 +73,18 @@
 
 <script type="text/javascript">
     layui.config({
-        base: '/resources/static/layui/base/'
-    }).use(['form', 'baseedit'], function () {
+        base: '/resources/static/layui/'
+    }).extend({
+        baseedit: 'base/baseedit',
+        multiSelect: 'plugin/multiSelect'
+    }).use(['form', 'baseedit', 'multiSelect'], function () {
         $ = layui.jquery;
         var form = layui.form,
-            baseedit = layui.baseedit;
+            baseedit = layui.baseedit,
+            multiSelect = layui.multiSelect;
 
         // 获取角色
-        getRole(form);
+        getRole(multiSelect);
 
         // 提交
         form.on('submit(submit)', function (data) {
@@ -90,6 +94,18 @@
             } else {
                 record.status = 0;
             }
+            var roleIds = [];
+            $('select[multiple] option:selected').each(function() { // 遍历多选框选中的值
+                var roleId = $(this).val();
+                roleIds.push(parseInt(roleId));
+            })
+            if (roleIds.length == 0) {
+                layer.msg('必选项不能为空！', {
+                    icon: 5
+                });
+                return false;
+            }
+            record.roleIds = roleIds.toString();
 
             baseedit.submitForm("/user/add", record);
 
@@ -97,7 +113,7 @@
         });
     });
 
-    function getRole(form) {
+    function getRole(multiSelect) {
         $.ajax({
             type: "GET",
             url: "/role/getRole",
@@ -111,7 +127,7 @@
                 }
                 $("#roleIds").append(html);
 
-                form.render('select');
+                multiSelect.render();
             }
         })
     }

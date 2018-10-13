@@ -42,7 +42,7 @@
                 <label class="layui-form-label">所属角色:<font color="red">*</font></label>
             </div>
             <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
-                <select id="roleIds" name="roleIds" lay-verify="required" lay-filter="roleIds"></select>
+                <select id="roleIds" name="roleIds" lay-verify="required" lay-filter="roleIds" multiple="multiple"></select>
             </div>
         </div>
 
@@ -74,15 +74,20 @@
 <script type="text/javascript">
     var record;
     function setRecordData(rec) {
+        console.log(rec);
         record = rec;
     }
 
     layui.config({
-        base: '/resources/static/layui/base/'
-    }).use(['form', 'baseedit'], function () {
+        base: '/resources/static/layui/'
+    }).extend({
+        baseedit: 'base/baseedit',
+        multiSelect: 'plugin/multiSelect'
+    }).use(['form', 'baseedit', 'multiSelect'], function () {
         $ = layui.jquery;
         var form = layui.form,
-            baseedit = layui.baseedit;
+            baseedit = layui.baseedit,
+            multiSelect = layui.multiSelect;
 
         //表单初始赋值
         var status;
@@ -100,7 +105,7 @@
         })
 
         // 获取角色
-        getRole(form);
+        getRole(multiSelect);
 
         // 提交
         form.on('submit(submit)', function (data) {
@@ -118,9 +123,7 @@
         });
     });
 
-    function getRole(form) {
-        var roles = record.roles;
-
+    function getRole(multiSelect) {
         $.ajax({
             type: "GET",
             url: "/role/getRole",
@@ -130,17 +133,11 @@
 
                 var html = '<option value=""></option>';
                 for (var i = 0; i < data.length; i++) {
-                    for (var j = 0; j < roles.length; j++) {
-                        if(roles[j].id == data[i].roleId){
-                            html += '<option value=' + data[i].roleId + ' selected>' + data[i].roleName + '</option>';
-                        }else{
-                            html += '<option value=' + data[i].roleId + '>' + data[i].roleName + '</option>';
-                        }
-                    }
+                    html += '<option value=' + data[i].roleId + '>' + data[i].roleName + '</option>';
                 }
                 $("#roleIds").append(html);
 
-                form.render('select');
+                multiSelect.render();
             }
         })
     }
