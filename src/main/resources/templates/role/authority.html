@@ -12,8 +12,8 @@
         margin-top: 10px;
     }
 
-    .layui-parent-col {
-        margin-bottom: 5px;
+    .layui-child-row {
+        margin-top: 10px;
     }
 
     .layui-parent-label {
@@ -125,7 +125,7 @@
                     parentDiv.setAttribute("class", "layui-row");
 
                     var parentColDiv = document.createElement("div");
-                    parentColDiv.setAttribute("class", "layui-col-xs12 layui-col-sm12 layui-col-md12 layui-parent-col");
+                    parentColDiv.setAttribute("class", "layui-col-xs12 layui-col-sm12 layui-col-md12");
 
                     var input = document.createElement("input");   // input
                     input.setAttribute("type", "checkbox");
@@ -152,7 +152,7 @@
 
                     for(var j=0; j<parentMenu.childMenus.length; j++){
                         var childColDiv = document.createElement("div");
-                        childColDiv.setAttribute("class", "layui-col-xs4 layui-col-sm4 layui-col-md4");
+                        childColDiv.setAttribute("class", "layui-col-xs4 layui-col-sm4 layui-col-md4 layui-child-row");
 
                         var childInput = document.createElement("input");   // input
                         childInput.setAttribute("type", "checkbox");
