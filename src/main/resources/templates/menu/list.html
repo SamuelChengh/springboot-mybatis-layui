@@ -9,25 +9,19 @@
 
 <body>
 <!-- table -->
-<table id="lay_table" class="layui-table" lay-filter="tbf"></table>
+<table id="lay_table" lay-filter="tbf"></table>
 
 <!-- 头工具栏toolbar -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">
-            <i class="layui-icon layui-icon-add-1"></i>新增
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="refresh">
-            <i class="layui-icon layui-icon-refresh"></i>刷新
-        </button>
+        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="refresh"><i class="layui-icon layui-icon-refresh"></i>刷新</button>
     </div>
 </script>
 
 <!-- 工具条tool -->
 <script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
-        <i class="layui-icon layui-icon-delete"></i>删除
-    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 
 <script type="text/javascript">
@@ -41,7 +35,7 @@
         var treetable = layui.treetable;
 
         var renderTable = function () {
-            layer.load(3, {offset: '200px'});
+            layer.load(3);
 
             treetable.render({
                 id: 'tb',
