@@ -7,7 +7,7 @@
     <script src="/resources/static/layui/layui.js"></script>
 </head>
 
-<body>
+<body style="overflow-y: hidden">
 <!-- 搜索栏 -->
 <form id="searchForm" class="layui-form" action="" lay-filter="searchForm">
     <div class="layui-form-item">
@@ -26,29 +26,19 @@
 </form>
 
 <!-- table -->
-<table id="lay_table" class="layui-hide" lay-filter="tbf"></table>
+<table id="lay_table" lay-filter="tbf"></table>
 
 <!-- 头工具栏toolbar -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
     </div>
 </script>
 
 <!-- 工具条tool -->
 <script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
-</script>
-
-<!-- 状态templet -->
-<script type="text/html" id="statusTemp">
-    {{#  if(d.status === 1){ }}
-    <input type="checkbox" checked name="status" value="{{ d.id }}" lay-skin="switch" lay-text="开启|禁用"
-           lay-filter="status">
-    {{#  } else { }}
-    <input type="checkbox" name="status" value="{{ d.id }}" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">
-    {{#  } }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 
 <script type="text/javascript">
@@ -65,10 +55,18 @@
             url: '/user/list',
             cols: [[
                 {type: 'numbers'},
-                {field: 'loginName', title: '账号', align: 'center'},
-                {field: 'nickName', title: '昵称', align: 'center'},
-                {field: 'remark', title: '备注', width: '200', align: 'center'},
-                {field: 'status', title: '状态', align: 'center', templet: '#statusTemp'},
+                {field: 'loginName', title: '账号', width: '120', align: 'center'},
+                {field: 'nickName', title: '昵称', width: '120', align: 'center'},
+                {field: 'remark', title: '备注', width: '190', align: 'center'},
+                {field: 'status', title: '状态', width: '100', align: 'center',
+                    templet: function(d){
+                        if(d.status == 1){
+                            return '<input type="checkbox" checked name="status" value="'+ d.id + '" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">';
+                        }else if(d.status == 0){
+                            return '<input type="checkbox" name="status"value="'+ d.id + '" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">';
+                        }
+                    }
+                },
                 {field: 'createdDate', title: '创建时间', width: '160', align: 'center'},
                 {field: 'updatedDate', title: '修改时间', width: '160', align: 'center'},
                 {title: '操作', width: '150', align: 'center', toolbar: '#tool'}
@@ -81,7 +79,7 @@
                     baselist.createRow({
                         title: '新增账号',
                         content: '/user/add',
-                        area: ['380px', '400px'],
+                        area: ['360px', '400px'],
                     });
                     break;
             }
@@ -94,7 +92,7 @@
                     baselist.updateRow({
                         title: '编辑账号',
                         content: '/user/update',
-                        area: ['380px', '400px'],
+                        area: ['360px', '400px'],
                     }, record);
                     break;
                 case 'delete':

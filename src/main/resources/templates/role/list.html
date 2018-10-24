@@ -7,7 +7,7 @@
     <script src="/resources/static/layui/layui.js"></script>
 </head>
 
-<body>
+<body style="overflow-y: hidden">
 <!-- 搜索栏 -->
 <form id="searchForm" class="layui-form" action="" lay-filter="searchForm">
     <div class="layui-form-item">
@@ -26,20 +26,20 @@
 </form>
 
 <!-- table -->
-<table id="lay_table" class="layui-hide" lay-filter="tbf"></table>
+<table id="lay_table" lay-filter="tbf"></table>
 
 <!-- 工具栏toolbar -->
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
-        <button class="layui-btn layui-btn-sm" lay-event="auth"><i class="layui-icon layui-icon-auz"></i>设置权限</button>
+        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="auth"><i class="layui-icon layui-icon-auz"></i>设置权限</button>
     </div>
 </script>
 
 <!-- 工具条tool -->
 <script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 
 <script type="text/javascript">
@@ -69,7 +69,7 @@
                     baselist.createRow({
                         title: '新增角色',
                         content: '/role/add',
-                        area: ['380px', '250px']
+                        area: ['360px', '250px']
                     });
                     break;
                 case 'auth':
@@ -80,7 +80,7 @@
                     baselist.updateRow({
                         title: '设置权限',
                         content: '/role/updateAuthority',
-                        area: ["500px", "300px"]
+                        area: ["620px", "400px"]
                     }, record);
                     break;
             }
@@ -93,7 +93,7 @@
                     baselist.updateRow({
                         title: '编辑角色',
                         content: '/role/update',
-                        area: ['380px', '250px']
+                        area: ['360px', '250px']
                     }, record);
                     break;
                 case 'delete':

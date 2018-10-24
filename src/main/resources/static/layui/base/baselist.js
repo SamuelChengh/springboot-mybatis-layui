@@ -33,14 +33,13 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 cols: [],
                 page: {
                     layout: ['prev', 'page', 'next', 'skip', 'limit', 'count'], //自定义分页布局
-                    groups: 1,     //只显示 1 个连续页码
-                    first: false,  //不显示首页
-                    last: false    //不显示尾页
+                    theme: "#1E9FFF"
                 },
-                limit: 15,
-                limits: [15, 30, 60, 100],
+                limit: 10,
+                limits: [10, 30, 60, 100],
                 loading: true,
                 cellMinWidth: 100,
+                height: 'full-48',
                 text: {
                     none: '暂无相关数据'
                 }
@@ -174,6 +173,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 success: function (res) {
                     if (res.success) {
                         table.reload("tb");
+                        layer.msg(res.message, {icon: 1});
                     } else {
                         layer.msg(res.message, {icon: 2});
                     }

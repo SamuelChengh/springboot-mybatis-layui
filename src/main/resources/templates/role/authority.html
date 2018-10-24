@@ -27,7 +27,7 @@
 
     <div id="auth-container" class="layui-container"></div>
 
-    <div class="layui-form-btn">
+    <div style="position: absolute; left: 0; bottom: 10px; width: 100%; text-align: center;">
         <button class="layui-btn" lay-submit="" lay-filter="checkAll">全选</button>
         <button class="layui-btn" lay-submit="" lay-filter="unCheckAll">取消全选</button>
         <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
@@ -150,7 +150,7 @@
 
                     for(var j=0; j<parentMenu.childMenus.length; j++){
                         var childColDiv = document.createElement("div");
-                        childColDiv.setAttribute("class", "layui-col-xs4 layui-col-sm4 layui-col-md4 layui-child-row");
+                        childColDiv.setAttribute("class", "layui-col-xs3 layui-col-sm3 layui-col-md3 layui-child-row");
 
                         var childInput = document.createElement("input");   // input
                         childInput.setAttribute("type", "checkbox");
