@@ -5,8 +5,9 @@ import lombok.Data;
 @Data
 public class ChildMenu {
 
-	private Integer  id;
-	private String   name;
-	private Boolean  checked = false;
-	private String   pageUrl;
+	private Integer	id;
+	private String	name;
+	private String	icon;
+	private Boolean	checked = false;
+	private String	pageUrl;
 }

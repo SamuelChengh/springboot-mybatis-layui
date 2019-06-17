@@ -19,6 +19,7 @@
             <result column="auth_url" property="authUrl" />
             <result column="parent" property="parent" />
             <result column="display_sort" property="displaySort" />
+            <result column="icon" property="icon" />
             <result column="auth_remark" property="remark" />
             <result column="auth_created_date" property="createdDate" />
             <result column="auth_updated_date" property="updatedDate" />
@@ -65,53 +66,56 @@
 
     <select id="findById" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
         SELECT
-          r.*,
-          a.id AS auth_id,
-          a.name AS auth_name,
-          a.auth_url,
-          a.parent,
-          a.display_sort,
-          a.remark AS auth_remark,
-          a.created_date AS auth_created_date,
-          a.updated_date AS auth_updated_date
+            r.*,
+            a.id AS auth_id,
+            a.name AS auth_name,
+            a.auth_url,
+            a.parent,
+            a.display_sort,
+            a.icon,
+            a.remark AS auth_remark,
+            a.created_date AS auth_created_date,
+            a.updated_date AS auth_updated_date
         FROM sys_role r
         LEFT JOIN sys_role_authority ra ON ra.role_id = r.id
         LEFT JOIN sys_authority a ON a.id = ra.authority_id
         WHERE
-          r.id = #{id}
+            r.id = #{id}
     </select>
 
     <select id="findByName" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
         SELECT
-          r.*,
-          a.id AS auth_id,
-          a.name AS auth_name,
-          a.auth_url,
-          a.parent,
-          a.display_sort,
-          a.remark AS auth_remark,
-          a.created_date AS auth_created_date,
-          a.updated_date AS auth_updated_date
+            r.*,
+            a.id AS auth_id,
+            a.name AS auth_name,
+            a.auth_url,
+            a.parent,
+            a.display_sort,
+            a.icon,
+            a.remark AS auth_remark,
+            a.created_date AS auth_created_date,
+            a.updated_date AS auth_updated_date
         FROM sys_role r
         LEFT JOIN sys_role_authority ra ON ra.role_id = r.id
         LEFT JOIN sys_authority a ON a.id = ra.authority_id
         WHERE
-          r.name = #{name}
+            r.name = #{name}
     </select>
 
     <select id="findAll" resultMap="RoleAuthorityResult" parameterType="com.ch.dto.sys.RoleDto">
         SELECT
-          r.*,
-          a.id AS auth_id,
-          a.name AS auth_name,
-          a.auth_url,
-          a.parent,
-          a.display_sort,
-          a.remark AS auth_remark,
-          a.created_date AS auth_created_date,
-          a.updated_date AS auth_updated_date
+            r.*,
+            a.id AS auth_id,
+            a.name AS auth_name,
+            a.auth_url,
+            a.parent,
+            a.display_sort,
+            a.icon,
+            a.remark AS auth_remark,
+            a.created_date AS auth_created_date,
+            a.updated_date AS auth_updated_date
         FROM
-          sys_role r
+            sys_role r
         LEFT JOIN sys_role_authority ra ON r.id = ra.role_id
         LEFT JOIN sys_authority a ON ra.authority_id = a.id
         <where>

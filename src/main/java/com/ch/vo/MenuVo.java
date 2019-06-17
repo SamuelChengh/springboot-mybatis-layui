@@ -9,6 +9,7 @@ public class MenuVo {
 
 	private Integer         parentId;
 	private String          parentName;
+	private String			parentIcon;
 	private Boolean         checked;
 	private List<ChildMenu> childMenus;
 }

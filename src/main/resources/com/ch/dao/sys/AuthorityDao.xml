@@ -4,21 +4,23 @@
 
     <insert id="insert" parameterType="com.ch.entity.sys.Authority" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO sys_authority (
-          `name`,
-          `auth_url`,
-          `parent`,
-          `display_sort`,
-          `display_type`,
-          `remark`,
-          `created_date`
+            `name`,
+            `auth_url`,
+            `parent`,
+            `display_sort`,
+            `display_type`,
+            `icon`,
+            `remark`,
+            `created_date`
         ) VALUES (
-          #{name},
-          #{authUrl},
-          #{parent},
-          #{displaySort},
-          #{displayType},
-          #{remark},
-          NOW()
+            #{name},
+            #{authUrl},
+            #{parent},
+            #{displaySort},
+            #{displayType},
+            #{icon},
+            #{remark},
+            NOW()
         )
     </insert>
 
@@ -30,6 +32,7 @@
             <if test="parent != null"> `parent` = #{parent}, </if>
             <if test="displaySort != null"> `display_sort` = #{displaySort}, </if>
             <if test="displayType != null"> `display_type` = #{displayType}, </if>
+            <if test="icon != null"> `icon` = #{icon}, </if>
             <if test="remark != null"> `remark` = #{remark}, </if>
             `updated_date` = NOW(),
         </set>
@@ -54,34 +57,36 @@
 
     <select id="findById" resultType="com.ch.entity.sys.Authority">
         SELECT
-          id,
-          name,
-          auth_url,
-          parent,
-          display_sort,
-          display_type,
-          remark,
-          created_date,
-          updated_date
+            id,
+            name,
+            auth_url,
+            parent,
+            display_sort,
+            display_type,
+            icon,
+            remark,
+            created_date,
+            updated_date
         FROM
-          sys_authority
+            sys_authority
         WHERE
-          id = #{id}
+            id = #{id}
     </select>
 
     <select id="findAll" resultType="com.ch.entity.sys.Authority">
         SELECT
-          id,
-          name,
-          auth_url,
-          parent,
-          display_sort,
-          display_type,
-          remark,
-          created_date,
-          updated_date
+            id,
+            name,
+            auth_url,
+            parent,
+            display_sort,
+            display_type,
+            icon,
+            remark,
+            created_date,
+            updated_date
         FROM
-          sys_authority
+            sys_authority
         <where>
             <include refid="select_query_conditions"></include>
         </where>
@@ -90,19 +95,20 @@
 
     <select id="findByParent" resultType="com.ch.entity.sys.Authority">
         SELECT
-          id,
-          name,
-          auth_url,
-          parent,
-          display_sort,
-          display_type,
-          remark,
-          created_date,
-          updated_date
+            id,
+            name,
+            auth_url,
+            parent,
+            display_sort,
+            display_type,
+            icon,
+            remark,
+            created_date,
+            updated_date
         FROM
-          sys_authority
+            sys_authority
         WHERE
-          parent = #{parent}
+            parent = #{parent}
         <include refid="select_order_conditions"></include>
     </select>
 

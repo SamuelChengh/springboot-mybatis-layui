@@ -23,8 +23,9 @@ public class UserController {
     private UserService userService;
 
     /**
-    * 用户列表
-    */
+     * 用户列表
+     *
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(){
         return "user/list";
@@ -40,6 +41,7 @@ public class UserController {
 
     /**
      * 新增用户
+     *
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(){
@@ -56,6 +58,7 @@ public class UserController {
 
     /**
      * 编辑用户
+     *
      */
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String update(){
@@ -72,6 +75,7 @@ public class UserController {
 
     /**
      * 删除用户
+     *
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
@@ -83,6 +87,7 @@ public class UserController {
 
     /**
      * 用户菜单
+     *
      */
     @RequestMapping(value = "/getMenuList", method = RequestMethod.GET)
     @ResponseBody
@@ -90,9 +95,10 @@ public class UserController {
         return userService.getMenuList(request);
     }
 
-    /*
-    * 修改密码
-    * */
+    /**
+     * 修改密码
+     *
+     * */
     @RequestMapping(value = "/resetPwd", method = RequestMethod.GET)
     public String resetPwd(){
         return "user/password";

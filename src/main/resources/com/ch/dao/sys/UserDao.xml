@@ -77,46 +77,46 @@
 
     <select id="findById" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
         SELECT
-          u.*,
-          r.id AS role_id,
-          r.name AS role_name,
-          r.remark AS role_remark,
-          r.created_date AS role_created_date,
-          r.updated_date AS role_updated_date
+            u.*,
+            r.id AS role_id,
+            r.name AS role_name,
+            r.remark AS role_remark,
+            r.created_date AS role_created_date,
+            r.updated_date AS role_updated_date
         FROM
-          sys_user u
+            sys_user u
         LEFT JOIN sys_user_role ur ON ur.user_id = u.id
         LEFT JOIN sys_role r ON r.id = ur.role_id
         WHERE
-          u.id = #{id}
+            u.id = #{id}
     </select>
 
     <select id="findByLoginName" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
         SELECT
-          u.*,
-          r.id AS role_id,
-          r.name AS role_name,
-          r.remark AS role_remark,
-          r.created_date AS role_created_date,
-          r.updated_date AS role_updated_date
+            u.*,
+            r.id AS role_id,
+            r.name AS role_name,
+            r.remark AS role_remark,
+            r.created_date AS role_created_date,
+            r.updated_date AS role_updated_date
         FROM
-          sys_user u
+            sys_user u
         LEFT JOIN sys_user_role ur ON ur.user_id = u.id
         LEFT JOIN sys_role r ON r.id = ur.role_id
         WHERE
-          u.login_name = #{loginName}
+            u.login_name = #{loginName}
     </select>
 
     <select id="findAll" resultMap="UserRoleResult" parameterType="com.ch.dto.sys.UserDto">
         SELECT
-          u.*,
-          r.id AS role_id,
-          r.name AS role_name,
-          r.remark AS role_remark,
-          r.created_date AS role_created_date,
-          r.updated_date AS role_updated_date
+            u.*,
+            r.id AS role_id,
+            r.name AS role_name,
+            r.remark AS role_remark,
+            r.created_date AS role_created_date,
+            r.updated_date AS role_updated_date
         FROM
-          sys_user u
+            sys_user u
         LEFT JOIN sys_user_role ur ON u.id = ur.user_id
         LEFT JOIN sys_role r ON ur.role_id = r.id
         <where>

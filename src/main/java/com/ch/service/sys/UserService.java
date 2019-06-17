@@ -153,12 +153,14 @@ public class UserService {
                     MenuVo vo = new MenuVo();
                     vo.setParentId(parentMenu.getId());
                     vo.setParentName(parentMenu.getName());
+                    vo.setParentIcon(parentMenu.getIcon());
                     List<ChildMenu> childList = new ArrayList();
                     for(Authority childMenu : childMenuList){
                         if(childMenu.getParent().equals(parentMenu.getId())){
                             ChildMenu child = new ChildMenu();
                             child.setId(childMenu.getId());
                             child.setName(childMenu.getName());
+                            child.setIcon(childMenu.getIcon());
                             child.setPageUrl(childMenu.getAuthUrl());
                             childList.add(child);
                         }
