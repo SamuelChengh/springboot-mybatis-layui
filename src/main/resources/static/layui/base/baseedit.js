@@ -3,8 +3,6 @@ layui.define(['layer'], function (exports) {
         layer = layui.layer;
 
     var baseedit = {
-
-        // 提交
         submitForm: function (url, record) {
             $.ajax({
                 type: "POST",
@@ -12,16 +10,13 @@ layui.define(['layer'], function (exports) {
                 data: record,
                 dataType: "json",
                 success: function (res) {
-                    if (res.success) {
-                        layer.alert(res.message, {
-                            icon: 1,
-                        }, function () {
-                            parent.layer.closeAll();
-                        });
-                        parent.layui.table.reload("tb");
-                    } else {
-                        layer.msg(res.message, {icon: 2});
-                    }
+                	if (res.return_code == '1') {
+                		parent.layer.closeAll();
+                		parent.layer.msg(res.return_msg, {icon: 1});
+        				parent.layui.table.reload("tb");
+        			}else{
+        				layer.msg(res.return_msg, {icon: 2});
+        			}
                 }
             })
         }

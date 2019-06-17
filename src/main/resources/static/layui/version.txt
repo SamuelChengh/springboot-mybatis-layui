@@ -1,0 +1,99 @@
+v2.5.4
+
+注意: 修改了layui.css一些样式
+
+// original
+body {
+	line-height: 24px;
+	font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial,
+		sans-serif
+}
+
+// original
+.layui-form-item {
+    margin-bottom: 15px;
+    clear: both;
+    *zoom: 1;
+}
+
+// original
+.layui-form-item .layui-inline {
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+// original
+.layui-form-label {
+	float: left;
+	display: block;
+	padding: 9px 15px;
+	width: 80px;
+	font-weight: 400;
+	line-height: 20px;
+	text-align: right
+}
+
+// original
+.layui-form-item .layui-input-inline {
+	float: left;
+	width: 190px;
+	margin-right: 10px
+}
+
+// original
+.layui-input,.layui-select,.layui-textarea {
+	height: 38px;
+	line-height: 1.3;
+	line-height: 38px\9;
+	border-width: 1px;
+	border-style: solid;
+	background-color: #fff;
+	border-radius: 2px
+}
+
+// original
+.layui-btn {
+	display: inline-block;
+	height: 38px;
+	line-height: 38px;
+	padding: 0 18px;
+	background-color: #009688;
+	color: #fff;
+	white-space: nowrap;
+	text-align: center;
+	font-size: 14px;
+	border: none;
+	border-radius: 2px;
+	cursor: pointer
+}
+
+// original
+.layui-table,.layui-table-view {
+	margin: 10px 0
+}
+
+// original
+.layui-table-view .layui-table[lay-size=sm] .layui-table-cell {
+	height: 20px;
+	line-height: 20px
+}
+
+// original
+.layui-row:after,.layui-row:before {
+	content: '';
+	display: block;
+	clear: both
+}
+
+// original
+.layui-btn .layui-icon {
+	margin-right: 3px;
+	font-size: 18px;
+	vertical-align: bottom;
+	vertical-align: middle\9
+}
+
+// original
+.layui-btn+.layui-btn {
+	margin-left: 10px
+}

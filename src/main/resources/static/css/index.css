@@ -1,0 +1,125 @@
+.layui-header {
+    height: 50px;
+}
+
+.layui-layout-admin .layui-header { 
+    background-color: #2b2f3a;
+}
+
+.layui-layout-admin .layui-side {
+    top: 50px;
+}
+
+.layui-layout-admin .layui-body {
+    top: 50px;
+    bottom: 20px;
+}
+
+.layui-layout-admin .layui-footer {
+    height: 20px;
+    line-height: 20px;
+}
+
+.layui-layout-admin .layui-logo {
+    line-height: 50px;
+	color: #42b983;
+	font-size: 20px;
+}
+
+.layui-bg-black {
+    background-color: #304156 !important;
+}
+
+.layui-nav {
+    background-color: rgb(48, 65, 86);
+    color: rgb(64, 158, 255);
+}
+
+.layui-nav * {
+    font-size: 12px;
+}
+
+.layui-nav .layui-nav-item {
+    line-height: 50px;
+}
+
+.layui-nav .layui-this:after,.layui-nav-bar,.layui-nav-tree .layui-nav-itemed:after {
+    background-color: #42b983;
+}
+
+.layui-nav .layui-this:after,.layui-nav-bar,.layui-nav-tree .layui-nav-itemed:after {
+	background-color: transparent;
+}
+
+.layui-nav-tree .layui-nav-item a:hover {
+	background-color: #263445!important;
+}
+
+.layui-nav-tree .layui-nav-child dd.layui-this,.layui-nav-tree .layui-nav-child dd.layui-this a,.layui-nav-tree .layui-this,.layui-nav-tree .layui-this>a,.layui-nav-tree .layui-this>a:hover {
+    background-color: #1f2d3d;
+    color: rgb(64, 158, 255);
+}
+
+.layui-nav-tree .layui-nav-child,.layui-nav-tree .layui-nav-child a:hover {
+	background: 0 0;
+	background-color: #001528!important;
+	color: #FFF;
+}
+
+.layui-nav-itemed>.layui-nav-child {
+	display: block;
+	padding: 0;
+	background-color: #1f2d3d!important;
+}
+
+.layui-tab {
+    margin: 0;
+   	height: 30px;
+}
+
+.layui-tab-title {
+    height: 30px;
+}
+
+.layui-tab-title li {
+    font-size: 12px;
+    line-height: 30px;
+    min-width: 50px;
+    padding: 0 8px;
+}
+
+.layui-tab-title .layui-this {
+	background-color: #42b983;
+	color: #fff;
+}
+
+.layui-tab-title .layui-this:after {
+    height: 31px;
+}
+
+.layui-tab-item {
+	position: absolute;
+	top: 30px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 0;
+	margin: 10px;
+	-webkit-overflow-scrolling: touch;
+	overflow: auto;
+}
+
+.layui-tab-title li .layui-tab-close {
+    width: 16px;
+    height: 16px;
+    line-height: 18px;
+    margin-left: 3px;
+    font-size: 12px;
+}
+
+.user-avatar {
+	cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}

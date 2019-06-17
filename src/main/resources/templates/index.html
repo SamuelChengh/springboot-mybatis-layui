@@ -4,35 +4,8 @@
     <meta charset="utf-8"/>
     <title>后台</title>
     <link href="/resources/static/layui/css/layui.css" rel="stylesheet"/>
+    <link href="/resources/static/css/index.css" rel="stylesheet"/>
     <script src="/resources/static/layui/layui.js"></script>
-
-    <style type="text/css">
-        .marg0 {
-            margin: 0;
-        }
-
-        #tabs {
-            height: 40px;
-            border-bottom: 1px solid #e2e2e2;
-        }
-
-        .layui-tab-item {
-            position: absolute;
-            top: 40px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 0;
-            margin: 10px;
-            -webkit-overflow-scrolling: touch;
-            overflow: auto;
-        }
-
-        .layui-tab-title .layui-this {
-            background-color: #1AA094;
-            color: #fff;
-        }
-    </style>
 </head>
 
 <body class="layui-layout-body">
@@ -43,7 +16,20 @@
         <div class="layui-logo">后台管理系统</div>
 
         <!-- 顶部右侧 -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="javascript:switchNav();">
+                    <i id="icon-shrink" class="layui-icon layui-icon-shrink-right" style="font-size: 16px;"></i>
+                </a>
+            </li>
+        </ul>
+
         <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="javascript:switchFullScreen();">
+                    <i id="icon-screen" class="layui-icon layui-icon-screen-full"></i>
+                </a>
+            </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <i class="layui-icon layui-icon-username"></i>
@@ -72,7 +58,7 @@
 
     <!-- 右侧内容 -->
     <div class="layui-body">
-        <div id="tabs" class="layui-tab marg0" lay-filter="tabs_box" lay-allowclose="true">
+        <div class="layui-tab" lay-filter="tabs_box" lay-allowclose="true">
             <ul id="top_tabs" class="layui-tab-title">
                 <li class="layui-this" lay-id="0">首页</li>
             </ul>
@@ -96,6 +82,10 @@
 
         // 左侧导航
         createLeftNav();
+
+        element.on('nav(test)', function(data){
+            spreadNav();
+        });
     });
 
     // 左侧导航
@@ -108,6 +98,7 @@
                 var parentHtml = document.getElementById("nav-tree");
                 for (var i = 0; i < res.length; i++) {
                     var menu = res[i];
+
                     var li = document.createElement("li");
                     if (i == 0) {
                         li.setAttribute("class", "layui-nav-item layui-nav-itemed");
@@ -116,8 +107,16 @@
                     }
                     var a = document.createElement("a");
                     a.setAttribute("href", "javascript:;");
-                    a.appendChild(document.createTextNode(menu.parentName));
+                    var icon = document.createElement("i");
+                    icon.setAttribute("class", "layui-icon " + menu.parentIcon);
+                    icon.setAttribute("style", "color: #42b983;");
+                    a.appendChild(icon);
+                    var cite = document.createElement("cite");
+                    cite.setAttribute("style", "padding-left: 20px;");
+                    cite.appendChild(document.createTextNode(menu.parentName));
+                    a.appendChild(cite);
                     li.appendChild(a);
+
                     var dl = document.createElement("dl");
                     dl.setAttribute("class", "layui-nav-child");
                     for (var j = 0; j < menu.childMenus.length; j++) {
@@ -125,9 +124,10 @@
 
                         var aa = document.createElement("a");
                         aa.setAttribute("class", "nav-tab");
+                        aa.setAttribute("style", "padding-left: 52px;");
                         aa.setAttribute("href", "javascript:;");
                         aa.setAttribute("src", menu.childMenus[j].pageUrl);
-                        aa.setAttribute("onclick", "navClick('" + JSON.stringify(menu.childMenus[j]) + "')");
+                        aa.setAttribute("onclick", "navClick('"+JSON.stringify(menu.childMenus[j])+"')");
                         aa.appendChild(document.createTextNode(menu.childMenus[j].name));
                         dd.appendChild(aa);
 
@@ -174,6 +174,84 @@
     function createFrame(url) {
         var s = '<iframe id="mainiframe" scrolling="no" src="' + url + '" style="width: 100%;height: 100%;position: absolute;border: none;"></iframe>';
         return s;
+    }
+
+    // 菜单切换
+    var isShow = true;
+    function switchNav(){
+        if(isShow){
+            shrinkNav();
+        }else{
+            spreadNav();
+        }
+    }
+
+    // 展开菜单
+    function spreadNav(){
+        $('.layui-side.layui-bg-black').width(200);
+
+        //将footer和body的宽度修改
+        $('.layui-body').css('left', 200+'px');
+        $('.layui-footer').css('left', 200+'px');
+
+        $('#icon-shrink').removeClass("layui-icon layui-icon-spread-left");
+        $('#icon-shrink').addClass("layui-icon layui-icon-shrink-right");
+
+        isShow = true;
+    }
+
+    // 收缩菜单
+    function shrinkNav(){
+        $('.layui-side.layui-bg-black').width(52);
+
+        //将footer和body的宽度修改
+        $('.layui-body').css('left', 52+'px');
+        $('.layui-footer').css('left', 52+'px');
+
+        $('#icon-shrink').removeClass("layui-icon layui-icon-shrink-right");
+        $('#icon-shrink').addClass("layui-icon layui-icon-spread-left");
+
+        isShow = false;
+    }
+
+    // 全屏切换
+    function switchFullScreen(){
+        var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement
+            || document.webkitFullscreenElement;
+
+        if (fullscreenElement == null) {
+            entryFullScreen();
+            $('#icon-screen').removeClass("layui-icon layui-icon-screen-full");
+            $('#icon-screen').addClass("layui-icon layui-icon-screen-restore");
+        }else{
+            exitFullScreen();
+            $('#icon-screen').removeClass("layui-icon layui-icon-screen-restore");
+            $('#icon-screen').addClass("layui-icon layui-icon-screen-full");
+        }
+    }
+
+    // 进入全屏
+    function entryFullScreen() {
+        var docE = document.documentElement;
+        if (docE.requestFullScreen) {
+            docE.requestFullScreen();
+        } else if (docE.mozRequestFullScreen) {
+            docE.mozRequestFullScreen();
+        } else if (docE.webkitRequestFullScreen) {
+            docE.webkitRequestFullScreen();
+        }
+    }
+
+    // 退出全屏
+    function exitFullScreen() {
+        var docE = document;
+        if (docE.exitFullscreen) {
+            docE.exitFullscreen();
+        } else if (docE.mozCancelFullScreen) {
+            docE.mozCancelFullScreen();
+        } else if (docE.webkitCancelFullScreen) {
+            docE.webkitCancelFullScreen();
+        }
     }
 
     //修改密码
