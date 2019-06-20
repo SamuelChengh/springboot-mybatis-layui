@@ -52,6 +52,23 @@ body {
 }
 
 // original
+.layui-input::-webkit-input-placeholder,.layui-select::-webkit-input-placeholder,.layui-textarea::-webkit-input-placeholder {
+	line-height: 1.3;
+}
+
+// original
+.layui-input,.layui-textarea {
+	display: block;
+	width: 100%;
+	padding-left: 10px
+}
+
+// original
+.layui-input:focus,.layui-textarea:focus {
+	border-color: #C9C9C9 !important
+}
+
+// original
 .layui-btn {
 	display: inline-block;
 	height: 38px;
