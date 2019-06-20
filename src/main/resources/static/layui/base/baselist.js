@@ -83,18 +83,20 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             return true;
         },
 
-        // 弹出层
-        openIframeLayer: function (param) {
-            
-            // 基础参数
-            var cfg = {
-                type: 2,
-                skin: 'layui-layer-molv',
-                resize: false,
-                scrollbar: false,
-            };
-            
-            cfg = $.extend(cfg, param);
+        // 新增
+        createRow: function (param) {
+            var cfg = baselist.iframeLayerConfig(param);
+
+            layer.open(cfg);
+        },
+
+        // 编辑
+        updateRow: function (param, record) {
+            var cfg = baselist.iframeLayerConfig(param);
+            cfg.success = function(layero, index){
+                var iframe = layero.find("iframe")[0].contentWindow;
+                iframe.setRecordData(record);
+            }
 
             layer.open(cfg);
         },
@@ -115,6 +117,30 @@ layui.define(['layer', 'form', 'table'], function (exports) {
 					}
 				});
             });
+        },
+
+        // 双击行事件
+        doubleRow: function (param) {
+            table.on('rowDouble(tbf)', function (obj) {
+                var record = obj.data;
+
+                baselist.updateRow(param, record);
+            });
+        },
+
+        // iframe弹出层参数
+        iframeLayerConfig: function(param){
+
+            // 弹出层基础参数
+            var cfg = {
+                type: 2,
+                skin: 'layui-layer-molv',
+                resize: false
+            };
+
+            cfg = $.extend(cfg, param);
+
+            return cfg;
         },
 
         // 验证必须只有一行选中
