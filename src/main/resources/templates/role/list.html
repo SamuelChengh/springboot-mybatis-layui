@@ -12,14 +12,16 @@
 <form id="searchForm" class="layui-form" action="" lay-filter="searchForm">
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">角色名称:</label>
             <div class="layui-input-inline">
-                <input class="layui-input" id="name" name="name" autocomplete="off">
+                <input class="layui-input" id="name" name="name" placeholder="角色名称" autocomplete="off">
             </div>
         </div>
 
         <div class="layui-inline">
             <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="search"><i class="layui-icon layui-icon-search"></i>查询</button>
+        </div>
+
+        <div class="layui-inline">
             <button class="layui-btn layui-btn-primary" type="reset">重置</button>
         </div>
     </div>
