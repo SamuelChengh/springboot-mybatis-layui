@@ -134,7 +134,6 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             // 弹出层基础参数
             var cfg = {
                 type: 2,
-                skin: 'layui-layer-molv',
                 resize: false
             };
 
