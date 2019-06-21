@@ -67,8 +67,6 @@
         });
 
         table.on('toolbar(tbf)', function (obj) {
-            var layPageBtn = $('.layui-laypage-btn');
-
             switch (obj.event) {
                 case 'add':
                     baselist.createRow({
@@ -92,8 +90,6 @@
         });
 
         table.on('tool(tbf)', function (obj) {
-            var layPageBtn = $('.layui-laypage-btn');
-
             var record = obj.data;
             switch (obj.event) {
                 case 'edit':
