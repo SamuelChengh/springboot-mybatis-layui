@@ -102,12 +102,12 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // 删除
-        removeRow: function (url) {
+        removeRow: function (url, record) {
             layer.confirm('您确定要删除该条记录吗？', {
                 title: '温馨提示',
                 icon: 3
             }, function (index) {
-            	$.post(url, function(res) {
+            	$.post(url, record, function(res) {
 				  	if (res.success) {
 				  		layer.closeAll();
                 		layer.msg(res.message, {icon: 1});
