@@ -134,7 +134,19 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             // 弹出层基础参数
             var cfg = {
                 type: 2,
-                resize: false
+                resize: false,
+                btn: ['确定', '取消'],
+                yes: function(index, layero){
+
+                    // 获取弹出层中的form表单
+                    var form = layer.getChildFrame('form', index);
+
+                    // 获取表单中的确定按钮
+                    var formButton = form.find('button')[0];
+
+                    // 触发确定按钮事件
+                    formButton.click();
+                }
             };
 
             cfg = $.extend(cfg, param);
