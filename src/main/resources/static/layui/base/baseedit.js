@@ -13,7 +13,6 @@ layui.define(['layer'], function (exports) {
                 	if (res.success) {
                 		parent.layer.closeAll();
                 		parent.layer.msg(res.message, {icon: 1});
-                        parent.layui.$('.layui-laypage-btn').click();
         			}else{
         				layer.msg(res.message, {icon: 2});
         			}

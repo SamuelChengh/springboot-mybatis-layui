@@ -5,6 +5,7 @@
     <title>角色管理 | 角色列表</title>
     <link href="/resources/static/layui/css/layui.css" rel="stylesheet"/>
     <script src="/resources/static/layui/layui.js"></script>
+    <script src="/resources/static/js/jquery-1.8.0.min.js"></script>
 </head>
 
 <body>
@@ -66,6 +67,8 @@
         });
 
         table.on('toolbar(tbf)', function (obj) {
+            var layPageBtn = $('.layui-laypage-btn');
+
             switch (obj.event) {
                 case 'add':
                     baselist.createRow({
@@ -89,6 +92,8 @@
         });
 
         table.on('tool(tbf)', function (obj) {
+            var layPageBtn = $('.layui-laypage-btn');
+
             var record = obj.data;
             switch (obj.event) {
                 case 'edit':
@@ -105,12 +110,6 @@
                     break;
             }
         });
-
-        baselist.doubleRow({
-            title: '编辑角色',
-            content: '/role/update',
-            area: ['380px', '250px']
-        })
     });
 </script>
 </body>

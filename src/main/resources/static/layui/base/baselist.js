@@ -31,6 +31,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
     	});
     });
 
+    var layPageBtn;
     var baselist = {
 
         // 渲染表格
@@ -57,6 +58,9 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 size: 'sm',
                 text: {
                     none: '暂无相关数据'
+                },
+                done: function(res, curr, count){
+                    layPageBtn = $('.layui-laypage-btn');
                 }
             };
 
@@ -83,51 +87,6 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             return true;
         },
 
-        // 新增
-        createRow: function (param) {
-            var cfg = baselist.iframeLayerConfig(param);
-
-            layer.open(cfg);
-        },
-
-        // 编辑
-        updateRow: function (param, record) {
-            var cfg = baselist.iframeLayerConfig(param);
-            cfg.success = function(layero, index){
-                var iframe = layero.find("iframe")[0].contentWindow;
-                iframe.setRecordData(record);
-            }
-
-            layer.open(cfg);
-        },
-
-        // 删除
-        removeRow: function (url, record) {
-            layer.confirm('您确定要删除该条记录吗？', {
-                title: '温馨提示',
-                icon: 3
-            }, function (index) {
-            	$.post(url, record, function(res) {
-				  	if (res.success) {
-				  		layer.closeAll();
-                		layer.msg(res.message, {icon: 1});
-                		table.reload("tb");
-					} else {
-						layer.msg(res.message, {icon: 2});
-					}
-				});
-            });
-        },
-
-        // 双击行事件
-        doubleRow: function (param) {
-            table.on('rowDouble(tbf)', function (obj) {
-                var record = obj.data;
-
-                baselist.updateRow(param, record);
-            });
-        },
-
         // iframe弹出层参数
         iframeLayerConfig: function(param){
 
@@ -139,19 +98,59 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 yes: function(index, layero){
 
                     // 获取弹出层中的form表单
-                    var form = layer.getChildFrame('form', index);
+                    var form = parent.layer.getChildFrame('form', index);
 
                     // 获取表单中的确定按钮
                     var formButton = form.find('button')[0];
 
                     // 触发确定按钮事件
                     formButton.click();
+
+                    // 刷新表格(分页控件的"确定"按钮)
+                    layPageBtn.click();
                 }
             };
 
             cfg = $.extend(cfg, param);
 
             return cfg;
+        },
+
+        // 新增
+        createRow: function (param) {
+
+            var cfg = baselist.iframeLayerConfig(param);
+
+            parent.layer.open(cfg);
+        },
+
+        // 编辑
+        updateRow: function (param, record) {
+            var cfg = baselist.iframeLayerConfig(param);
+            cfg.success = function(layero, index){
+                var iframe = layero.find("iframe")[0].contentWindow;
+                iframe.setRecordData(record);
+            }
+
+            parent.layer.open(cfg);
+        },
+
+        // 删除
+        removeRow: function (url, record) {
+            parent.layer.confirm('您确定要删除该条记录吗？', {
+                title: '温馨提示',
+                icon: 3
+            }, function (index) {
+            	$.post(url, record, function(res) {
+				  	if (res.success) {
+                        parent.layer.closeAll();
+                        parent.layer.msg(res.message, {icon: 1});
+                        layPageBtn.click();
+					} else {
+                        parent.layer.msg(res.message, {icon: 2});
+					}
+				});
+            });
         },
 
         // 验证必须只有一行选中
