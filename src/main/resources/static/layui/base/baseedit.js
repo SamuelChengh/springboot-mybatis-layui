@@ -10,12 +10,12 @@ layui.define(['layer'], function (exports) {
                 data: record,
                 dataType: "json",
                 success: function (res) {
-                	if (res.return_code == '1') {
+                	if (res.success) {
                 		parent.layer.closeAll();
-                		parent.layer.msg(res.return_msg, {icon: 1});
-        				parent.layui.table.reload("tb");
+                		parent.layer.msg(res.message, {icon: 1});
+                        parent.layui.$('.layui-laypage-btn').click();
         			}else{
-        				layer.msg(res.return_msg, {icon: 2});
+        				layer.msg(res.message, {icon: 2});
         			}
                 }
             })
