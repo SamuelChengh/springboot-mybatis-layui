@@ -108,12 +108,12 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 icon: 3
             }, function (index) {
             	$.post(url, function(res) {
-				  	if (res.return_code == '1') {				  		
+				  	if (res.success) {
 				  		layer.closeAll();
-                		layer.msg(res.return_msg, {icon: 1});
+                		layer.msg(res.message, {icon: 1});
                 		table.reload("tb");
 					} else {
-						layer.msg(res.return_msg, {icon: 2});
+						layer.msg(res.message, {icon: 2});
 					}
 				});
             });
@@ -197,11 +197,11 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 data: record,
                 dataType: "json",
                 success: function (res) {
-                	if (res.return_code == '1') {
+                	if (res.message == '1') {
                         table.reload("tb");
-                        layer.msg(res.return_msg, {icon: 1});
+                        layer.msg(res.message, {icon: 1});
                     } else {
-                    	layer.msg(res.return_msg, {icon: 2});
+                    	layer.msg(res.message, {icon: 2});
                     }
                 }
             })
@@ -213,11 +213,11 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 url: url,
                 dataType: "json",
                 success: function(res){
-                	if (res.return_code == '1') {
+                	if (res.message == '1') {
                         table.reload("tb");
-                        layer.msg(res.return_msg, {icon: 1});
+                        layer.msg(res.message, {icon: 1});
                     } else {
-                    	layer.msg(res.return_msg, {icon: 2});
+                    	layer.msg(res.message, {icon: 2});
                     }
                 }
             });
