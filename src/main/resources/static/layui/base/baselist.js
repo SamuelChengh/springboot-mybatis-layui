@@ -221,7 +221,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                     }
                 }
             });
-        },
+        }
     };
 
     exports('baselist', baselist);
