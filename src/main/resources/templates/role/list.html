@@ -99,6 +99,8 @@
                     }, record);
                     break;
                 case 'delete':
+                    delete record.createdDate;
+                    delete record.updatedDate;
                     baselist.removeRow('/role/delete', record);
                     break;
             }
