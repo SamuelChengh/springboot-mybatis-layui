@@ -4,7 +4,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         form = layui.form,
         table = layui.table;
 
-    // 查询
+    /*
+    * 查询
+    *
+    * */
     form.on('submit(search)', function (data) {
         var where = {};
         var formArray = $("#searchForm").serializeArray();
@@ -20,7 +23,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         return false;
     });
 
-    // 排序
+    /*
+    * 排序
+    *
+    * */
     table.on('sort(tbf)', function (obj) {
         table.reload('tb', {
             initSort: obj,
@@ -87,10 +93,13 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             return true;
         },
 
-        // iframe弹出层参数
+        /*
+        * 弹出层参数(iframe)
+        *
+        * */
         iframeLayerConfig: function (param) {
 
-            // 弹出层基础参数
+            // 基础参数
             var cfg = {
                 type: 2,
                 resize: false,
@@ -116,7 +125,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             return cfg;
         },
 
-        // 新增
+        /*
+        * 新增
+        *
+        * */
         createRow: function (param) {
 
             var cfg = baselist.iframeLayerConfig(param);
@@ -124,7 +136,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             parent.layer.open(cfg);
         },
 
-        // 编辑
+        /*
+        * 编辑
+        *
+        * */
         updateRow: function (param, record) {
             var cfg = baselist.iframeLayerConfig(param);
             cfg.success = function (layero, index) {
@@ -135,7 +150,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             parent.layer.open(cfg);
         },
 
-        // 删除
+        /*
+        * 删除
+        *
+        * */
         removeRow: function (url, record) {
             parent.layer.confirm('您确定要删除该条记录吗？', {
                 title: '温馨提示',
@@ -153,43 +171,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             });
         },
 
-        // 验证必须只有一行选中
-        validateSingleSelected: function () {
-            var checkStatus = table.checkStatus('tb');
-            var records = checkStatus.data;
-            if (records == null || records.length == 0) {
-                layer.alert('请先选中一条记录!', {icon: 5});
-                return false;
-            } else if (records.length > 1) {
-                layer.alert('不能同时选择多条记录!', {icon: 2});
-                return false;
-            }
-            return records[0];
-        },
-
-        // 验证必须选中
-        validateSelected: function () {
-            var checkStatus = table.checkStatus('tb');
-            var records = checkStatus.data;
-            if (records == null || records.length == 0) {
-                layer.alert('请至少选中一条记录!', {icon: 5});
-                return false;
-            }
-            return true;
-        },
-
-        // 验证必须选中,并返回选中记录
-        validateMultiSelected: function () {
-            var checkStatus = table.checkStatus('tb');
-            var records = checkStatus.data;
-            if (records == null || records.length == 0) {
-                layer.alert('请先选中一条记录!', {icon: 5});
-                return false;
-            }
-            return records;
-        },
-
-        // 表单提交
+        /*
+        * 表单提交(弹出层)
+        *
+        * */
         submitForm: function (url, record) {
             $.ajax({
                 type: "POST",
@@ -208,6 +193,51 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                     }
                 }
             })
+        },
+
+        /*
+        * 验证必须选中行
+        *
+        * */
+        validateSelected: function () {
+            var checkStatus = table.checkStatus('tb');
+            var records = checkStatus.data;
+            if (records == null || records.length == 0) {
+                layer.alert('请至少选中一条记录!', {icon: 5});
+                return false;
+            }
+            return true;
+        },
+
+        /*
+        * 验证单行选中
+        *
+        * */
+        validateSingleSelected: function () {
+            var checkStatus = table.checkStatus('tb');
+            var records = checkStatus.data;
+            if (records == null || records.length == 0) {
+                layer.alert('请先选中一条记录!', {icon: 5});
+                return false;
+            } else if (records.length > 1) {
+                layer.alert('不能同时选择多条记录!', {icon: 2});
+                return false;
+            }
+            return records[0];
+        },
+
+        /*
+        * 验证多行选中
+        *
+        * */
+        validateMultiSelected: function () {
+            var checkStatus = table.checkStatus('tb');
+            var records = checkStatus.data;
+            if (records == null || records.length == 0) {
+                layer.alert('请先选中一条记录!', {icon: 5});
+                return false;
+            }
+            return records;
         },
 
         doPost: function (url, record) {
