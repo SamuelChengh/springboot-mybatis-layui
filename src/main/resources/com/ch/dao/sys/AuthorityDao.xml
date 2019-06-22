@@ -27,13 +27,13 @@
     <update id="update" parameterType="com.ch.entity.sys.Authority">
         UPDATE sys_authority
         <set>
-            <if test="name != null"> `name` = #{name}, </if>
-            <if test="authUrl != null"> `auth_url` = #{authUrl}, </if>
-            <if test="parent != null"> `parent` = #{parent}, </if>
-            <if test="displaySort != null"> `display_sort` = #{displaySort}, </if>
-            <if test="displayType != null"> `display_type` = #{displayType}, </if>
-            <if test="icon != null"> `icon` = #{icon}, </if>
-            <if test="remark != null"> `remark` = #{remark}, </if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="authUrl != null">`auth_url` = #{authUrl},</if>
+            <if test="parent != null">`parent` = #{parent},</if>
+            <if test="displaySort != null">`display_sort` = #{displaySort},</if>
+            <if test="displayType != null">`display_type` = #{displayType},</if>
+            <if test="icon != null">`icon` = #{icon},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
             `updated_date` = NOW(),
         </set>
         WHERE id = #{id}
@@ -111,5 +111,4 @@
             parent = #{parent}
         <include refid="select_order_conditions"></include>
     </select>
-
 </mapper>
