@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `sys_authority`;
 CREATE TABLE `sys_authority` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL COMMENT '名称',
-  `auth_url` VARCHAR(100) NOT NULL COMMENT '路径',
+  `auth_url` VARCHAR(100) DEFAULT NULL COMMENT '路径',
   `parent` INT(11) DEFAULT NULL COMMENT '父节点',
   `display_sort` INT(11) DEFAULT NULL COMMENT '顺序',
   `display_type` INT(11) DEFAULT NULL COMMENT '类型',
