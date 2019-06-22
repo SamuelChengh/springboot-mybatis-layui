@@ -42,9 +42,9 @@
 
     layui.config({
         base: '/resources/static/layui/base/'
-    }).use(['form', 'baseedit'], function () {
+    }).use(['form', 'baselist'], function () {
         var form = layui.form,
-            baseedit = layui.baseedit;
+            baselist = layui.baselist;
 
         // 表单初始赋值
         form.val('form', {
@@ -57,7 +57,7 @@
             var rec = data.field;
             rec.id = record.id;
 
-            baseedit.submitForm("/role/update", rec);
+            baselist.submitForm("/role/update", rec);
 
             return false;
         });

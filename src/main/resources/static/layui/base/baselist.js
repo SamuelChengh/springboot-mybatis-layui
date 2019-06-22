@@ -187,36 +187,61 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 return false;
             }
             return records;
-        }, 
+        },
 
-        ajaxPost: function (url, record) {
+        // 表单提交
+        submitForm: function (url, record) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: record,
+                async: false,
+                dataType: "json",
+                success: function (res) {
+                    if (res.success) {
+                        // 关闭全部弹出层
+                        parent.layer.closeAll();
+
+                        parent.layer.msg(res.message, {icon: 1});
+                    }else{
+                        parent.layer.msg(res.message, {icon: 2});
+                    }
+                }
+            })
+        },
+
+        doPost: function (url, record) {
             $.ajax({
                 type: "POST",
                 url: url,
                 data: record,
                 dataType: "json",
                 success: function (res) {
-                	if (res.message == '1') {
-                        table.reload("tb");
-                        layer.msg(res.message, {icon: 1});
+                	if (res.success) {
+                        parent.layer.msg(res.message, {icon: 1});
+
+                        // 刷新表格(分页控件的"确定"按钮)
+                        layPageBtn.click();
                     } else {
-                    	layer.msg(res.message, {icon: 2});
+                        parent.layer.msg(res.message, {icon: 2});
                     }
                 }
             })
         },
         
-        ajaxGet: function (url) {
+        doGet: function (url) {
         	$.ajax({
                 type: "GET",
                 url: url,
                 dataType: "json",
                 success: function(res){
-                	if (res.message == '1') {
-                        table.reload("tb");
-                        layer.msg(res.message, {icon: 1});
+                	if (res.success) {
+                        parent.layer.msg(res.message, {icon: 1});
+
+                        // 刷新表格(分页控件的"确定"按钮)
+                        layPageBtn.click();
                     } else {
-                    	layer.msg(res.message, {icon: 2});
+                        parent.layer.msg(res.message, {icon: 2});
                     }
                 }
             });

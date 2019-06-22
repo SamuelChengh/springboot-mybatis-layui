@@ -5239,3 +5239,11 @@ opacity
 	-webkit-animation-name: layui-fadeout;
 	animation-name: layui-fadeout
 }
+
+.layui-form-btn {
+	position: absolute;
+	left: 0;
+	bottom: 10px;
+	width: 100%;
+	text-align: center;
+}

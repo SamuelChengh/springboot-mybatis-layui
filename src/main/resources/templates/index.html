@@ -254,21 +254,29 @@
         }
     }
 
-    //修改密码
+    // 修改密码
     function resetPwd() {
         layer.open({
             type: 2,
             title: '修改密码',
             content: '/user/resetPwd',
-            skin: 'layui-layer-molv',
             resize: false,
-            success: function (layero, index) {
-                layer.iframeAuto(index);  // iframe层自适应
+            area: ['320px', '220px'],
+            btn: ['确定', '取消'],
+            yes: function(index, layero){
+                // 获取弹出层中的form表单
+                var form = parent.layer.getChildFrame('form', index);
+
+                // 获取表单中的确定按钮
+                var formButton = form.find('button')[0];
+
+                // 触发确定按钮事件
+                formButton.click();
             }
         })
     }
 
-    //退出系统
+    // 退出系统
     function logout() {
         layer.confirm('您确定现在退出系统吗？', {
             title: '温馨提示',
