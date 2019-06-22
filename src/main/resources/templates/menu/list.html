@@ -1,161 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>菜单管理</title>
-    <link href="/resources/static/layui/css/layui.css" rel="stylesheet"/>
-    <script src="/resources/static/layui/layui.js"></script>
-</head>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>账号管理 | 账号列表</title>
+        <link href="/resources/static/layui/css/layui.css" rel="stylesheet"/>
+        <script src="/resources/static/layui/layui.js"></script>
+    </head>
 
-<body>
-<!-- table -->
-<table id="lay_table" lay-filter="tbf"></table>
+    <body>
+        <!-- table -->
+        <table id="lay_table" lay-filter="tbf"></table>
 
-<!-- 头工具栏toolbar -->
-<script type="text/html" id="toolbar">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
-        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="refresh"><i class="layui-icon layui-icon-refresh"></i>刷新</button>
-    </div>
-</script>
+        <!-- 头工具栏toolbar -->
+        <script type="text/html" id="toolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+            </div>
+        </script>
 
-<!-- 工具条tool -->
-<script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
-</script>
+        <!-- 工具条tool -->
+        <script type="text/html" id="tool">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        </script>
 
-<script type="text/javascript">
-    layui.config({
-        base: '/resources/static/layui/plugin/'
-    }).extend({
-        treetable: 'treetable/treetable'
-    }).use(['table', 'treetable'], function () {
-        var $ = layui.jquery;
-        var table = layui.table;
-        var treetable = layui.treetable;
+        <script type="text/javascript">
+            layui.config({
+                base: '/resources/static/layui/plugin/'
+            }).extend({
+                treetable: 'treetable/treetable'
+            }).use(['table', 'treetable'], function () {
+                var $ = layui.jquery;
+                table = layui.table;
+                treetable = layui.treetable;
 
-        var renderTable = function () {
-            layer.load(3);
+                var renderTable = function () {
+                    layer.load(3);
 
-            treetable.render({
-                id: 'tb',
-                title: '菜单',
-                elem: '#lay_table',
-                method: 'post',
-                url: '/menu/list',
-                page: false,
-                treeColIndex: 1,     // 树形图标显示在第几列
-                treeSpid: 0,         // 最上级的父级id
-                treeIdName: 'id',    // id字段的名称
-                treePidName: 'parent',     // pid字段的名称
-                treeDefaultClose: true,    // 是否默认折叠
-                treeLinkage: true,         // 父级展开时是否自动展开所有子级
-                cellMinWidth: 100,
-                toolbar: '#toolbar',
-                cols: [[
-                    {type: 'numbers'},
-                    {field: 'name', title: '名称', width: '180', align: 'center'},
-                    {field: 'authUrl', title: '菜单地址', width: '200', align: 'center', edit: 'text'},
-                    {field: 'remark', title: '菜单描述', width: '200', align: 'center', edit: 'text'},
-                    {field: 'displaySort', title: '顺序', width: '60', align: 'center', edit: 'text'},
-                    {
-                        field: 'displayType', title: '类型', width: '80', align: 'center', edit: 'text',
-                        templet: function (row) {
-                            if (row.displayType == 1) {
-                                return '<span class="layui-badge layui-bg-blue">模块</span>';
-                            } else if (row.displayType == 2) {
-                                return '<span class="layui-badge-rim">菜单</span>';
+                    treetable.render({
+                        id: 'tb',
+                        title: '菜单',
+                        elem: '#lay_table',
+                        method: 'post',
+                        url: '/menu/list',
+                        page: false,
+                        treeColIndex: 0,     // 树形图标显示在第几列
+                        treeSpid: 0,         // 最上级的父级id
+                        treeIdName: 'id',    // id字段的名称
+                        treePidName: 'parent',     // pid字段的名称
+                        treeDefaultClose: true,    // 是否默认折叠
+                        treeLinkage: true,         // 父级展开时是否自动展开所有子级
+                        cellMinWidth: 100,
+                        toolbar: '#toolbar',
+                        cols: [[
+                            {field: 'name', title: '名称', width: '180', align: 'left'},
+                            {field: 'authUrl', title: '菜单地址', width: '200', align: 'center', edit: 'text'},
+                            {field: 'remark', title: '菜单描述', width: '200', align: 'center', edit: 'text'},
+                            {field: 'displaySort', title: '顺序', width: '60', align: 'center', edit: 'text'},
+                            {field: 'icon', title: '图标', width: '150', align: 'center', edit: 'text'},
+                            {
+                                field: 'displayType', title: '类型', width: '80', align: 'center', edit: 'text',
+                                templet: function (row) {
+                                    if (row.displayType == 1) {
+                                        return '<span class="layui-badge layui-bg-blue">模块</span>';
+                                    } else if (row.displayType == 2) {
+                                        return '<span class="layui-badge-rim">菜单</span>';
+                                    }
+                                }
+                            },
+                            {field: 'createdDate', title: '创建时间', width: '160', align: 'center'},
+                            {title: '操作', align: 'center', width: '100', toolbar: '#tool'}
+                        ]],
+                        done: function () {
+                            layer.closeAll('loading');
+                        },
+                        text: {
+                            none: '暂无相关数据'
+                        }
+                    });
+                };
+
+                renderTable();
+
+                // 监听头工具栏toolbar
+                table.on('toolbar(tbf)', function (obj) {
+                    switch (obj.event) {
+                        case 'add':
+                            parent. layer.open({
+                                type: 2,
+                                title: '新增菜单',
+                                content: '/menu/add',
+                                area: ['380px', '340px'],
+                                resize: false,
+                                btn: ['确定', '取消'],
+                                yes: function (index, layero) {
+
+                                    // 获取弹出层中的form表单
+                                    var form = parent.layer.getChildFrame('form', index);
+
+                                    // 获取表单中的确定按钮
+                                    var formButton = form.find('button')[0];
+
+                                    // 触发确定按钮事件
+                                    formButton.click();
+
+                                    renderTable();
+                                }
+                            })
+                            break;
+                    }
+                });
+
+                // 监听单元格编辑
+                table.on('edit(tbf)', function (obj) {
+                    var record = obj.data;
+                    delete record.createdDate;
+                    delete record.updatedDate;
+                    $.ajax({
+                        type: "POST",
+                        url: "/menu/update",
+                        data: record,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.success) {
+                                parent.layer.msg(res.message, {icon: 1});
+                            } else {
+                                parent.layer.msg(res.message, {icon: 2});
                             }
                         }
-                    },
-                    {field: 'createdDate', title: '创建时间', width: '160', align: 'center'},
-                    {title: '操作', align: 'center', width: '100', toolbar: '#tool'}
-                ]],
-                done: function () {
-                    layer.closeAll('loading');
-                },
-                text: {
-                    none: '暂无相关数据'
-                }
-            });
-        };
-
-        renderTable();
-
-        // 监听头工具栏toolbar
-        table.on('toolbar(tbf)', function (obj) {
-            switch (obj.event) {
-                case 'add':
-                    layer.open({
-                        type: 2,
-                        title: '新增菜单',
-                        content: '/menu/add',
-                        skin: 'layui-layer-molv',
-                        area: ['380px', '325px'],
-                        resize: false
                     })
-                    break;
-                case 'expand':
-                    treetable.expandAll('#lay_table');
-                    break;
-                case 'fold':
-                    treetable.foldAll('#lay_table');
-                    break;
-                case 'refresh':
-                    renderTable();
-                    break;
-            }
-        });
+                });
 
-        // 监听工具条tool
-        table.on('tool(tbf)', function (obj) {
-            var record = obj.data;
+                // 监听工具条tool
+                table.on('tool(tbf)', function (obj) {
+                    var record = obj.data;
+                    delete record.createdDate;
+                    delete record.updatedDate;
 
-            switch (obj.event) {
-                case 'delete':
-                    layer.confirm('您确定要删除该条记录吗？', {
-                        title: '温馨提示',
-                        icon: 3
-                    }, function (index) {
-                        $.post('/menu/delete', {id: record.id}, function (res) {
-                            if (res.success) {
-                                layer.alert(res.message, {
-                                    icon: 1,
-                                }, function () {
-                                    layer.close(index);
+                    switch (obj.event) {
+                        case 'delete':
+                            parent.layer.confirm('您确定要删除该条记录吗？', {
+                                title: '温馨提示',
+                                icon: 3
+                            }, function (index) {
+                                $.post('/menu/delete', record, function (res) {
+                                    if (res.success) {
+                                        parent.layer.closeAll();
+                                        parent.layer.msg(res.message, {icon: 1});
+                                        renderTable();
+                                    } else {
+                                        parent.layer.msg(res.message, {icon: 2});
+                                    }
                                 });
-                                renderTable();
-                            } else {
-                                layer.msg(res.message, {icon: 2});
-                            }
-                        });
-                       layer.close(index);
-                    });
-                    break;
-            };
-        });
-
-        // 监听单元格编辑
-        table.on('edit(tbf)', function (obj) {
-            var record = obj.data;
-            delete record.createdDate;
-            delete record.updatedDate;
-            $.ajax({
-                type: "POST",
-                url: "/menu/update",
-                data: record,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success) {
-                        parent.layer.msg(res.message, {icon: 1});
-                        renderTable();
-                    } else {
-                        parent.layer.msg(res.message, {icon: 2});
-                    }
-                }
-            })
-        });
-    });
-</script>
-</body>
+                            });
+                            break;
+                    };
+                });
+            });
+        </script>
+    </body>
 </html>
