@@ -184,9 +184,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 dataType: "json",
                 success: function (res) {
                     if (res.success) {
-                        // 关闭全部弹出层
                         parent.layer.closeAll();
-
                         parent.layer.msg(res.message, {icon: 1});
                     } else {
                         parent.layer.msg(res.message, {icon: 2});
