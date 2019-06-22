@@ -83,7 +83,25 @@
                     baselist.updateRow({
                         title: '设置权限',
                         content: '/role/updateAuthority',
-                        area: ["620px", "400px"]
+                        area: ["620px", "400px"],
+                        btn: ['确定', '全选', '取消全选'],
+                        yes: function(index, layero){
+                            var form = parent.layer.getChildFrame('form', index);
+                            var formButton = form.find('button')[0];
+                            formButton.click();
+                        },
+                        btn2: function(index, layero){
+                            var form = parent.layer.getChildFrame('form', index);
+                            var formButton = form.find('button')[1];
+                            formButton.click();
+                            return false;
+                        }
+                        ,btn3: function(index, layero){
+                            var form = parent.layer.getChildFrame('form', index);
+                            var formButton = form.find('button')[2];
+                            formButton.click();
+                            return false;
+                        }
                     }, record);
                     break;
             }

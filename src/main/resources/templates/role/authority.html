@@ -23,14 +23,14 @@
 </style>
 
 <body>
-<form class="layui-form" action="" lay-filter="form" style="padding: 10px">
+<form class="layui-form" action="" lay-filter="form">
 
     <div id="auth-container" class="layui-container"></div>
 
-    <div style="position: absolute; left: 0; bottom: 10px; width: 100%; text-align: center;">
+    <div style="display: none">
+        <button class="layui-btn" lay-submit="" lay-filter="submit">确定</button>
         <button class="layui-btn" lay-submit="" lay-filter="checkAll">全选</button>
         <button class="layui-btn" lay-submit="" lay-filter="unCheckAll">取消全选</button>
-        <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
     </div>
 </form>
 
@@ -40,9 +40,12 @@
         record = rec;
     }
 
-    layui.use('form', function () {
-        $ = layui.jquery;     // 引入jquery
-        var form = layui.form;
+    layui.config({
+        base: '/resources/static/layui/base/'
+    }).use(['form', 'baselist'], function () {
+        $ = layui.jquery;
+        var form = layui.form,
+            baselist = layui.baselist;
 
         createAuth(form);
 
@@ -64,7 +67,7 @@
             return false;
         });
 
-        // 提交
+        // 确定
         form.on('submit(submit)', function (data) {
             var authIdArray = [];
             $("input:checkbox[name='authId']:checked").each(function () { // 遍历name=authId选中的复选框
@@ -82,24 +85,9 @@
             var rec = {};
             rec.id = record.id;
             rec.authIds = authIdArray.toString();
-            $.ajax({
-                type: "POST",
-                url: "/role/updateAuthority",
-                data: rec,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success) {
-                        layer.alert(res.message, {
-                            icon: 1,
-                        }, function () {
-                            parent.layer.closeAll();
-                            parent.layui.table.reload("tb");
-                        });
-                    } else {
-                        layer.msg(res.message, {icon: 2});
-                    }
-                }
-            })
+
+            baselist.submitForm("/role/updateAuthority", rec);
+
             return false;
         });
     });
