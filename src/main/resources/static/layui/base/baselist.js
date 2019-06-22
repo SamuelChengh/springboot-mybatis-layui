@@ -3,7 +3,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         layer = layui.layer,
         form = layui.form,
         table = layui.table;
-    
+
     // 查询
     form.on('submit(search)', function (data) {
         var where = {};
@@ -14,21 +14,21 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         table.reload('tb', {
             where: where,
             page: {
-            	curr: 1 //重新从第 1 页开始
+                curr: 1 //重新从第 1 页开始
             }
         });
         return false;
     });
-    
+
     // 排序
-    table.on('sort(tbf)', function(obj){
-    	table.reload('tb', {
-    		initSort : obj,
-			where : {
-				sort : obj.field,
-				order : obj.type
-			}					
-    	});
+    table.on('sort(tbf)', function (obj) {
+        table.reload('tb', {
+            initSort: obj,
+            where: {
+                sort: obj.field,
+                order: obj.type
+            }
+        });
     });
 
     var layPageBtn;
@@ -59,7 +59,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 text: {
                     none: '暂无相关数据'
                 },
-                done: function(res, curr, count){
+                done: function (res, curr, count) {
                     layPageBtn = $('.layui-laypage-btn');
                 }
             };
@@ -73,14 +73,14 @@ layui.define(['layer', 'form', 'table'], function (exports) {
 
             table.render(cfg);
         },
-        
+
         // 表格参数校验
         checkTableCfg: function (cfg) {
-            if(cfg.url == ""){
+            if (cfg.url == "") {
                 layer.msg('参数url不能为空', {icon: 5});
                 return false;
             }
-            if(cfg.cols == ""){
+            if (cfg.cols == "") {
                 layer.msg('参数cols不能为空', {icon: 5});
                 return false;
             }
@@ -88,14 +88,14 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         },
 
         // iframe弹出层参数
-        iframeLayerConfig: function(param){
+        iframeLayerConfig: function (param) {
 
             // 弹出层基础参数
             var cfg = {
                 type: 2,
                 resize: false,
                 btn: ['确定', '取消'],
-                yes: function(index, layero){
+                yes: function (index, layero) {
 
                     // 获取弹出层中的form表单
                     var form = parent.layer.getChildFrame('form', index);
@@ -127,7 +127,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         // 编辑
         updateRow: function (param, record) {
             var cfg = baselist.iframeLayerConfig(param);
-            cfg.success = function(layero, index){
+            cfg.success = function (layero, index) {
                 var iframe = layero.find("iframe")[0].contentWindow;
                 iframe.setRecordData(record);
             }
@@ -141,15 +141,15 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 title: '温馨提示',
                 icon: 3
             }, function (index) {
-            	$.post(url, record, function(res) {
-				  	if (res.success) {
+                $.post(url, record, function (res) {
+                    if (res.success) {
                         parent.layer.closeAll();
                         parent.layer.msg(res.message, {icon: 1});
                         layPageBtn.click();
-					} else {
+                    } else {
                         parent.layer.msg(res.message, {icon: 2});
-					}
-				});
+                    }
+                });
             });
         },
 
@@ -177,7 +177,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             }
             return true;
         },
-        
+
         // 验证必须选中,并返回选中记录
         validateMultiSelected: function () {
             var checkStatus = table.checkStatus('tb');
@@ -203,7 +203,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                         parent.layer.closeAll();
 
                         parent.layer.msg(res.message, {icon: 1});
-                    }else{
+                    } else {
                         parent.layer.msg(res.message, {icon: 2});
                     }
                 }
@@ -217,7 +217,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 data: record,
                 dataType: "json",
                 success: function (res) {
-                	if (res.success) {
+                    if (res.success) {
                         parent.layer.msg(res.message, {icon: 1});
 
                         // 刷新表格(分页控件的"确定"按钮)
@@ -228,14 +228,14 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 }
             })
         },
-        
+
         doGet: function (url) {
-        	$.ajax({
+            $.ajax({
                 type: "GET",
                 url: url,
                 dataType: "json",
-                success: function(res){
-                	if (res.success) {
+                success: function (res) {
+                    if (res.success) {
                         parent.layer.msg(res.message, {icon: 1});
 
                         // 刷新表格(分页控件的"确定"按钮)
