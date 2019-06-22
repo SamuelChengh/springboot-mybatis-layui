@@ -9,11 +9,7 @@
 
 <style type="text/css">
     .layui-group{
-        margin-top: 10px;
-    }
-
-    .layui-child-row {
-        margin-top: 10px;
+        padding-top: 10px;
     }
 
     .layui-parent-label {
@@ -138,7 +134,7 @@
 
                     for(var j=0; j<parentMenu.childMenus.length; j++){
                         var childColDiv = document.createElement("div");
-                        childColDiv.setAttribute("class", "layui-col-xs3 layui-col-sm3 layui-col-md3 layui-child-row");
+                        childColDiv.setAttribute("class", "layui-col-xs3 layui-col-sm3 layui-col-md3");
 
                         var childInput = document.createElement("input");   // input
                         childInput.setAttribute("type", "checkbox");
