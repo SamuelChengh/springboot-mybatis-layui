@@ -12,14 +12,16 @@
 <form id="searchForm" class="layui-form" action="" lay-filter="searchForm">
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">账号:</label>
             <div class="layui-input-inline">
-                <input class="layui-input" id="loginName" name="loginName" autocomplete="off">
+                <input class="layui-input" id="loginName" name="loginName" placeholder="账号" autocomplete="off">
             </div>
         </div>
 
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="search"><i class="layui-icon layui-icon-search"></i>查询</button>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="search"><i class="layui-icon layui-icon-search"></i>查询</button>
+        </div>
+
+        <div class="layui-inline">
             <button class="layui-btn layui-btn-primary" type="reset">重置</button>
         </div>
     </div>
@@ -55,21 +57,22 @@
             url: '/user/list',
             cols: [[
                 {type: 'numbers'},
-                {field: 'loginName', title: '账号', width: '120', align: 'center'},
-                {field: 'nickName', title: '昵称', width: '120', align: 'center'},
-                {field: 'remark', title: '备注', width: '190', align: 'center'},
-                {field: 'status', title: '状态', width: '100', align: 'center',
-                    templet: function(d){
-                        if(d.status == 1){
-                            return '<input type="checkbox" checked name="status" value="'+ d.id + '" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">';
-                        }else if(d.status == 0){
-                            return '<input type="checkbox" name="status"value="'+ d.id + '" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">';
+                {field: 'loginName', title: '账号', align: 'center'},
+                {field: 'nickName', title: '昵称', align: 'center'},
+                {field: 'remark', title: '备注', align: 'center'},
+                {
+                    field: 'status', title: '状态', align: 'center',
+                    templet: function (d) {
+                        if (d.status == 1) {
+                            return '<input type="checkbox" checked name="status" value="' + d.id + '" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">';
+                        } else if (d.status == 0) {
+                            return '<input type="checkbox" name="status"value="' + d.id + '" lay-skin="switch" lay-text="开启|禁用" lay-filter="status">';
                         }
                     }
                 },
-                {field: 'createdDate', title: '创建时间', width: '160', align: 'center'},
-                {field: 'updatedDate', title: '修改时间', width: '160', align: 'center'},
-                {title: '操作', width: '150', align: 'center', toolbar: '#tool'}
+                {field: 'createdDate', title: '创建时间', align: 'center'},
+                {field: 'updatedDate', title: '修改时间', align: 'center'},
+                {title: '操作', align: 'center', toolbar: '#tool'}
             ]]
         });
 
@@ -79,7 +82,7 @@
                     baselist.createRow({
                         title: '新增账号',
                         content: '/user/add',
-                        area: ['380px', '400px'],
+                        area: ['380px', '420px']
                     });
                     break;
             }
@@ -92,19 +95,15 @@
                     baselist.updateRow({
                         title: '编辑账号',
                         content: '/user/update',
-                        area: ['380px', '400px'],
+                        area: ['380px', '420px']
                     }, record);
                     break;
                 case 'delete':
+                    delete record.createdDate;
+                    delete record.updatedDate;
                     baselist.removeRow('/user/delete', record);
                     break;
             }
-        });
-
-        baselist.doubleRow({
-            title: '编辑账号',
-            content: '/user/update',
-            area: ['380px', '400px'],
         });
 
         // 监听switch开关: 状态status
@@ -117,7 +116,7 @@
                 record.status = 0;
             }
 
-            baselist.ajaxPost("/user/update", record);
+            baselist.doPost("/user/update", record);
         });
     });
 </script>

@@ -65,14 +65,14 @@
         </div>
     </div>
 
-    <div style="text-align: center; padding-top: 10px;">
-        <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-        <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+    <div style="display: none">
+        <button class="layui-btn" lay-submit lay-filter="submit">确定</button>
     </div>
 </form>
 
 <script type="text/javascript">
     var record;
+
     function setRecordData(rec) {
         record = rec;
     }
@@ -80,19 +80,19 @@
     layui.config({
         base: '/resources/static/layui/'
     }).extend({
-        baseedit: 'base/baseedit',
+        baselist: 'base/baselist',
         multiSelect: 'plugin/multiSelect'
-    }).use(['form', 'baseedit', 'multiSelect'], function () {
+    }).use(['form', 'baselist', 'multiSelect'], function () {
         $ = layui.jquery;
         var form = layui.form,
-            baseedit = layui.baseedit,
+            baselist = layui.baselist,
             multiSelect = layui.multiSelect;
 
         //表单初始赋值
         var status;
-        if(record.status == 1){
+        if (record.status == 1) {
             status = true;
-        }else{
+        } else {
             status = false;
         }
         form.val('form', {
@@ -112,7 +112,7 @@
             verify: 'required',
             data: roleData,
             selected: selectedData,
-            field: {idName:'roleId', titleName:'roleName', statusName:'status'}
+            field: {idName: 'roleId', titleName: 'roleName', statusName: 'status'}
         });
 
         // 提交
@@ -125,7 +125,7 @@
                 rec.status = 0;
             }
 
-            baseedit.submitForm("/user/update", rec);
+            baselist.submitForm("/user/update", rec);
 
             return false;
         });
@@ -145,11 +145,11 @@
         return roleData;
     }
 
-    function getSelectedData(){
+    function getSelectedData() {
         var selectedData = [];
 
         var roles = record.roles;
-        for(var i=0; i<roles.length; i++){
+        for (var i = 0; i < roles.length; i++) {
             selectedData.push(roles[i].id);
         }
 

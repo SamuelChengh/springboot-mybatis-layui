@@ -65,9 +65,8 @@
         </div>
     </div>
 
-    <div style="text-align: center; padding-top: 10px;">
-        <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>
-        <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+    <div style="display: none">
+        <button class="layui-btn" lay-submit lay-filter="submit">确定</button>
     </div>
 </form>
 
@@ -75,12 +74,12 @@
     layui.config({
         base: '/resources/static/layui/'
     }).extend({
-        baseedit: 'base/baseedit',
+        baselist: 'base/baselist',
         multiSelect: 'plugin/multiSelect'
-    }).use(['form', 'baseedit', 'multiSelect'], function () {
+    }).use(['form', 'baselist', 'multiSelect'], function () {
         $ = layui.jquery;
         var form = layui.form,
-            baseedit = layui.baseedit,
+            baselist = layui.baselist,
             multiSelect = layui.multiSelect;
 
         // 获取角色 参数配置
@@ -103,7 +102,7 @@
                 record.status = 0;
             }
 
-            baseedit.submitForm("/user/add", record);
+            baselist.submitForm("/user/add", record);
 
             return false;
         });
