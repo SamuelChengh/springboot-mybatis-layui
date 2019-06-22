@@ -63,7 +63,7 @@ public class AuthorityController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult delete(@RequestBody Authority authority){
+    public ResponseResult delete(Authority authority){
 
         ResponseResult resp = authorityService.delete(authority);
         return resp;
