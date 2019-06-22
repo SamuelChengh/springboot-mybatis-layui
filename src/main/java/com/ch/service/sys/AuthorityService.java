@@ -27,6 +27,9 @@ public class AuthorityService {
 
     public ResponseResult add(Authority authority) {
 
+        if(authority.getDisplayType().equals(1)){
+            authority.setParent(0);
+        }
         authorityDao.insert(authority);
 
         return RestResultGenerator.createSuccessResult();
