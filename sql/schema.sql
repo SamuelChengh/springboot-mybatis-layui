@@ -52,9 +52,9 @@ CREATE TABLE `sys_authority` (
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`display_type`,`icon`,`remark`,`created_date`,`updated_date`) VALUES (1,'权限管理','',0,1,1,'layui-icon-user','系统权限','2018-09-25 21:30:04','2018-09-25 21:32:07');
-INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`display_type`,`icon`,`remark`,`created_date`,`updated_date`) VALUES (2,'菜单管理','/menu/list',1,11,2,'','菜单','2018-09-25 21:32:58',NULL);
-INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`display_type`,`icon`,`remark`,`created_date`,`updated_date`) VALUES (3,'角色管理','/role/list',1,12,2,'','角色','2018-09-25 21:34:02',NULL);
-INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`display_type`,`icon`,`remark`,`created_date`,`updated_date`) VALUES (4,'账号管理','/user/list',1,13,2,'','账号','2018-09-25 21:34:02',NULL);
+INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`display_type`,`icon`,`remark`,`created_date`,`updated_date`) VALUES (2,'菜单管理','/menu/list',1,1,2,'','菜单','2018-09-25 21:32:58',NULL);
+INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`display_type`,`icon`,`remark`,`created_date`,`updated_date`) VALUES (3,'角色管理','/role/list',1,2,2,'','角色','2018-09-25 21:34:02',NULL);
+INSERT INTO `sys_authority`(`id`,`name`,`auth_url`,`parent`,`display_sort`,`display_type`,`icon`,`remark`,`created_date`,`updated_date`) VALUES (4,'账号管理','/user/list',1,3,2,'','账号','2018-09-25 21:34:02',NULL);
 
 /**
  * 角色-权限
