@@ -8,7 +8,7 @@
 </head>
 
 <style type="text/css">
-    .layui-group{
+    .layui-group {
         padding-top: 5px;
     }
 
@@ -36,6 +36,7 @@
 
 <script type="text/javascript">
     var record;
+
     function setRecordData(rec) {
         record = rec;
     }
@@ -118,7 +119,7 @@
                     input.setAttribute("name", "authId");
                     input.setAttribute("value", parentMenu.parentId);
                     input.setAttribute("lay-skin", "primary");
-                    if(parentMenu.checked){
+                    if (parentMenu.checked) {
                         input.setAttribute("checked", "");
                     }
                     parentColDiv.appendChild(input);
@@ -136,7 +137,7 @@
                     var childDiv = document.createElement("div");
                     childDiv.setAttribute("class", "layui-row");
 
-                    for(var j=0; j<parentMenu.childMenus.length; j++){
+                    for (var j = 0; j < parentMenu.childMenus.length; j++) {
                         var childColDiv = document.createElement("div");
                         childColDiv.setAttribute("class", "layui-col-xs3 layui-col-sm3 layui-col-md3 layui-child-row");
 
@@ -146,7 +147,7 @@
                         childInput.setAttribute("value", parentMenu.childMenus[j].id);
                         childInput.setAttribute("lay-skin", "primary");
                         childInput.setAttribute("title", parentMenu.childMenus[j].name);
-                        if(parentMenu.childMenus[j].checked){
+                        if (parentMenu.childMenus[j].checked) {
                             childInput.setAttribute("checked", "");
                         }
 
