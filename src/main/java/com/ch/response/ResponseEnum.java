@@ -2,7 +2,7 @@ package com.ch.response;
 
 public enum ResponseEnum {
 	
-	SUCCESS(0, "成功!"),
+	SUCCESS(0, "操作成功!"),
 	UNKNOWN(9999, "未知异常!"),
     USER_WRONG_AUT(1000, "无效的用户名或密码!"),
 	AUTHORITY_NOT(1001, "无访问系统权限!"),
