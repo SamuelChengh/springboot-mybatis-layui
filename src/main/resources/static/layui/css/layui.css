@@ -1815,6 +1815,10 @@ a cite {
 	background-color: #5FB878
 }
 
+.layui-btn-grass {
+	background-color: #13CE66;
+}
+
 .layui-btn-disabled,.layui-btn-disabled:active,.layui-btn-disabled:hover
 	{
 	border: 1px solid #e6e6e6;

@@ -2,6 +2,11 @@ v2.5.4
 
 注意: 修改了layui.css一些样式
 
+新增按钮颜色
+.layui-btn-grass {
+    background-color: #13CE66;
+}
+
 // original
 body {
 	line-height: 24px;
