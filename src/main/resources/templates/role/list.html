@@ -95,8 +95,8 @@
                             var formButton = form.find('button')[1];
                             formButton.click();
                             return false;
-                        }
-                        , btn3: function (index, layero) {
+                        },
+                        btn3: function (index, layero) {
                             var form = parent.layer.getChildFrame('form', index);
                             var formButton = form.find('button')[2];
                             formButton.click();
@@ -118,9 +118,9 @@
                     }, record);
                     break;
                 case 'delete':
-                    delete record.createdDate;
-                    delete record.updatedDate;
-                    baselist.removeRow('/role/delete', record);
+                    var rec = {};
+                    rec.id = record.id;
+                    baselist.removeRow('/role/delete', rec);
                     break;
             }
         });

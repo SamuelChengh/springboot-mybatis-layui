@@ -159,13 +159,19 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 title: '温馨提示',
                 icon: 3
             }, function (index) {
-                $.post(url, record, function (res) {
-                    if (res.success) {
-                        parent.layer.closeAll();
-                        parent.layer.msg(res.message, {icon: 1});
-                        layPageBtn.click();
-                    } else {
-                        parent.layer.msg(res.message, {icon: 2});
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: record,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.success) {
+                            parent.layer.closeAll();
+                            parent.layer.msg(res.message, {icon: 1});
+                            layPageBtn.click();
+                        } else {
+                            parent.layer.msg(res.message, {icon: 2});
+                        }
                     }
                 });
             });

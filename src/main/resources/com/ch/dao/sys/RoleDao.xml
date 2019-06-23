@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ch.dao.sys.RoleDao">
-
     <!-- role -->
     <resultMap id="RoleResult" type="com.ch.entity.sys.Role">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="remark" property="remark" />
-        <result column="created_date" property="createdDate" />
-        <result column="updated_date" property="updatedDate" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
     </resultMap>
 
     <!-- role with authority -->
     <resultMap id="RoleAuthorityResult" type="com.ch.entity.sys.Role" extends="RoleResult">
         <collection property="authorities" ofType="com.ch.entity.sys.Authority">
-            <id column="auth_id" property="id" />
-            <result column="auth_name" property="name" />
-            <result column="auth_url" property="authUrl" />
-            <result column="parent" property="parent" />
-            <result column="display_sort" property="displaySort" />
-            <result column="icon" property="icon" />
-            <result column="auth_remark" property="remark" />
-            <result column="auth_created_date" property="createdDate" />
-            <result column="auth_updated_date" property="updatedDate" />
+            <id column="auth_id" property="id"/>
+            <result column="auth_name" property="name"/>
+            <result column="auth_url" property="authUrl"/>
+            <result column="parent" property="parent"/>
+            <result column="display_sort" property="displaySort"/>
+            <result column="icon" property="icon"/>
+            <result column="auth_remark" property="remark"/>
+            <result column="auth_created_date" property="createdDate"/>
+            <result column="auth_updated_date" property="updatedDate"/>
         </collection>
     </resultMap>
 
@@ -41,8 +40,8 @@
     <update id="update" parameterType="com.ch.entity.sys.Role">
         UPDATE sys_role
         <set>
-            <if test="name != null"> `name` = #{name}, </if>
-            <if test="remark != null"> `remark` = #{remark}, </if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
             `updated_date` = NOW(),
         </set>
         WHERE id = #{id}
@@ -64,45 +63,22 @@
         ORDER BY r.created_date DESC
     </sql>
 
+    <select id="findAll" resultMap="RoleResult" parameterType="com.ch.entity.sys.Role">
+        SELECT
+            r.id,
+            r.name,
+            r.remark,
+            r.created_date,
+            r.updated_date
+        FROM
+            sys_role r
+        <where>
+            <include refid="select_query_conditions"></include>
+        </where>
+        <include refid="select_order_conditions"></include>
+    </select>
+
     <select id="findById" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
-        SELECT
-            r.*,
-            a.id AS auth_id,
-            a.name AS auth_name,
-            a.auth_url,
-            a.parent,
-            a.display_sort,
-            a.icon,
-            a.remark AS auth_remark,
-            a.created_date AS auth_created_date,
-            a.updated_date AS auth_updated_date
-        FROM sys_role r
-        LEFT JOIN sys_role_authority ra ON ra.role_id = r.id
-        LEFT JOIN sys_authority a ON a.id = ra.authority_id
-        WHERE
-            r.id = #{id}
-    </select>
-
-    <select id="findByName" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
-        SELECT
-            r.*,
-            a.id AS auth_id,
-            a.name AS auth_name,
-            a.auth_url,
-            a.parent,
-            a.display_sort,
-            a.icon,
-            a.remark AS auth_remark,
-            a.created_date AS auth_created_date,
-            a.updated_date AS auth_updated_date
-        FROM sys_role r
-        LEFT JOIN sys_role_authority ra ON ra.role_id = r.id
-        LEFT JOIN sys_authority a ON a.id = ra.authority_id
-        WHERE
-            r.name = #{name}
-    </select>
-
-    <select id="findAll" resultMap="RoleAuthorityResult" parameterType="com.ch.dto.sys.RoleDto">
         SELECT
             r.*,
             a.id AS auth_id,
@@ -116,12 +92,25 @@
             a.updated_date AS auth_updated_date
         FROM
             sys_role r
-        LEFT JOIN sys_role_authority ra ON r.id = ra.role_id
-        LEFT JOIN sys_authority a ON ra.authority_id = a.id
-        <where>
-            <include refid="select_query_conditions"></include>
-        </where>
-        <include refid="select_order_conditions"></include>
+        LEFT JOIN
+            sys_role_authority ra ON ra.role_id = r.id
+        LEFT JOIN
+            sys_authority a ON a.id = ra.authority_id
+        WHERE
+            r.id = #{id}
+    </select>
+
+    <select id="findByName" resultMap="RoleResult" parameterType="com.ch.entity.sys.Role">
+        SELECT
+            r.id,
+            r.name,
+            r.remark,
+            r.created_date,
+            r.updated_date
+        FROM
+            sys_role r
+        WHERE
+            r.name = #{name}
     </select>
 
     <insert id="insertRoleAuth" parameterType="java.util.HashMap">
@@ -134,6 +123,5 @@
     <delete id="deleteByRoleId" parameterType="java.lang.Integer">
         DELETE FROM sys_role_authority WHERE `role_id` = #{roleId}
     </delete>
-
 </mapper>
 
