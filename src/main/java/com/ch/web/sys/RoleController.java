@@ -1,6 +1,7 @@
 package com.ch.web.sys;
 
 import com.ch.dto.sys.RoleDto;
+import com.ch.entity.sys.Role;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
 import com.ch.service.sys.RoleService;
@@ -21,6 +22,7 @@ public class RoleController {
 
     /**
      * 角色列表
+     *
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(){
@@ -37,6 +39,7 @@ public class RoleController {
 
     /**
      * 新增角色
+     *
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(){
@@ -45,14 +48,15 @@ public class RoleController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult add(RoleDto dto){
+    public ResponseResult add(Role form){
 
-        ResponseResult resp = roleService.add(dto);
+        ResponseResult resp = roleService.add(form);
         return resp;
     }
 
     /**
      * 编辑角色
+     *
      */
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String update(){
@@ -61,20 +65,21 @@ public class RoleController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult update(RoleDto dto){
+    public ResponseResult update(Role form){
 
-        ResponseResult resp = roleService.update(dto);
+        ResponseResult resp = roleService.update(form);
         return resp;
     }
 
     /**
      * 删除角色
+     *
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult delete(RoleDto dto){
+    public ResponseResult delete(Role form){
 
-        ResponseResult resp = roleService.delete(dto);
+        ResponseResult resp = roleService.delete(form);
         return resp;
     }
 
@@ -88,6 +93,7 @@ public class RoleController {
 
     /**
      * 角色权限
+     *
      */
     @RequestMapping(value = "/getAuthority", method = RequestMethod.GET)
     @ResponseBody
@@ -97,6 +103,7 @@ public class RoleController {
 
     /**
      * 设置权限
+     *
      */
     @RequestMapping(value = "/updateAuthority", method = RequestMethod.GET)
     public String authority(){

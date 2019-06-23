@@ -37,62 +37,53 @@ public class RoleService {
         Integer page = dto.getPage();
         Integer limit = dto.getLimit();
 
-        Page<Role> pages = PageHelper.startPage(page, limit).doSelectPage(()-> roleDao.findAll(dto));
+        Page<Role> pages = PageHelper.startPage(page, limit).doSelectPage(() -> roleDao.findAll(dto));
 
         return RestResultGenerator.createSuccessPageResult(pages);
     }
 
+    public ResponseResult add(Role form) {
 
-    public ResponseResult add(RoleDto dto) {
-
-        if(roleDao.findByName(dto.getName()) != null){
+        if (roleDao.findByName(form.getName()) != null) {
             return RestResultGenerator.createErrorResult(ResponseEnum.NAME_EXIST);
         }
 
-        Role role = new Role();
-        role.setName(dto.getName());
-        role.setRemark(dto.getRemark());
-        roleDao.insert(role);
+        roleDao.insert(form);
 
         return RestResultGenerator.createSuccessResult();
     }
 
 
-    public ResponseResult update(RoleDto dto) {
+    public ResponseResult update(Role form) {
 
-        Role role = roleDao.findById(dto.getId());
-        if(!role.getName().equals(dto.getName())){
-            if(roleDao.findByName(dto.getName()) != null){
+        Role role = roleDao.findById(form.getId());
+        if (!role.getName().equals(form.getName())) {
+            if (roleDao.findByName(form.getName()) != null) {
                 return RestResultGenerator.createErrorResult(ResponseEnum.NAME_EXIST);
             }
         }
 
-        role.setName(dto.getName());
-        role.setRemark(dto.getRemark());
         roleDao.update(role);
 
         return RestResultGenerator.createSuccessResult();
     }
 
-    public ResponseResult delete(RoleDto dto) {
+    public ResponseResult delete(Role form) {
 
-        Role role = roleDao.findById(dto.getId());
-        if(role == null){
+        Role role = roleDao.findById(form.getId());
+        if (role == null) {
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
-        if(role.getAuthorities().size() > 0){
-            return RestResultGenerator.createErrorResult(ResponseEnum.DATA_RELATED);
-        }
 
-        roleDao.delete(dto.getId());
-        roleDao.deleteByRoleId(dto.getId());
+        roleDao.delete(form.getId());
+        roleDao.deleteByRoleId(form.getId());
 
         return RestResultGenerator.createSuccessResult();
     }
 
     public ResponseResult getRole() {
 
-        List<Map<String, Object>> listMap = new ArrayList();
+        List<Map<String, Object>> mapList = new ArrayList();
 
         List<Role> list = roleDao.findAll(null);
         Map<String, Object> jsonMap = null;
@@ -100,10 +91,10 @@ public class RoleService {
             jsonMap = new HashMap();
             jsonMap.put("roleId", role.getId());
             jsonMap.put("roleName", role.getName());
-            listMap.add(jsonMap);
+            mapList.add(jsonMap);
         }
 
-        return RestResultGenerator.createSuccessResult(listMap);
+        return RestResultGenerator.createSuccessResult(mapList);
     }
 
     public List<MenuVo> getAuthority(Integer roleId) {
@@ -114,35 +105,35 @@ public class RoleService {
         List<Authority> authorities = role.getAuthorities();
 
         List<Authority> menuList = authorityDao.findAll();
-        if(menuList != null && menuList.size() > 0){
+        if (menuList != null && menuList.size() > 0) {
             List<Authority> parentMenuList = new ArrayList();   //  父节点菜单
             List<Authority> childMenuList = new ArrayList();    //  子节点菜单
-            for(Authority menu : menuList){
-                if(menu.getParent().equals(0)){
+            for (Authority menu : menuList) {
+                if (menu.getParent().equals(0)) {
                     parentMenuList.add(menu);
-                }else{
+                } else {
                     childMenuList.add(menu);
                 }
             }
 
-            for(Authority parentMenu : parentMenuList){
+            for (Authority parentMenu : parentMenuList) {
                 MenuVo vo = new MenuVo();
                 vo.setParentId(parentMenu.getId());
                 vo.setParentName(parentMenu.getName());
-                for(Authority myMenu : authorities){
-                    if(myMenu.getId().equals(parentMenu.getId())){
+                for (Authority myMenu : authorities) {
+                    if (myMenu.getId().equals(parentMenu.getId())) {
                         vo.setChecked(true);
                         break;
                     }
                 }
                 List<ChildMenu> childList = new ArrayList();
-                for(Authority childMenu : childMenuList){
-                    if(childMenu.getParent().equals(parentMenu.getId())){
+                for (Authority childMenu : childMenuList) {
+                    if (childMenu.getParent().equals(parentMenu.getId())) {
                         ChildMenu child = new ChildMenu();
                         child.setId(childMenu.getId());
                         child.setName(childMenu.getName());
-                        for(Authority myMenu : authorities){
-                            if(myMenu.getId().equals(childMenu.getId())){
+                        for (Authority myMenu : authorities) {
+                            if (myMenu.getId().equals(childMenu.getId())) {
                                 child.setChecked(true);
                                 break;
                             }
@@ -162,11 +153,11 @@ public class RoleService {
     public ResponseResult updateAuthority(RoleDto dto) {
 
         Role role = roleDao.findById(dto.getId());
-        if(role == null){
+        if (role == null) {
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
 
-        if(!StringUtils.isEmpty(dto.getAuthIds())){
+        if (!StringUtils.isEmpty(dto.getAuthIds())) {
             roleDao.deleteByRoleId(dto.getId());
 
             Map<String, Object> map = new HashMap();
@@ -174,7 +165,7 @@ public class RoleService {
 
             List<Integer> authIds = new ArrayList();
             String[] ids = dto.getAuthIds().split(",");
-            for(String authId: ids){
+            for (String authId : ids) {
                 authIds.add(Integer.valueOf(authId));
             }
             map.put("authIds", authIds);

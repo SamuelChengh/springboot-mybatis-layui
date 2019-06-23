@@ -1,6 +1,5 @@
 package com.ch.dao.sys;
 
-import com.ch.dto.sys.RoleDto;
 import com.ch.entity.sys.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -17,11 +16,11 @@ public interface RoleDao {
 
     Integer delete(@Param("id") Integer id);
 
+    List<Role> findAll(Role role);
+
     Role findById(@Param("id") Integer id);
 
     Role findByName(@Param("name") String name);
-
-    List<Role> findAll(RoleDto dto);
 
     void insertRoleAuth(Map<String, Object> map);
 
