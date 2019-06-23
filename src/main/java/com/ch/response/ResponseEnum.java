@@ -2,14 +2,14 @@ package com.ch.response;
 
 public enum ResponseEnum {
 	
-	SUCCESS(0, "操作成功!"),
-	UNKNOWN(9999, "未知异常!"),
-    USER_WRONG_AUT(1000, "无效的用户名或密码!"),
-	AUTHORITY_NOT(1001, "无访问系统权限!"),
-	USER_NOT_EXIST(1002, "用户不存在!"),
-	ACCOUNT_EXIST(1003, "账号已存在!"),
-	NAME_EXIST(1004, "名称已存在!"),
-	DATA_RELATED(2000, "数据已被关联, 不能删除!");
+	SUCCESS(0, "操作成功"),
+	UNKNOWN(9999, "未知异常"),
+    USER_WRONG_AUT(1000, "无效的用户名或密码"),
+	AUTHORITY_NOT(1001, "无访问系统权限"),
+	USER_NOT_EXIST(1002, "用户不存在"),
+	ACCOUNT_EXIST(1003, "账号已存在"),
+	NAME_EXIST(1004, "名称已存在"),
+	DATA_RELATED(2000, "数据已被关联, 不能删除");
 
 	private Integer  code;
 	private String   message;
