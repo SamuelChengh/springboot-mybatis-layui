@@ -201,7 +201,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                layer.alert('请至少选中一条记录!', {icon: 5});
+                parent.layer.alert('请至少选中一条记录!', {icon: 5});
                 return false;
             }
             return true;
@@ -215,10 +215,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                layer.alert('请先选中一条记录!', {icon: 5});
+                parent.layer.alert('请先选中一条记录!', {icon: 5});
                 return false;
             } else if (records.length > 1) {
-                layer.alert('不能同时选择多条记录!', {icon: 2});
+                parent.layer.alert('不能同时选择多条记录!', {icon: 2});
                 return false;
             }
             return records[0];
@@ -232,7 +232,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                layer.alert('请先选中一条记录!', {icon: 5});
+                parent.layer.alert('请先选中一条记录!', {icon: 5});
                 return false;
             }
             return records;
