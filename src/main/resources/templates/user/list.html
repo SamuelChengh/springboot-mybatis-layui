@@ -99,8 +99,8 @@
                     }, record);
                     break;
                 case 'delete':
-                    delete record.createdDate;
-                    delete record.updatedDate;
+                    var rec = {};
+                    rec.id = record.id;
                     baselist.removeRow('/user/delete', record);
                     break;
             }
