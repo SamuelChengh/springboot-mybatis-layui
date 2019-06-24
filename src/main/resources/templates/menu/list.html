@@ -47,10 +47,12 @@
                 treeSpid: 0,                // 最上级的父级id
                 treeIdName: 'id',           // id字段的名称
                 treePidName: 'parent',      // pid字段的名称
-                treeDefaultClose: false,    // 是否默认折叠
+                treeDefaultClose: true,     // 是否默认折叠
                 treeLinkage: true,          // 父级展开时是否自动展开所有子级
                 cellMinWidth: 100,
                 toolbar: '#toolbar',
+                size: 'sm',
+                height: 'full-10',
                 cols: [[
                     {field: 'name', title: '名称', width: '18%', align: 'left'},
                     {field: 'authUrl', title: '菜单地址', width: '16%', align: 'center', edit: 'text'},
