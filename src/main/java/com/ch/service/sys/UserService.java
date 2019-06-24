@@ -41,7 +41,10 @@ public class UserService {
         Integer page = dto.getPage();
         Integer limit = dto.getLimit();
 
-        Page<User> pages = PageHelper.startPage(page, limit).doSelectPage(()-> userDao.findAll(dto));
+        List<User> list = userDao.findAll(dto);
+
+        Page<User> pages = PageHelper.startPage(page, limit).doSelectPage(()-> userDao.findPageList(dto));
+        pages.setTotal(list.size());
 
         return RestResultGenerator.createSuccessPageResult(pages);
     }
@@ -112,18 +115,15 @@ public class UserService {
         return RestResultGenerator.createSuccessResult();
     }
 
-    public ResponseResult delete(UserDto dto) {
+    public ResponseResult delete(User form) {
 
-        User user = userDao.findById(dto.getId());
+        User user = userDao.findById(form.getId());
         if(user == null){
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
-        if(user.getRoles().size() > 0){
-            return RestResultGenerator.createErrorResult(ResponseEnum.DATA_RELATED);
-        }
 
-        userDao.delete(dto.getId());
-        userDao.deleteByUserId(dto.getId());
+        userDao.delete(form.getId());
+        userDao.deleteByUserId(form.getId());
 
         return RestResultGenerator.createSuccessResult();
     }

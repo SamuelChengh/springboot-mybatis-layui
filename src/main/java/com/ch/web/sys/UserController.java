@@ -1,6 +1,7 @@
 package com.ch.web.sys;
 
 import com.ch.dto.sys.UserDto;
+import com.ch.entity.sys.User;
 import com.ch.response.ResponsePageResult;
 import com.ch.response.ResponseResult;
 import com.ch.service.sys.UserService;
@@ -79,9 +80,9 @@ public class UserController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult delete(UserDto dto){
+    public ResponseResult delete(User form){
 
-        ResponseResult resp = userService.delete(dto);
+        ResponseResult resp = userService.delete(form);
         return resp;
     }
 

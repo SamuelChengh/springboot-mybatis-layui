@@ -16,11 +16,13 @@ public interface UserDao {
 
     Integer delete(@Param("id") Integer id);
 
+    List<User> findAll(User user);
+
+    List<User> findPageList(User user);
+
     User findById(@Param("id") Integer id);
 
     User findByLoginName(@Param("loginName") String loginName);
-
-    List<User> findAll(UserDto dto);
 
     void insertUserRole(Map<String, Object> map);
 
