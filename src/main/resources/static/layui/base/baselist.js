@@ -83,11 +83,11 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         // 表格参数校验
         checkTableCfg: function (cfg) {
             if (cfg.url == "") {
-                layer.msg('参数url不能为空', {icon: 5});
+                parent.layer.msg('参数url不能为空', {icon: 5, offset: '10px', anim: 1});
                 return false;
             }
             if (cfg.cols == "") {
-                layer.msg('参数cols不能为空', {icon: 5});
+                parent.layer.msg('参数cols不能为空', {icon: 5, offset: '10px', anim: 1});
                 return false;
             }
             return true;
@@ -162,10 +162,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 $.post(url, record, function (res) {
                     if (res.success) {
                         parent.layer.closeAll();
-                        parent.layer.msg(res.message, {icon: 1});
+                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                         layPageBtn.click();
                     } else {
-                        parent.layer.msg(res.message, {icon: 2});
+                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
                 });
             });
@@ -185,9 +185,9 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 success: function (res) {
                     if (res.success) {
                         parent.layer.closeAll();
-                        parent.layer.msg(res.message, {icon: 1});
+                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                     } else {
-                        parent.layer.msg(res.message, {icon: 2});
+                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
                 }
             })
@@ -246,12 +246,12 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 dataType: "json",
                 success: function (res) {
                     if (res.success) {
-                        parent.layer.msg(res.message, {icon: 1});
+                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
 
                         // 刷新表格(分页控件的"确定"按钮)
                         layPageBtn.click();
                     } else {
-                        parent.layer.msg(res.message, {icon: 2});
+                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
                 }
             })
@@ -264,12 +264,12 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 dataType: "json",
                 success: function (res) {
                     if (res.success) {
-                        parent.layer.msg(res.message, {icon: 1});
+                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
 
                         // 刷新表格(分页控件的"确定"按钮)
                         layPageBtn.click();
                     } else {
-                        parent.layer.msg(res.message, {icon: 2});
+                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
                 }
             });
