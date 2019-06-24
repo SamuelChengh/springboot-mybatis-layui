@@ -37,7 +37,10 @@ public class RoleService {
         Integer page = dto.getPage();
         Integer limit = dto.getLimit();
 
-        Page<Role> pages = PageHelper.startPage(page, limit).doSelectPage(() -> roleDao.findAll(dto));
+        List<Role> list = roleDao.findAll(dto);
+
+        Page<Role> pages = PageHelper.startPage(page, limit).doSelectPage(() -> roleDao.findPageList(dto));
+        pages.setTotal(list.size());
 
         return RestResultGenerator.createSuccessPageResult(pages);
     }

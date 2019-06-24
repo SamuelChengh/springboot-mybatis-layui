@@ -18,6 +18,8 @@ public interface RoleDao {
 
     List<Role> findAll(Role role);
 
+    List<Role> findPageList(Role role);
+
     Role findById(@Param("id") Integer id);
 
     Role findByName(@Param("name") String name);
