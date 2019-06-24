@@ -8,8 +8,6 @@ import lombok.ToString;
 @ToString
 public class Authority extends BaseEntity{
 
-    private Integer id;
-
     private String  name;       // 名称
 
     private String  authUrl;    // 路径

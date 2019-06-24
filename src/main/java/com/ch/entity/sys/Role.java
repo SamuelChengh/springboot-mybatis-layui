@@ -10,8 +10,6 @@ import java.util.List;
 @ToString
 public class Role extends BaseEntity{
 
-    private Integer id;
-
     private String  name;   // 名称
 
     private String  remark; // 备注

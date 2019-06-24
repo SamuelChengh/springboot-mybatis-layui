@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 @ToString
 public class BaseEntity implements Serializable {
 
+    private Integer id;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Timestamp createdDate; // 创建时间
 

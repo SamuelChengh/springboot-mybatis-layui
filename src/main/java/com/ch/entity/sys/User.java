@@ -10,8 +10,6 @@ import java.util.List;
 @ToString
 public class User extends BaseEntity{
 
-    private Integer id;
-
     private String  loginName; // 登录名
 
     private String  nickName;  // 昵称
