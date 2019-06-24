@@ -78,9 +78,41 @@
         <include refid="select_order_conditions"></include>
     </select>
 
+    <select id="findPageList" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
+        SELECT
+            r.id,
+            r.name,
+            r.remark,
+            r.created_date,
+            r.updated_date,
+            a.id AS auth_id,
+            a.name AS auth_name,
+            a.auth_url,
+            a.parent,
+            a.display_sort,
+            a.icon,
+            a.remark AS auth_remark,
+            a.created_date AS auth_created_date,
+            a.updated_date AS auth_updated_date
+        FROM
+            sys_role r
+        LEFT JOIN
+            sys_role_authority ra ON ra.role_id = r.id
+        LEFT JOIN
+            sys_authority a ON a.id = ra.authority_id
+        <where>
+            <include refid="select_query_conditions"></include>
+        </where>
+        <include refid="select_order_conditions"></include>
+    </select>
+
     <select id="findById" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
         SELECT
-            r.*,
+            r.id,
+            r.name,
+            r.remark,
+            r.created_date,
+            r.updated_date,
             a.id AS auth_id,
             a.name AS auth_name,
             a.auth_url,
