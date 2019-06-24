@@ -63,7 +63,7 @@ public class RoleService {
             }
         }
 
-        roleDao.update(role);
+        roleDao.update(form);
 
         return RestResultGenerator.createSuccessResult();
     }
