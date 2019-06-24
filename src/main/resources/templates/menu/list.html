@@ -52,13 +52,13 @@
                         cellMinWidth: 100,
                         toolbar: '#toolbar',
                         cols: [[
-                            {field: 'name', title: '名称', width: '20%', align: 'left'},
-                            {field: 'authUrl', title: '菜单地址', width: '20%', align: 'center', edit: 'text'},
-                            {field: 'remark', title: '菜单描述', width: '18%', align: 'center', edit: 'text'},
-                            {field: 'displaySort', title: '顺序', width: '8%', align: 'center', edit: 'text'},
-                            {field: 'icon', title: '图标', width: '12%', align: 'center', edit: 'text'},
+                            {field: 'name', title: '名称', width: '18%', align: 'left'},
+                            {field: 'authUrl', title: '菜单地址', width: '16%', align: 'center', edit: 'text'},
+                            {field: 'remark', title: '菜单描述', width: '12%', align: 'center', edit: 'text'},
+                            {field: 'displaySort', title: '顺序', width: '6%', align: 'center', edit: 'text'},
+                            {field: 'icon', title: '图标', width: '16%', align: 'center', edit: 'text'},
                             {
-                                field: 'displayType', title: '类型', width: '6%', align: 'center', edit: 'text',
+                                field: 'displayType', title: '类型', width: '8%', align: 'center', edit: 'text',
                                 templet: function (row) {
                                     if (row.displayType == 1) {
                                         return '<span class="layui-badge layui-bg-blue">模块</span>';
@@ -67,8 +67,8 @@
                                     }
                                 }
                             },
-                            {field: 'createdDate', title: '创建时间', width: '10%', align: 'center'},
-                            {title: '操作', align: 'center', width: '6%', toolbar: '#tool'}
+                            {field: 'createdDate', title: '创建时间', width: '16%', align: 'center'},
+                            {title: '操作', align: 'center', width: '8%', toolbar: '#tool'}
                         ]],
                         done: function () {
                             layer.closeAll('loading');
