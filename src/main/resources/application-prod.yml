@@ -1,16 +1,16 @@
-    #######################################
-    ##             端口配置               ##
-    #######################################
+#######################################
+##             端口配置               ##
+#######################################
 server:
   port: 8080
 
 spring:
-    #######################################
-    ##             MySQL配置             ##
-    #######################################
+  #######################################
+  ##             MySQL配置             ##
+  #######################################
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost/test?useSSL=false&autoReconnectForPools=true&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost/ssm_layui?useSSL=false&autoReconnectForPools=true&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -77,10 +77,32 @@ spring:
       master:
       nodes:
 
+  #######################################
+  ##             Thymleaf配置          ##
+  #######################################
+  thymeleaf:
+    cache: false
+    content-type: text/html
+    encoding: UTF-8
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  mvc:
+    static-path-pattern: /resources/static/**
+
     #######################################
     ##             Mybatis配置           ##
     #######################################
 mybatis:
-    mapperLocations: classpath:com/ch/dao/*.xml
-    typeAliasesPackage: com.ch.dao
-    configLocation: classpath:/mybatis-config.xml
+  mapperLocations: classpath:com/ch/dao/*.xml
+  typeAliasesPackage: com.ch.dao
+  configLocation: classpath:/mybatis-config.xml
+
+    #######################################
+    ##             Shiro配置             ##
+  #######################################
+shiro:
+  loginUrl: /
+  successUrl: /index
+  unauthorizedUrl: /403
+  filterChainDefinitions: /resources/static/**=anon;/index=authc;/user/**=authc
