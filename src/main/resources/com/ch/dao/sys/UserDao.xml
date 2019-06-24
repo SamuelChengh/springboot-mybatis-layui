@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ch.dao.sys.UserDao">
-
-    <!-- user -->
+    <!-- User -->
     <resultMap id="UserResult" type="com.ch.entity.sys.User">
-        <id column="id" property="id" />
-        <result column="login_name" property="loginName" />
-        <result column="nick_name" property="nickName" />
-        <result column="password" property="password" />
-        <result column="status" property="status" />
-        <result column="remark" property="remark" />
-        <result column="created_date" property="createdDate" />
-        <result column="updated_date" property="updatedDate" />
+        <id column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="password" property="password"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
     </resultMap>
 
-    <!-- user with role -->
+    <!-- User With Role -->
     <resultMap id="UserRoleResult" type="com.ch.entity.sys.User" extends="UserResult">
         <collection property="roles" ofType="com.ch.entity.sys.Role">
-            <id column="role_id" property="id" />
-            <result column="role_name" property="name" />
-            <result column="role_remark" property="remark" />
-            <result column="role_created_date" property="createdDate" />
-            <result column="role_updated_date" property="updatedDate" />
+            <id column="role_id" property="id"/>
+            <result column="role_name" property="name"/>
+            <result column="role_remark" property="remark"/>
+            <result column="role_created_date" property="createdDate"/>
+            <result column="role_updated_date" property="updatedDate"/>
         </collection>
     </resultMap>
 
@@ -46,11 +45,11 @@
     <update id="update" parameterType="com.ch.entity.sys.User">
         UPDATE sys_user
         <set>
-            <if test="loginName != null"> `login_name` = #{loginName}, </if>
-            <if test="nickName != null"> `nick_name` = #{nickName}, </if>
-            <if test="password != null"> `password` = #{password}, </if>
-            <if test="status != null"> `status` = #{status}, </if>
-            <if test="remark != null"> `remark` = #{remark}, </if>
+            <if test="loginName != null">`login_name` = #{loginName},</if>
+            <if test="nickName != null">`nick_name` = #{nickName},</if>
+            <if test="password != null">`password` = #{password},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
             `updated_date` = NOW(),
         </set>
         WHERE id = #{id}
@@ -60,24 +59,46 @@
         DELETE FROM sys_user WHERE `id` = #{id}
     </delete>
 
-    <!-- 查询sql片段 -->
+    <!-- 查询片段 -->
     <sql id="select_query_conditions">
         <if test="loginName != null and loginName != ''">
-            AND login_name LIKE CONCAT("%",#{loginName},"%")
-        </if>
-        <if test="nickName != null and nickName != ''">
-            AND nick_name LIKE CONCAT("%",#{nickName},"%")
+            AND u.login_name LIKE CONCAT("%",#{loginName},"%")
         </if>
     </sql>
 
-    <!-- 排序sql片段 -->
+    <!-- 排序片段 -->
     <sql id="select_order_conditions">
         ORDER BY created_date DESC
     </sql>
 
-    <select id="findById" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
+    <select id="findAll" resultMap="UserResult" parameterType="com.ch.entity.sys.User">
         SELECT
-            u.*,
+            u.id,
+            u.login_name,
+            u.nick_name,
+            u.password,
+            u.status,
+            u.remark,
+            u.created_date,
+            u.updated_date
+        FROM
+            sys_user u
+        <where>
+            <include refid="select_query_conditions"></include>
+        </where>
+        <include refid="select_order_conditions"></include>
+    </select>
+
+    <select id="findPageList" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
+        SELECT
+            u.id,
+            u.login_name,
+            u.nick_name,
+            u.password,
+            u.status,
+            u.remark,
+            u.created_date,
+            u.updated_date,
             r.id AS role_id,
             r.name AS role_name,
             r.remark AS role_remark,
@@ -85,15 +106,42 @@
             r.updated_date AS role_updated_date
         FROM
             sys_user u
-        LEFT JOIN sys_user_role ur ON ur.user_id = u.id
-        LEFT JOIN sys_role r ON r.id = ur.role_id
+        LEFT JOIN
+            sys_user_role ur ON u.id = ur.user_id
+        LEFT JOIN
+            sys_role r ON ur.role_id = r.id
+        <where>
+            <include refid="select_query_conditions"></include>
+        </where>
+        <include refid="select_order_conditions"></include>
+    </select>
+
+    <select id="findById" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
+        SELECT
+            u.id,
+            u.login_name,
+            u.nick_name,
+            u.password,
+            u.status,
+            u.remark,
+            u.created_date,
+            u.updated_date
+        FROM
+            sys_user u
         WHERE
             u.id = #{id}
     </select>
 
     <select id="findByLoginName" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
         SELECT
-            u.*,
+            u.id,
+            u.login_name,
+            u.nick_name,
+            u.password,
+            u.status,
+            u.remark,
+            u.created_date,
+            u.updated_date,
             r.id AS role_id,
             r.name AS role_name,
             r.remark AS role_remark,
@@ -101,28 +149,12 @@
             r.updated_date AS role_updated_date
         FROM
             sys_user u
-        LEFT JOIN sys_user_role ur ON ur.user_id = u.id
-        LEFT JOIN sys_role r ON r.id = ur.role_id
+        LEFT JOIN
+            sys_user_role ur ON ur.user_id = u.id
+        LEFT JOIN
+            sys_role r ON r.id = ur.role_id
         WHERE
             u.login_name = #{loginName}
-    </select>
-
-    <select id="findAll" resultMap="UserRoleResult" parameterType="com.ch.dto.sys.UserDto">
-        SELECT
-            u.*,
-            r.id AS role_id,
-            r.name AS role_name,
-            r.remark AS role_remark,
-            r.created_date AS role_created_date,
-            r.updated_date AS role_updated_date
-        FROM
-            sys_user u
-        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
-        LEFT JOIN sys_role r ON ur.role_id = r.id
-        <where>
-            <include refid="select_query_conditions"></include>
-        </where>
-        <include refid="select_order_conditions"></include>
     </select>
 
     <insert id="insertUserRole" parameterType="java.util.HashMap">
@@ -135,6 +167,5 @@
     <delete id="deleteByUserId" parameterType="java.lang.Integer">
         DELETE FROM sys_user_role WHERE `user_id` = #{userId}
     </delete>
-
 </mapper>
 
