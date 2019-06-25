@@ -108,9 +108,9 @@
                 success: function (res) {
                     if (res.success) {
                         parent.layer.closeAll();
-                        parent.parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
+                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                     } else {
-                        parent.parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
+                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
                 }
             })

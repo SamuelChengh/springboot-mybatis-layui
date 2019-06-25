@@ -108,7 +108,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 yes: function (index, layero) {
 
                     // 获取弹出层中的form表单
-                    var form = layer.getChildFrame('form', index);
+                    var form = parent.layer.getChildFrame('form', index);
 
                     // 获取表单中的确定按钮
                     var formButton = form.find('button')[0];
@@ -134,7 +134,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
 
             var cfg = baselist.iframeLayerConfig(param);
 
-            layer.open(cfg);
+            parent.layer.open(cfg);
         },
 
         /*
@@ -148,7 +148,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 iframe.setRecordData(record);
             }
 
-            layer.open(cfg);
+            parent.layer.open(cfg);
         },
 
         /*
@@ -156,13 +156,13 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         *
         * */
         removeRow: function (url, record) {
-            layer.confirm('您确定要删除该条记录吗？', {
+            parent.layer.confirm('您确定要删除该条记录吗？', {
                 title: '温馨提示',
                 icon: 3
             }, function (index) {
                 $.post(url, record, function (res) {
                     if (res.success) {
-                        layer.closeAll();
+                        parent.layer.closeAll();
                         parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                         layPageBtn.click();
                     } else {
