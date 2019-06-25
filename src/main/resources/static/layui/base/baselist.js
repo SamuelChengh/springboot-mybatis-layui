@@ -60,7 +60,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 limits: [15, 30, 60, 100],
                 loading: true,
                 cellMinWidth: 100,
-                height: 'full-40',
+                height: 'full-36',
                 size: 'sm',
                 text: {
                     none: '暂无相关数据'
