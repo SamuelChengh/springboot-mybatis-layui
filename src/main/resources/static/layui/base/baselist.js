@@ -103,11 +103,12 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var cfg = {
                 type: 2,
                 resize: false,
+                scrollbar: false,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
 
                     // 获取弹出层中的form表单
-                    var form = parent.layer.getChildFrame('form', index);
+                    var form = layer.getChildFrame('form', index);
 
                     // 获取表单中的确定按钮
                     var formButton = form.find('button')[0];
@@ -133,7 +134,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
 
             var cfg = baselist.iframeLayerConfig(param);
 
-            parent.layer.open(cfg);
+            layer.open(cfg);
         },
 
         /*
@@ -147,7 +148,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 iframe.setRecordData(record);
             }
 
-            parent.layer.open(cfg);
+            layer.open(cfg);
         },
 
         /*
@@ -155,13 +156,13 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         *
         * */
         removeRow: function (url, record) {
-            parent.layer.confirm('您确定要删除该条记录吗？', {
+            layer.confirm('您确定要删除该条记录吗？', {
                 title: '温馨提示',
                 icon: 3
             }, function (index) {
                 $.post(url, record, function (res) {
                     if (res.success) {
-                        parent.layer.closeAll();
+                        layer.closeAll();
                         parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                         layPageBtn.click();
                     } else {
@@ -185,9 +186,9 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 success: function (res) {
                     if (res.success) {
                         parent.layer.closeAll();
-                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
+                        parent.parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                     } else {
-                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
+                        parent.parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
                 }
             })
@@ -201,7 +202,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                parent.layer.alert('请至少选中一条记录!', {icon: 5});
+                layer.alert('请至少选中一条记录!', {icon: 5});
                 return false;
             }
             return true;
@@ -215,10 +216,10 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                parent.layer.alert('请先选中一条记录!', {icon: 5});
+                layer.alert('请先选中一条记录!', {icon: 5});
                 return false;
             } else if (records.length > 1) {
-                parent.layer.alert('不能同时选择多条记录!', {icon: 2});
+                layer.alert('不能同时选择多条记录!', {icon: 2});
                 return false;
             }
             return records[0];
@@ -232,7 +233,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                parent.layer.alert('请先选中一条记录!', {icon: 5});
+                layer.alert('请先选中一条记录!', {icon: 5});
                 return false;
             }
             return records;
