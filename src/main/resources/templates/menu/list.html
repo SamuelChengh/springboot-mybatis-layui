@@ -87,7 +87,7 @@
         table.on('toolbar(tbf)', function (obj) {
             switch (obj.event) {
                 case 'add':
-                    parent. layer.open({
+                    layer.open({
                         type: 2,
                         title: '新增菜单',
                         content: '/menu/add',
@@ -97,7 +97,7 @@
                         yes: function (index, layero) {
 
                             // 获取弹出层中的form表单
-                            var form = parent.layer.getChildFrame('form', index);
+                            var form = layer.getChildFrame('form', index);
 
                             // 获取表单中的确定按钮
                             var formButton = form.find('button')[0];
@@ -120,13 +120,13 @@
             rec.id = record.id;
             switch (obj.event) {
                 case 'delete':
-                    parent.layer.confirm('您确定要删除该条记录吗？', {
+                    layer.confirm('您确定要删除该条记录吗？', {
                         title: '温馨提示',
                         icon: 3
                     }, function (index) {
                         $.post('/menu/delete', rec, function (res) {
                             if (res.success) {
-                                parent.layer.closeAll();
+                                layer.closeAll();
                                 parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                                 renderTable();
                             } else {
