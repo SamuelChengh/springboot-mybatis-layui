@@ -60,7 +60,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 limits: [15, 30, 60, 100],
                 loading: true,
                 cellMinWidth: 100,
-                height: 'full-40',
+                height: 'full-36',
                 size: 'sm',
                 text: {
                     none: '暂无相关数据'
@@ -103,6 +103,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
             var cfg = {
                 type: 2,
                 resize: false,
+                scrollbar: false,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
 
@@ -185,9 +186,9 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 success: function (res) {
                     if (res.success) {
                         parent.layer.closeAll();
-                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
+                        parent.parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
                     } else {
-                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
+                        parent.parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
                 }
             })

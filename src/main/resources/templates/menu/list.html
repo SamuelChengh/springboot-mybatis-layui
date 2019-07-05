@@ -52,7 +52,7 @@
                 cellMinWidth: 100,
                 toolbar: '#toolbar',
                 size: 'sm',
-                height: 'full-10',
+                height: 'full-6',
                 cols: [[
                     {field: 'name', title: '名称', width: '18%', align: 'left'},
                     {field: 'authUrl', title: '菜单地址', width: '16%', align: 'center', edit: 'text'},
@@ -87,7 +87,7 @@
         table.on('toolbar(tbf)', function (obj) {
             switch (obj.event) {
                 case 'add':
-                    parent. layer.open({
+                    parent.layer.open({
                         type: 2,
                         title: '新增菜单',
                         content: '/menu/add',
