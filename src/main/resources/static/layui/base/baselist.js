@@ -249,7 +249,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                         parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
 
                         // 刷新表格(分页控件的"确定"按钮)
-                        layPageBtn.click();
+                        $('.layui-laypage-btn').click();
                     } else {
                         parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
@@ -267,7 +267,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                         parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
 
                         // 刷新表格(分页控件的"确定"按钮)
-                        layPageBtn.click();
+                        $('.layui-laypage-btn').click();
                     } else {
                         parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
                     }
