@@ -116,8 +116,11 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                     // 触发确定按钮事件
                     formButton.click();
 
-                    // 刷新表格(分页控件的"确定"按钮)
-                    layPageBtn.click();
+                    if(layPageBtn.length > 0){
+                        layPageBtn.click();     // 刷新表格(分页控件的"确定"按钮)
+                    }else{
+                        table.reload('tb');     // 表格重载
+                    }
                 }
             };
 
