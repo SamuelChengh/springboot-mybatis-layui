@@ -1,4 +1,4 @@
-package com.ch.web.sys;
+package com.ch.controller.sys;
 
 import com.ch.dto.sys.RoleDto;
 import com.ch.entity.sys.Role;

@@ -1,4 +1,4 @@
-package com.ch.web.account;
+package com.ch.controller.account;
 
 import com.ch.common.ConstantsCMP;
 import com.ch.dao.sys.UserDao;
