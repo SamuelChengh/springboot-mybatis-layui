@@ -1,171 +1,115 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ch.dao.sys.UserDao">
+
     <!-- User -->
-    <resultMap id="UserResult" type="com.ch.entity.sys.User">
+    <resultMap id="UserResult" type="User">
         <id column="id" property="id"/>
-        <result column="login_name" property="loginName"/>
+        <result column="user_name" property="userName"/>
         <result column="nick_name" property="nickName"/>
         <result column="password" property="password"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
+        <collection column="id" property="roles" select="select_roles_by_user_id"></collection>
     </resultMap>
 
-    <!-- User With Role -->
-    <resultMap id="UserRoleResult" type="com.ch.entity.sys.User" extends="UserResult">
-        <collection property="roles" ofType="com.ch.entity.sys.Role">
-            <id column="role_id" property="id"/>
-            <result column="role_name" property="name"/>
-            <result column="role_remark" property="remark"/>
-            <result column="role_created_date" property="createdDate"/>
-            <result column="role_updated_date" property="updatedDate"/>
-        </collection>
+    <!-- Role -->
+    <resultMap id="RoleResult" type="Role">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="roles" property="roles"/>
+        <result column="remark" property="remark"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.ch.entity.sys.User" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO sys_user (
-            `login_name`,
-            `nick_name`,
-            `password`,
-            `status`,
-            `remark`,
-            `created_date`
-        ) VALUES (
-            #{loginName},
-            #{nickName},
-            #{password},
-            #{status},
-            #{remark},
-            NOW()
-        )
-    </insert>
+    <select id="select_roles_by_user_id" resultMap="RoleResult" parameterType="java.lang.Integer">
+        SELECT
+            r.id,
+            r.role_name,
+            r.roles,
+            r.remark,
+            r.created_date,
+            r.updated_date
+        FROM
+            sys_role r,
+            sys_user_role ur,
+            sys_user u
+        WHERE
+            r.id = ur.role_id AND ur.user_id = u.id AND u.id = #{id}
+    </select>
 
-    <update id="update" parameterType="com.ch.entity.sys.User">
-        UPDATE sys_user
-        <set>
-            <if test="loginName != null">`login_name` = #{loginName},</if>
-            <if test="nickName != null">`nick_name` = #{nickName},</if>
-            <if test="password != null">`password` = #{password},</if>
-            <if test="status != null">`status` = #{status},</if>
-            <if test="remark != null">`remark` = #{remark},</if>
-            `updated_date` = NOW(),
-        </set>
-        WHERE id = #{id}
-    </update>
+    <!-- all column -->
+    <sql id="all_column">
+        id,
+        user_name,
+        nick_name,
+        password,
+        status,
+        remark,
+        created_date,
+        updated_date
+    </sql>
 
-    <delete id="delete" parameterType="java.lang.Integer">
-        DELETE FROM sys_user WHERE `id` = #{id}
-    </delete>
-
-    <!-- 查询片段 -->
+    <!-- query conditions -->
     <sql id="select_query_conditions">
-        <if test="loginName != null and loginName != ''">
-            AND u.login_name LIKE CONCAT("%",#{loginName},"%")
+        <if test="userName != null and userName != ''">
+            AND user_name LIKE CONCAT("%",#{userName},"%")
+        </if>
+        <if test="roleId != null">
+            AND id IN(select user_id from sys_user_role where role_id = #{roleId})
         </if>
     </sql>
 
-    <!-- 排序片段 -->
+    <!-- order conditions -->
     <sql id="select_order_conditions">
         ORDER BY created_date DESC
     </sql>
 
-    <select id="findAll" resultMap="UserResult" parameterType="com.ch.entity.sys.User">
+    <select id="findAll" resultMap="UserResult" parameterType="User">
         SELECT
-            u.id,
-            u.login_name,
-            u.nick_name,
-            u.password,
-            u.status,
-            u.remark,
-            u.created_date,
-            u.updated_date
+            <include refid="all_column"></include>
         FROM
-            sys_user u
-        <where>
-            <include refid="select_query_conditions"></include>
-        </where>
+            sys_user
+        WHERE
+            1 = 1
+        <include refid="select_query_conditions"></include>
         <include refid="select_order_conditions"></include>
     </select>
 
-    <select id="findPageList" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
+    <select id="findById" resultMap="UserResult" parameterType="User">
         SELECT
-            u.id,
-            u.login_name,
-            u.nick_name,
-            u.password,
-            u.status,
-            u.remark,
-            u.created_date,
-            u.updated_date,
-            r.id AS role_id,
-            r.name AS role_name,
-            r.remark AS role_remark,
-            r.created_date AS role_created_date,
-            r.updated_date AS role_updated_date
+            <include refid="all_column"></include>
         FROM
-            sys_user u
-        LEFT JOIN
-            sys_user_role ur ON u.id = ur.user_id
-        LEFT JOIN
-            sys_role r ON ur.role_id = r.id
-        <where>
-            <include refid="select_query_conditions"></include>
-        </where>
-        <include refid="select_order_conditions"></include>
-    </select>
-
-    <select id="findById" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
-        SELECT
-            u.id,
-            u.login_name,
-            u.nick_name,
-            u.password,
-            u.status,
-            u.remark,
-            u.created_date,
-            u.updated_date
-        FROM
-            sys_user u
+            sys_user
         WHERE
-            u.id = #{id}
+            id = #{id}
     </select>
 
-    <select id="findByLoginName" resultMap="UserRoleResult" parameterType="com.ch.entity.sys.User">
+    <select id="findByUserName" resultMap="UserResult" parameterType="java.lang.String">
         SELECT
-            u.id,
-            u.login_name,
-            u.nick_name,
-            u.password,
-            u.status,
-            u.remark,
-            u.created_date,
-            u.updated_date,
-            r.id AS role_id,
-            r.name AS role_name,
-            r.remark AS role_remark,
-            r.created_date AS role_created_date,
-            r.updated_date AS role_updated_date
+            <include refid="all_column"></include>
         FROM
-            sys_user u
-        LEFT JOIN
-            sys_user_role ur ON ur.user_id = u.id
-        LEFT JOIN
-            sys_role r ON r.id = ur.role_id
+            sys_user
         WHERE
-            u.login_name = #{loginName}
+            user_name = #{userName}
     </select>
 
-    <insert id="insertUserRole" parameterType="java.util.HashMap">
-        INSERT INTO sys_user_role (`user_id`, `role_id`) VALUES
-        <foreach collection="roleIds" item="roleId" separator=",">
-            (#{userId}, #{roleId})
+    <insert id="batchInsertUserRole">
+        INSERT INTO sys_user_role
+            (user_id, role_id)
+        VALUES
+        <foreach collection="urs" item="ur" separator=",">
+            (#{ur.userId}, #{ur.roleId})
         </foreach>
     </insert>
 
     <delete id="deleteByUserId" parameterType="java.lang.Integer">
-        DELETE FROM sys_user_role WHERE `user_id` = #{userId}
+        DELETE FROM
+            sys_user_role
+        WHERE
+            user_id = #{userId}
     </delete>
 </mapper>
-

@@ -1,0 +1,108 @@
+server:
+  port: 8089
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/oz_education?useSSL=false&autoReconnectForPools=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  druid:
+    initialSize: 1
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,slf4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
+    druidAllow:
+    druidDeny:
+    druidLoginName: druid
+    druidPassword: 123456
+
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    pool:
+      max-idle: 300
+      min-idle: 0
+
+  freemarker:
+    template-loader-path: classpath:/templates/
+    cache: false
+    charset: UTF-8
+    content-type: text/html
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
+    suffix: .ftl
+    settings:
+      template_update_delay: 0
+      default_encoding: UTF-8
+      url_escaping_charset: UTF-8
+      classic_compatible: true
+      locale: zh_CN
+      whitespace_stripping: true
+      number_format: 0.##
+      auto_import: common/freemarker.ftl as fm
+
+  devtools:
+    restart:
+      enabled: true
+
+  mvc:
+    static-path-pattern: /resources/static/**
+
+  http:
+    multipart:
+      enabled: true
+      max-request-size: 100MB
+      max-file-size: 100MB
+
+mybatis-plus:
+  mapper-locations: classpath:com/ch/dao/*.xml
+  type-aliases-package: com.ch.entity
+  global-config:
+    id-type: 0
+    field-strategy: 1
+    refresh-mapper: true
+    capital-mode: true
+
+logging:
+  level:
+    com.ch.dao: info
+
+shiro:
+  loginUrl: /
+  successUrl: /index
+  unauthorizedUrl: /nopermission
+  filterChainDefinitions: /index=authc;/user/**=authc;/role/**=authc;/menu/**=authc;/file/**=authc
+  timeOut: 8
+
+kaptcha:
+  border: "no"
+  border.color: 105,179,90
+  textproducer:
+    font:
+      color: blue
+      size: 80
+      names: 宋体,楷体,微软雅黑
+    char:
+      length: 4
+  image:
+    width: 250
+    height: 90
+  session:
+    key: code

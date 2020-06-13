@@ -1,30 +1,24 @@
 package com.ch.dao.sys;
 
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.ch.entity.sys.Role;
+import com.ch.entity.sys.RoleMenu;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 @Component
-public interface RoleDao {
-
-    Integer insert(Role role);
-
-    Integer update(Role role);
-
-    Integer delete(@Param("id") Integer id);
+public interface RoleDao extends BaseMapper<Role> {
 
     List<Role> findAll(Role role);
 
-    List<Role> findPageList(Role role);
-
     Role findById(@Param("id") Integer id);
 
-    Role findByName(@Param("name") String name);
+    Role findByRoleName(@Param("roleName") String roleName);
 
-    void insertRoleAuth(Map<String, Object> map);
+    void batchInsertRoleMenu(@Param("rms") List<RoleMenu> rms);
 
     void deleteByRoleId(@Param("roleId") Integer roleId);
+
 }

@@ -4,10 +4,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         form = layui.form,
         table = layui.table;
 
-    /*
-    * 查询
-    *
-    * */
+    // 查询
     form.on('submit(search)', function (data) {
         var where = {};
         var formArray = $("#searchForm").serializeArray();
@@ -23,10 +20,7 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         return false;
     });
 
-    /*
-    * 排序
-    *
-    * */
+    // 排序
     table.on('sort(tbf)', function (obj) {
         table.reload('tb', {
             initSort: obj,
@@ -37,7 +31,26 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         });
     });
 
-    var layPageBtn;
+    // 输入框字符串长度限制(需要在input框中添加maxlength属性)
+    form.verify({
+        length: function (value, item) {
+            var maxlength = item.getAttribute('maxlength');
+            if (value.length > maxlength) {
+                return '最多只能输入' + maxlength + '个字符';
+            }
+
+            // unicode编码中，中文双字符，英文单字符
+            // var sum = 0;
+            // for (i = 0; i < value.length; i++) {
+            //     if ((value.charCodeAt(i) >= 0) && (value.charCodeAt(i) <= 255)) {
+            //         sum = sum + 1;
+            //     } else {
+            //         sum = sum + 2;
+            //     }
+            // }
+        }
+    });
+
     var baselist = {
 
         // 渲染表格
@@ -51,22 +64,23 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 method: 'post',
                 url: '',
                 toolbar: '#toolbar',
+                defaultToolbar: [],
                 cols: [],
                 page: {
                     layout: ['prev', 'page', 'next', 'skip', 'limit', 'count'], //自定义分页布局                
                     theme: "#1E9FFF"
                 },
-                limit: 15,
-                limits: [15, 30, 60, 100],
+                limit: 10,
+                limits: [10, 30, 60, 100],
                 loading: true,
-                cellMinWidth: 100,
-                height: 'full-36',
-                size: 'sm',
+                cellMinWidth: 150,
+                size: 'lg',
                 text: {
                     none: '暂无相关数据'
                 },
                 done: function (res, curr, count) {
-                    layPageBtn = $('.layui-laypage-btn');
+                    $("table").css("width", "100%");
+                    $(".layui-table th").css("font-weight", "600");
                 }
             };
 
@@ -82,164 +96,158 @@ layui.define(['layer', 'form', 'table'], function (exports) {
 
         // 表格参数校验
         checkTableCfg: function (cfg) {
-            if (cfg.url == "") {
-                parent.layer.msg('参数url不能为空', {icon: 5, offset: '10px', anim: 1});
-                return false;
-            }
             if (cfg.cols == "") {
-                parent.layer.msg('参数cols不能为空', {icon: 5, offset: '10px', anim: 1});
+                layer.msg('参数cols不能为空', {icon: 5, offset: '10px', anim: 1});
                 return false;
             }
             return true;
         },
 
         /*
-        * 弹出层参数(iframe)
-        *
-        * */
-        iframeLayerConfig: function (param) {
+         * 弹出层(iframe)
+         *
+         * */
+        openIframeLayer: function (param) {
 
             // 基础参数
             var cfg = {
                 type: 2,
                 resize: false,
+                btn: ['保存', '取消'],
+                btnAlign: 'c',
                 scrollbar: false,
-                btn: ['确定', '取消'],
                 yes: function (index, layero) {
-
-                    // 获取弹出层中的form表单
-                    var form = parent.layer.getChildFrame('form', index);
-
+                    // 获取iframe页的窗口对象
+                    var iframeWin = window[layero.find('iframe')[0]['name']];
                     // 获取表单中的确定按钮
-                    var formButton = form.find('button')[0];
-
+                    var submitButton = iframeWin.document.getElementById("submit");
                     // 触发确定按钮事件
-                    formButton.click();
-
-                    if(layPageBtn.length > 0){
-                        layPageBtn.click();     // 刷新表格(分页控件的"确定"按钮)
-                    }else{
-                        table.reload('tb');     // 表格重载
-                    }
+                    submitButton.click();
                 }
             };
 
             cfg = $.extend(cfg, param);
 
-            return cfg;
+            layer.open(cfg);
         },
 
         /*
-        * 新增
-        *
-        * */
-        createRow: function (param) {
-
-            var cfg = baselist.iframeLayerConfig(param);
-
-            parent.layer.open(cfg);
-        },
-
-        /*
-        * 编辑
-        *
-        * */
-        updateRow: function (param, record) {
-            var cfg = baselist.iframeLayerConfig(param);
-            cfg.success = function (layero, index) {
-                var iframe = layero.find("iframe")[0].contentWindow;
-                iframe.setRecordData(record);
-            }
-
-            parent.layer.open(cfg);
-        },
-
-        /*
-        * 删除
-        *
-        * */
-        removeRow: function (url, record) {
-            parent.layer.confirm('您确定要删除该条记录吗？', {
-                title: '温馨提示',
-                icon: 3
-            }, function (index) {
-                $.post(url, record, function (res) {
-                    if (res.success) {
-                        parent.layer.closeAll();
-                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
-                        layPageBtn.click();
-                    } else {
-                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
-                    }
-                });
-            });
-        },
-
-        /*
-        * 表单提交(弹出层)
-        *
-        * */
-        submitForm: function (url, record) {
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: record,
-                async: false,
-                dataType: "json",
-                success: function (res) {
-                    if (res.success) {
-                        parent.layer.closeAll();
-                        parent.parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
-                    } else {
-                        parent.parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
-                    }
-                }
-            })
-        },
-
-        /*
-        * 验证必须选中行
-        *
-        * */
+         * 验证必须选中行
+         *
+         * */
         validateSelected: function () {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                parent.layer.alert('请至少选中一条记录!', {icon: 5});
+                layer.alert('请至少选中一条记录!', {icon: 5});
                 return false;
             }
             return true;
         },
 
         /*
-        * 验证单行选中
-        *
-        * */
+         * 验证单行选中，并返回选中行
+         *
+         * */
         validateSingleSelected: function () {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                parent.layer.alert('请先选中一条记录!', {icon: 5});
+                layer.alert('请先选中一条记录!', {icon: 5});
                 return false;
             } else if (records.length > 1) {
-                parent.layer.alert('不能同时选择多条记录!', {icon: 2});
+                layer.alert('不能同时选择多条记录!', {icon: 2});
                 return false;
             }
             return records[0];
         },
 
         /*
-        * 验证多行选中
-        *
-        * */
+         * 验证多行选中，并返回选中行
+         *
+         * */
         validateMultiSelected: function () {
             var checkStatus = table.checkStatus('tb');
             var records = checkStatus.data;
             if (records == null || records.length == 0) {
-                parent.layer.alert('请先选中一条记录!', {icon: 5});
+                layer.alert('请至少选中一条记录!', {icon: 5});
                 return false;
             }
             return records;
+        },
+
+        /*
+         * xm-select单选配置
+         *
+         * */
+        renderRadioSelect: function (options) {
+
+            // 基础配置
+            var cfg = {
+                radio: true,
+                clickClose: true,
+                filterable: true,
+                model: {
+                    label: {
+                        icon: 'hidden',
+                        type: 'block',
+                        block: {
+                            showCount: 0,
+                            showIcon: false
+                        }
+                    }
+                },
+                theme: {
+                    color: '#1E9FFF'
+                }
+            };
+
+            cfg = $.extend(cfg, options);
+
+            return xmSelect.render(cfg);
+        },
+
+        /*
+         * xm-select多选配置
+         *
+         * */
+        renderMultiSelect: function (options) {
+
+            // 基础配置
+            var cfg = {
+                filterable: true,
+                toolbar: {
+                    show: true,
+                    list: ['ALL', 'CLEAR', 'REVERSE']
+                },
+                theme: {
+                    color: '#1E9FFF'
+                }
+            };
+
+            cfg = $.extend(cfg, options);
+
+            return xmSelect.render(cfg);
+        },
+
+        /*
+         * xm-select获取远程数据
+         *
+         * */
+        remoteSelectData: function (selectObject, url, data) {
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: data,
+                dataType: "json",
+                success: function (res) {
+                    if (res.data != null) {
+                        selectObject.update({
+                            data: res.data
+                        });
+                    }
+                }
+            });
         },
 
         doPost: function (url, record) {
@@ -251,32 +259,68 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                 success: function (res) {
                     if (res.success) {
                         parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
-
-                        // 刷新表格(分页控件的"确定"按钮)
                         $('.layui-laypage-btn').click();
                     } else {
-                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
+                        parent.layer.alert(res.message, {icon: 5});
                     }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    parent.layer.alert(textStatus, {icon: 5});
                 }
             })
         },
 
-        doGet: function (url) {
+        /*
+         * 删除
+         *
+         * */
+        removeRow: function (url, data) {
+            layer.confirm('您确定要删除该条记录吗？', {
+                title: '温馨提示',
+                icon: 3
+            }, function (index) {
+                $.post(url, data, function (res) {
+                    layer.closeAll();
+                    if (res.success) {
+                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
+                        $('.layui-laypage-btn').click();
+                    } else {
+                        parent.layer.alert(res.message, {icon: 5});
+                    }
+                });
+            });
+        },
+
+        /*
+        * 弹出层表单提交
+        *
+        * */
+        submitForm: function (url, data) {
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: url,
+                data: data,
                 dataType: "json",
                 success: function (res) {
                     if (res.success) {
-                        parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.parent.layer.msg(res.message, {icon: 1, offset: '10px', anim: 1});
 
-                        // 刷新表格(分页控件的"确定"按钮)
-                        $('.layui-laypage-btn').click();
+                        var layPageBtn = parent.$('.layui-laypage-btn');
+                        if (layPageBtn.length > 0) {
+                            layPageBtn.click();	// 刷新表格(分页控件的"确定"按钮)
+                        } else {
+                            parent.layui.table.reload('tb');	// 重载表格
+                        }
                     } else {
-                        parent.layer.msg(res.message, {icon: 2, offset: '10px', anim: 1});
+                        parent.layer.alert(res.message, {icon: 5});
                     }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    parent.layer.alert(textStatus, {icon: 5});
                 }
-            });
+            })
         }
     };
 

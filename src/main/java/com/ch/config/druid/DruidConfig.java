@@ -28,61 +28,61 @@ public class DruidConfig {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
-    @Value("${spring.datasource.initialSize}")
+    @Value("${spring.druid.initialSize}")
     private int initialSize;
 
-    @Value("${spring.datasource.minIdle}")
+    @Value("${spring.druid.minIdle}")
     private int minIdle;
 
-    @Value("${spring.datasource.maxActive}")
+    @Value("${spring.druid.maxActive}")
     private int maxActive;
 
-    @Value("${spring.datasource.maxWait}")
+    @Value("${spring.druid.maxWait}")
     private int maxWait;
 
-    @Value("${spring.datasource.timeBetweenEvictionRunsMillis}")
+    @Value("${spring.druid.timeBetweenEvictionRunsMillis}")
     private int timeBetweenEvictionRunsMillis;
 
-    @Value("${spring.datasource.minEvictableIdleTimeMillis}")
+    @Value("${spring.druid.minEvictableIdleTimeMillis}")
     private int minEvictableIdleTimeMillis;
 
-    @Value("${spring.datasource.validationQuery}")
+    @Value("${spring.druid.validationQuery}")
     private String validationQuery;
 
-    @Value("${spring.datasource.testWhileIdle}")
+    @Value("${spring.druid.testWhileIdle}")
     private boolean testWhileIdle;
 
-    @Value("${spring.datasource.testOnBorrow}")
+    @Value("${spring.druid.testOnBorrow}")
     private boolean testOnBorrow;
 
-    @Value("${spring.datasource.testOnReturn}")
+    @Value("${spring.druid.testOnReturn}")
     private boolean testOnReturn;
 
-    @Value("${spring.datasource.poolPreparedStatements}")
+    @Value("${spring.druid.poolPreparedStatements}")
     private boolean poolPreparedStatements;
 
-    @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize}")
+    @Value("${spring.druid.maxPoolPreparedStatementPerConnectionSize}")
     private int maxPoolPreparedStatementPerConnectionSize;
 
-    @Value("${spring.datasource.filters}")
+    @Value("${spring.druid.filters}")
     private String filters;
 
-    @Value("{spring.datasource.connectionProperties}")
+    @Value("{spring.druid.connectionProperties}")
     private String connectionProperties;
 
-    @Value("${spring.datasource.druidAllow}")
+    @Value("${spring.druid.druidAllow}")
     private String druidAllow;
 
-    @Value("${spring.datasource.druidDeny}")
+    @Value("${spring.druid.druidDeny}")
     private String druidDeny;
 
-    @Value("${spring.datasource.druidLoginName}")
+    @Value("${spring.druid.druidLoginName}")
     private String druidLoginName;
 
-    @Value("${spring.datasource.druidPassword}")
+    @Value("${spring.druid.druidPassword}")
     private String druidPassword;
 
-    @Bean     //声明其为Bean实例
+    @Bean
     @Primary  //在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource() {
         DruidDataSource datasource = new DruidDataSource();
@@ -92,7 +92,6 @@ public class DruidConfig {
         datasource.setPassword(password);
         datasource.setDriverClassName(driverClassName);
 
-        //configuration
         datasource.setInitialSize(initialSize);
         datasource.setMinIdle(minIdle);
         datasource.setMaxActive(maxActive);

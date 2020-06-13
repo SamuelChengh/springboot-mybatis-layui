@@ -1,35 +1,39 @@
 package com.ch.service.sys;
 
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ch.common.ConstantsCMP;
 import com.ch.dao.sys.RoleDao;
 import com.ch.dao.sys.UserDao;
-import com.ch.dto.sys.UserDto;
-import com.ch.entity.sys.Authority;
+import com.ch.entity.sys.Menu;
 import com.ch.entity.sys.Role;
 import com.ch.entity.sys.User;
-import com.ch.response.*;
+import com.ch.entity.sys.UserRole;
+import com.ch.response.ResponseEnum;
+import com.ch.response.ResponsePageResult;
+import com.ch.response.ResponseResult;
+import com.ch.response.RestResultGenerator;
 import com.ch.utils.EncryptUtil;
-import com.ch.vo.ChildMenu;
-import com.ch.vo.MenuVo;
+import com.ch.vo.nav.ChildNav;
+import com.ch.vo.nav.NavVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService extends ServiceImpl<UserDao, User> {
 
     @Autowired
     private UserDao userDao;
@@ -37,79 +41,78 @@ public class UserService {
     @Autowired
     private RoleDao roleDao;
 
-    public ResponsePageResult list(UserDto dto) {
-        Integer page = dto.getPage();
-        Integer limit = dto.getLimit();
+    public User findById(Integer userId) {
+        return userDao.findById(userId);
+    }
 
-        List<User> list = userDao.findAll(dto);
+    public ResponsePageResult list(User form) {
 
-        Page<User> pages = PageHelper.startPage(page, limit).doSelectPage(()-> userDao.findPageList(dto));
-        pages.setTotal(list.size());
+        Integer page = form.getPage();
+        Integer limit = form.getLimit();
+
+        Page<User> pages = PageHelper.startPage(page, limit).doSelectPage(() -> userDao.findAll(form));
 
         return RestResultGenerator.createSuccessPageResult(pages);
     }
 
-    public ResponseResult add(UserDto dto) {
+    public ResponseResult add(User form) {
 
-        if(userDao.findByLoginName(dto.getLoginName()) != null){
-            return RestResultGenerator.createErrorResult(ResponseEnum.ACCOUNT_EXIST);
+        if (userDao.findByUserName(form.getUserName()) != null) {
+            return RestResultGenerator.createErrorResult(ResponseEnum.USER_NAME_EXIST);
         }
 
-        User user = new User();
-        user.setLoginName(dto.getLoginName());
-        user.setNickName(dto.getNickName());
-        user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
-        user.setStatus(dto.getStatus());
-        user.setRemark(dto.getRemark());
-        userDao.insert(user);
+        form.setPassword(EncryptUtil.encryptMD5(form.getPassword()));
+        form.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        userDao.insert(form);
 
-        if(!StringUtils.isEmpty(dto.getRoleIds())){
-            Map<String, Object> map = new HashMap();
-            map.put("userId", user.getId());
-            List<Integer> roleIds = new ArrayList();
-            String[] ids = dto.getRoleIds().split(",");
-            for(String roleId: ids){
-                roleIds.add(Integer.valueOf(roleId));
+        if (StringUtils.isNotBlank(form.getRoleIds())) {
+            List<UserRole> list = new ArrayList<>();
+
+            String[] roleIds = form.getRoleIds().split(",");
+            for (String roleId : roleIds) {
+                UserRole ur = new UserRole();
+                ur.setUserId(form.getId());
+                ur.setRoleId(Integer.valueOf(roleId));
+                list.add(ur);
             }
-            map.put("roleIds", roleIds);
-            userDao.insertUserRole(map);
+
+            userDao.batchInsertUserRole(list);
         }
 
         return RestResultGenerator.createSuccessResult();
     }
 
-    public ResponseResult update(UserDto dto) {
+    public ResponseResult update(User form) {
 
-        User user = userDao.findById(dto.getId());
-        if(!user.getLoginName().equals(dto.getLoginName())){
-            if(userDao.findByLoginName(dto.getLoginName()) != null){
-                return RestResultGenerator.createErrorResult(ResponseEnum.ACCOUNT_EXIST);
+        User user = userDao.findById(form.getId());
+        if (!user.getUserName().equals(form.getUserName())) {
+            if (userDao.findByUserName(form.getUserName()) != null) {
+                return RestResultGenerator.createErrorResult(ResponseEnum.USER_NAME_EXIST);
             }
         }
 
-        user.setLoginName(dto.getLoginName());
-        user.setNickName(dto.getNickName());
-        if(!StringUtils.isEmpty(dto.getPassword())){
-            if(!dto.getPassword().equals(user.getPassword())){
-                user.setPassword(EncryptUtil.encryptMD5(dto.getPassword()));
+        if (StringUtils.isNotBlank(form.getPassword())) {
+            if (!form.getPassword().equals(user.getPassword())) {
+                form.setPassword(EncryptUtil.encryptMD5(form.getPassword()));
             }
         }
-        user.setStatus(dto.getStatus());
-        user.setRemark(dto.getRemark());
-        userDao.update(user);
+        form.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        userDao.updateById(form);
 
-        if(!StringUtils.isEmpty(dto.getRoleIds())){
-            userDao.deleteByUserId(dto.getId());
+        if (StringUtils.isNotBlank(form.getRoleIds())) {
+            userDao.deleteByUserId(user.getId());
 
-            Map<String, Object> map = new HashMap();
-            map.put("userId", user.getId());
-            List<Integer> roleIds = new ArrayList();
-            String[] ids = dto.getRoleIds().split(",");
-            for(String roleId: ids){
-                roleIds.add(Integer.valueOf(roleId));
+            List<UserRole> list = new ArrayList<>();
+
+            String[] roleIds = form.getRoleIds().split(",");
+            for (String roleId : roleIds) {
+                UserRole ur = new UserRole();
+                ur.setUserId(form.getId());
+                ur.setRoleId(Integer.valueOf(roleId));
+                list.add(ur);
             }
-            map.put("roleIds", roleIds);
-            userDao.insertUserRole(map);
+
+            userDao.batchInsertUserRole(list);
         }
 
         return RestResultGenerator.createSuccessResult();
@@ -118,50 +121,50 @@ public class UserService {
     public ResponseResult delete(User form) {
 
         User user = userDao.findById(form.getId());
-        if(user == null){
+        if (user == null) {
             return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
         }
 
-        userDao.delete(form.getId());
-        userDao.deleteByUserId(form.getId());
+        userDao.deleteById(user.getId());
+        userDao.deleteByUserId(user.getId());
 
         return RestResultGenerator.createSuccessResult();
     }
 
-    public List<MenuVo> getMenuList(HttpServletRequest request) {
+    public List<NavVo> getMenuList(HttpServletRequest request) {
 
-        List<MenuVo> list = new ArrayList();
+        List<NavVo> list = new ArrayList();
 
         User user = ConstantsCMP.getSessionUser(request);
         List<Role> roles = user.getRoles();
-        if(roles != null && roles.size() > 0){
-            for(Role role : roles){
+        if (roles != null && roles.size() > 0) {
+            for (Role role : roles) {
                 Role r = roleDao.findById(role.getId());
-                List<Authority> authorities = r.getAuthorities();
+                List<Menu> authorities = r.getMenus();
 
-                List<Authority> parentMenuList = new ArrayList();   //  父节点菜单
-                List<Authority> childMenuList = new ArrayList();    //  子节点菜单
-                for(Authority authority : authorities){
-                    if(authority.getParent().equals(0)){
+                List<Menu> parentMenuList = new ArrayList();   //  父节点菜单
+                List<Menu> childMenuList = new ArrayList();    //  子节点菜单
+                for (Menu authority : authorities) {
+                    if (authority.getParentId().equals(0)) {
                         parentMenuList.add(authority);
-                    }else{
+                    } else {
                         childMenuList.add(authority);
                     }
                 }
 
-                for(Authority parentMenu : parentMenuList){
-                    MenuVo vo = new MenuVo();
+                for (Menu parentMenu : parentMenuList) {
+                    NavVo vo = new NavVo();
                     vo.setParentId(parentMenu.getId());
-                    vo.setParentName(parentMenu.getName());
+                    vo.setParentName(parentMenu.getMenuName());
                     vo.setParentIcon(parentMenu.getIcon());
-                    List<ChildMenu> childList = new ArrayList();
-                    for(Authority childMenu : childMenuList){
-                        if(childMenu.getParent().equals(parentMenu.getId())){
-                            ChildMenu child = new ChildMenu();
+                    List<ChildNav> childList = new ArrayList();
+                    for (Menu childMenu : childMenuList) {
+                        if (childMenu.getParentId().equals(parentMenu.getId())) {
+                            ChildNav child = new ChildNav();
                             child.setId(childMenu.getId());
-                            child.setName(childMenu.getName());
+                            child.setName(childMenu.getMenuName());
                             child.setIcon(childMenu.getIcon());
-                            child.setPageUrl(childMenu.getAuthUrl());
+                            child.setPageUrl(childMenu.getMenuUrl());
                             childList.add(child);
                         }
                     }
@@ -174,6 +177,9 @@ public class UserService {
         return list;
     }
 
+    /**
+     * 修改密码
+     */
     public ResponseResult resetPwd(HttpServletRequest request) {
 
         String pwd = request.getParameter("pwd").trim();
@@ -182,18 +188,18 @@ public class UserService {
 
         User user = ConstantsCMP.getSessionUser(request);
         // 验证当前密码是否正确
-        if(!user.getPassword().equals(EncryptUtil.encryptMD5(pwd))){
+        if (!user.getPassword().equals(EncryptUtil.encryptMD5(pwd))) {
             return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "原密码输入不正确!");
         }
 
         // 验证验证新密码是否相等
-        if(!npwd.equals(rpwd)){
+        if (!npwd.equals(rpwd)) {
             return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "新密码两次输入不一致!");
         }
 
         // 修改密码
         user.setPassword(EncryptUtil.encryptMD5(npwd));
-        userDao.update(user);
+        userDao.updateById(user);
 
         // 退出系统
         Subject currentUser = SecurityUtils.getSubject();
@@ -205,4 +211,5 @@ public class UserService {
 
         return RestResultGenerator.createSuccessResult();
     }
+
 }

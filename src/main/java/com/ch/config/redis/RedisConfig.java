@@ -76,7 +76,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         poolConfig.setTestOnReturn(true);
         poolConfig.setTestWhileIdle(true);
         poolConfig.setNumTestsPerEvictionRun(10);
-        poolConfig.setTimeBetweenEvictionRunsMillis(60000);
+        poolConfig.setTimeBetweenEvictionRunsMillis(30000);
 
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(poolConfig);
         jedisConnectionFactory.setHostName(host);

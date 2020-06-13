@@ -1,159 +1,122 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ch.dao.sys.RoleDao">
-    <!-- role -->
-    <resultMap id="RoleResult" type="com.ch.entity.sys.Role">
+    <!-- Role -->
+    <resultMap id="RoleResult" type="Role">
         <id column="id" property="id"/>
-        <result column="name" property="name"/>
+        <result column="role_name" property="roleName"/>
+        <result column="roles" property="roles"/>
+        <result column="remark" property="remark"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+        <collection column="id" property="menus" select="select_menus_by_role_id"></collection>
+    </resultMap>
+
+    <!-- Menu -->
+    <resultMap id="MenuResult" type="Menu">
+        <id column="id" property="id"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="display_sort" property="displaySort"/>
+        <result column="display_type" property="displayType"/>
+        <result column="permission" property="permission"/>
+        <result column="icon" property="icon"/>
         <result column="remark" property="remark"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
     </resultMap>
 
-    <!-- role with authority -->
-    <resultMap id="RoleAuthorityResult" type="com.ch.entity.sys.Role" extends="RoleResult">
-        <collection property="authorities" ofType="com.ch.entity.sys.Authority">
-            <id column="auth_id" property="id"/>
-            <result column="auth_name" property="name"/>
-            <result column="auth_url" property="authUrl"/>
-            <result column="parent" property="parent"/>
-            <result column="display_sort" property="displaySort"/>
-            <result column="icon" property="icon"/>
-            <result column="auth_remark" property="remark"/>
-            <result column="auth_created_date" property="createdDate"/>
-            <result column="auth_updated_date" property="updatedDate"/>
-        </collection>
-    </resultMap>
+    <select id="select_menus_by_role_id" resultMap="MenuResult" parameterType="java.lang.Integer">
+        SELECT
+            m.id,
+            m.menu_name,
+            m.menu_url,
+            m.parent_id,
+            m.display_sort,
+            m.display_type,
+            m.permission,
+            m.icon,
+            m.remark,
+            m.created_date,
+            m.updated_date
+        FROM
+            sys_menu m,
+            sys_role_menu rm,
+            sys_role r
+        WHERE
+            m.id = rm.menu_id AND r.id = rm.role_id AND r.id = #{id}
+        ORDER BY
+            m.display_sort ASC
+    </select>
 
-    <insert id="insert" parameterType="com.ch.entity.sys.Role" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO sys_role (
-            `name`,
-            `remark`,
-            `created_date`
-        ) VALUES (
-            #{name},
-            #{remark},
-            NOW()
-        )
-    </insert>
+    <!-- all column -->
+    <sql id="all_column">
+        id,
+        role_name,
+        roles,
+        remark,
+        created_date,
+        updated_date
+    </sql>
 
-    <update id="update" parameterType="com.ch.entity.sys.Role">
-        UPDATE sys_role
-        <set>
-            <if test="name != null">`name` = #{name},</if>
-            <if test="remark != null">`remark` = #{remark},</if>
-            `updated_date` = NOW(),
-        </set>
-        WHERE id = #{id}
-    </update>
-
-    <delete id="delete" parameterType="java.lang.Integer">
-        DELETE FROM sys_role WHERE `id` = #{id}
-    </delete>
-
-    <!-- 查询sql片段 -->
+    <!-- query conditions -->
     <sql id="select_query_conditions">
-        <if test="name != null and name != ''">
-            AND r.name LIKE CONCAT("%",#{name},"%")
+        <if test="roleName != null and roleName != ''">
+            AND role_name LIKE CONCAT("%",#{roleName},"%")
+        </if>
+        <if test="roles != null and roles != ''">
+            AND roles LIKE CONCAT("%",#{roles},"%")
         </if>
     </sql>
 
-    <!-- 排序sql片段 -->
+    <!-- order conditions -->
     <sql id="select_order_conditions">
-        ORDER BY r.created_date DESC
+        ORDER BY created_date DESC
     </sql>
 
-    <select id="findAll" resultMap="RoleResult" parameterType="com.ch.entity.sys.Role">
+    <select id="findAll" resultMap="RoleResult" parameterType="Role">
         SELECT
-            r.id,
-            r.name,
-            r.remark,
-            r.created_date,
-            r.updated_date
+            <include refid="all_column"></include>
         FROM
-            sys_role r
-        <where>
-            <include refid="select_query_conditions"></include>
-        </where>
+            sys_role
+        WHERE
+            1 = 1
+        <include refid="select_query_conditions"></include>
         <include refid="select_order_conditions"></include>
     </select>
 
-    <select id="findPageList" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
+    <select id="findById" resultMap="RoleResult" parameterType="Role">
         SELECT
-            r.id,
-            r.name,
-            r.remark,
-            r.created_date,
-            r.updated_date,
-            a.id AS auth_id,
-            a.name AS auth_name,
-            a.auth_url,
-            a.parent,
-            a.display_sort,
-            a.icon,
-            a.remark AS auth_remark,
-            a.created_date AS auth_created_date,
-            a.updated_date AS auth_updated_date
+            <include refid="all_column"></include>
         FROM
-            sys_role r
-        LEFT JOIN
-            sys_role_authority ra ON ra.role_id = r.id
-        LEFT JOIN
-            sys_authority a ON a.id = ra.authority_id
-        <where>
-            <include refid="select_query_conditions"></include>
-        </where>
-        <include refid="select_order_conditions"></include>
-    </select>
-
-    <select id="findById" resultMap="RoleAuthorityResult" parameterType="com.ch.entity.sys.Role">
-        SELECT
-            r.id,
-            r.name,
-            r.remark,
-            r.created_date,
-            r.updated_date,
-            a.id AS auth_id,
-            a.name AS auth_name,
-            a.auth_url,
-            a.parent,
-            a.display_sort,
-            a.icon,
-            a.remark AS auth_remark,
-            a.created_date AS auth_created_date,
-            a.updated_date AS auth_updated_date
-        FROM
-            sys_role r
-        LEFT JOIN
-            sys_role_authority ra ON ra.role_id = r.id
-        LEFT JOIN
-            sys_authority a ON a.id = ra.authority_id
+            sys_role
         WHERE
-            r.id = #{id}
+            id = #{id}
     </select>
 
-    <select id="findByName" resultMap="RoleResult" parameterType="com.ch.entity.sys.Role">
+    <select id="findByRoleName" resultMap="RoleResult" parameterType="Role">
         SELECT
-            r.id,
-            r.name,
-            r.remark,
-            r.created_date,
-            r.updated_date
+            <include refid="all_column"></include>
         FROM
-            sys_role r
+            sys_role
         WHERE
-            r.name = #{name}
+            role_name = #{roleName}
     </select>
 
-    <insert id="insertRoleAuth" parameterType="java.util.HashMap">
-        INSERT INTO sys_role_authority (`role_id`, `authority_id`) VALUES
-        <foreach collection="authIds" item="authId" separator=",">
-            (#{roleId}, #{authId})
+    <insert id="batchInsertRoleMenu">
+        INSERT INTO sys_role_menu
+            (role_id, menu_id)
+        VALUES
+        <foreach collection="rms" item="rm" separator=",">
+            (#{rm.roleId}, #{rm.menuId})
         </foreach>
     </insert>
 
     <delete id="deleteByRoleId" parameterType="java.lang.Integer">
-        DELETE FROM sys_role_authority WHERE `role_id` = #{roleId}
+        DELETE FROM
+            sys_role_menu
+        WHERE
+            role_id = #{roleId}
     </delete>
 </mapper>
-

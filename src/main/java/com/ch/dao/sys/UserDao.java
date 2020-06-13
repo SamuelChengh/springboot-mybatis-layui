@@ -1,30 +1,23 @@
 package com.ch.dao.sys;
 
-import com.ch.dto.sys.UserDto;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.ch.entity.sys.User;
+import com.ch.entity.sys.UserRole;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 @Component
-public interface UserDao {
-    Integer insert(User user);
-
-    Integer update(User user);
-
-    Integer delete(@Param("id") Integer id);
+public interface UserDao extends BaseMapper<User> {
 
     List<User> findAll(User user);
 
-    List<User> findPageList(User user);
-
     User findById(@Param("id") Integer id);
 
-    User findByLoginName(@Param("loginName") String loginName);
+    User findByUserName(@Param("userName") String userName);
 
-    void insertUserRole(Map<String, Object> map);
+    void batchInsertUserRole(@Param("urs") List<UserRole> urs);
 
     void deleteByUserId(@Param("userId") Integer userId);
 }

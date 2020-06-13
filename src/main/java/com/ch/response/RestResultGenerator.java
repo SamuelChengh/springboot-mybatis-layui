@@ -4,10 +4,9 @@ import com.github.pagehelper.Page;
 
 import java.util.List;
 
-/*
-* 统一响应体
-*
-* */
+/**
+ * 统一响应体
+ */
 public class RestResultGenerator {
 
     /**
@@ -32,7 +31,7 @@ public class RestResultGenerator {
     /**
      * 带正文的成功响应
      */
-	public static <T> ResponseResult<T> createSuccessResult(T data) {
+    public static <T> ResponseResult<T> createSuccessResult(T data) {
         ResponseResult<T> result = ResponseResult.newInstance();
         result.setResultInfo(ResponseEnum.SUCCESS, "");
         result.setSuccess(true);
@@ -43,7 +42,7 @@ public class RestResultGenerator {
     /**
      * 不带正文的成功响应
      */
-	public static <T> ResponseResult<T> createSuccessResult() {
+    public static <T> ResponseResult<T> createSuccessResult() {
         ResponseResult<T> result = ResponseResult.newInstance();
         result.setResultInfo(ResponseEnum.SUCCESS, "");
         result.setSuccess(true);
@@ -67,6 +66,16 @@ public class RestResultGenerator {
         ResponseResult result = ResponseResult.newInstance();
         result.setResultInfo(responseEnum, message);
         result.setSuccess(false);
+        return result;
+    }
+
+    /**
+     * 前端xm-selects成功响应
+     */
+    public static <T> ResponseSelectResult<T> createSuccessSelectResult(T data) {
+        ResponseSelectResult<T> result = ResponseSelectResult.newInstance();
+        result.setResultInfo(ResponseEnum.SUCCESS, "success");
+        result.setData(data);
         return result;
     }
 }

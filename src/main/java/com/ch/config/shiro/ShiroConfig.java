@@ -2,6 +2,8 @@ package com.ch.config.shiro;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,9 @@ public class ShiroConfig {
 
     @Value("${shiro.filterChainDefinitions}")
     private String filterChainDefinitions;
+
+    @Value("${shiro.timeOut}")
+    private Integer timeOut;
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(org.apache.shiro.mgt.SecurityManager securityManager){
@@ -70,9 +75,27 @@ public class ShiroConfig {
     @Bean
     public org.apache.shiro.mgt.SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setSessionManager(sessionManager());
         // 设置realm.
         securityManager.setRealm(shiroRealm());
         return securityManager;
+    }
+
+    @Bean
+    public DefaultWebSessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionIdCookie(sessionIdCookie());
+        // 设置全局session过期时间
+        sessionManager.setGlobalSessionTimeout(timeOut * 60 * 60 * 1000);
+        return sessionManager;
+    }
+
+    @Bean
+    public SimpleCookie sessionIdCookie() {
+        SimpleCookie cookie = new SimpleCookie();
+        cookie.setName("EDUCATION_SESSION_ID");
+        cookie.setHttpOnly(true);
+        return cookie;
     }
 
     /**

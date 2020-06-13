@@ -7,18 +7,14 @@ import java.util.Random;
 
 public class EncryptUtil {
 
-    /**
-    * 生成随机数
-    *
-    * */
-    public static String createRandom(int length){
+    public static String createRandom(int length) {
 
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         Random random = new Random();
         StringBuffer sb = new StringBuffer();
-        for(int i=0; i<length; i++){
-            int number = random.nextInt(62);
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(str.length());
             sb.append(str.charAt(number));
         }
 

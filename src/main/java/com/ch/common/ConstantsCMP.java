@@ -12,4 +12,5 @@ public class ConstantsCMP {
     public static User getSessionUser(HttpServletRequest request) {
         return (User) (request.getSession().getAttribute(ConstantsCMP.USER_SESSION_INFO));
     }
+
 }

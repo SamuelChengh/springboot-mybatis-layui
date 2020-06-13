@@ -1,24 +1,36 @@
 package com.ch.entity.sys;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.ch.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
 
 import java.util.List;
 
 @Data
-@ToString
-public class User extends BaseEntity{
+@TableName("sys_user")
+public class User extends BaseEntity {
 
-    private String  loginName; // 登录名
+    private String userName;    // 用户名
 
-    private String  nickName;  // 昵称
+    private String nickName;    // 昵称
 
-    private String  password;  // 密码
+    private String password;    // 密码
 
-    private Integer status;    // 状态 1:开启 0:禁用
+    private Integer status;     // 状态 1:开启 0:禁用
 
-    private String  remark;    // 备注
+    private String remark;      // 备注
 
-    private List<Role> roles;
+    @TableField(exist = false)
+    private List<Role> roles;   // 角色
+
+    @JsonIgnore
+    @TableField(exist = false)
+    private String roleIds;     // 前端保存时，传的参数
+
+    @JsonIgnore
+    @TableField(exist = false)
+    private Integer roleId;     // 前端查询时，传的参数
+
 }

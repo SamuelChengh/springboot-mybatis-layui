@@ -1,18 +1,41 @@
-.layui-header {
-    height: 50px;
+.layui-side-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    height: 100%;
 }
 
-.layui-layout-admin .layui-header { 
-    background-color: #2b2f3a;
+.layui-layout-admin .layui-logo {
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    letter-spacing: 3px;
+    color: #42b983;
+    background-color: #263445;
 }
 
 .layui-layout-admin .layui-side {
-    top: 50px;
+    top: 45px;
+}
+
+.layui-layout-admin .layui-header {
+	position: fixed;
+    left: 200px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 45px;
+    background-color: #FFFFFF;
+    -webkit-box-shadow: 0 1px 4px rgba(0,21,41,.08);
+    box-shadow: 0 1px 4px rgba(0,21,41,.08);
 }
 
 .layui-layout-admin .layui-body {
-    top: 50px;
-    bottom: 20px;
+    top: 45px;
+    bottom: 0;
 }
 
 .layui-layout-admin .layui-footer {
@@ -20,19 +43,25 @@
     line-height: 20px;
 }
 
-.layui-layout-admin .layui-logo {
-    line-height: 50px;
-	color: #42b983;
-	font-size: 20px;
-}
-
 .layui-bg-black {
-    background-color: #304156 !important;
+    background-color: #263445 !important;
 }
 
 .layui-nav {
-    background-color: rgb(48, 65, 86);
+    background-color: #263445;
     color: rgb(64, 158, 255);
+}
+
+.layui-nav .layui-nav-more {
+    border-top-color: #666;
+}
+
+.layui-nav .layui-nav-mored {
+    border-color: transparent transparent #666;
+}
+
+.layui-icon {
+    font-size: 12px;
 }
 
 .layui-nav * {
@@ -40,11 +69,7 @@
 }
 
 .layui-nav .layui-nav-item {
-    line-height: 50px;
-}
-
-.layui-nav .layui-this:after,.layui-nav-bar,.layui-nav-tree .layui-nav-itemed:after {
-    background-color: #42b983;
+    line-height: 45px;
 }
 
 .layui-nav .layui-this:after,.layui-nav-bar,.layui-nav-tree .layui-nav-itemed:after {
@@ -52,61 +77,68 @@
 }
 
 .layui-nav-tree .layui-nav-item a:hover {
-	background-color: #263445!important;
+	background-color: #263445 !important;
 }
 
 .layui-nav-tree .layui-nav-child dd.layui-this,.layui-nav-tree .layui-nav-child dd.layui-this a,.layui-nav-tree .layui-this,.layui-nav-tree .layui-this>a,.layui-nav-tree .layui-this>a:hover {
-    background-color: #1f2d3d;
-    color: rgb(64, 158, 255);
+    background-color: transparent;
+    color: #42b983;
 }
 
 .layui-nav-tree .layui-nav-child,.layui-nav-tree .layui-nav-child a:hover {
 	background: 0 0;
-	background-color: #001528!important;
+	background-color: #001528 !important;
 	color: #FFF;
 }
 
 .layui-nav-itemed>.layui-nav-child {
 	display: block;
 	padding: 0;
-	background-color: #1f2d3d!important;
+	background-color: #1f2d3d !important;
 }
 
 .layui-tab {
     margin: 0;
-   	height: 30px;
+    height: 34px;
 }
 
 .layui-tab-title {
-    height: 30px;
+    height: 34px;
+    border-bottom-color: #d8dce5;
 }
 
 .layui-tab-title li {
     font-size: 12px;
-    line-height: 30px;
-    min-width: 50px;
+    height: 25px;
+    line-height: 25px;
+    min-width: 30px;
     padding: 0 8px;
+    border: 1px solid #d8dce5;
+    color: #495060;
+    background: #fff;
+    margin: 4px 0 4px 5px;
 }
 
 .layui-tab-title .layui-this {
-	background-color: #42b983;
-	color: #fff;
+    background-color: #42b983;
+    color: #fff;
+    border-color: #42b983;
 }
 
 .layui-tab-title .layui-this:after {
-    height: 31px;
+    border: none;
 }
 
 .layui-tab-item {
-	position: absolute;
-	top: 30px;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	padding: 0;
-	margin: 10px;
-	-webkit-overflow-scrolling: touch;
-	overflow: auto;
+    position: absolute;
+    top: 34px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
 }
 
 .layui-tab-title li .layui-tab-close {
@@ -117,8 +149,25 @@
     font-size: 12px;
 }
 
+.layui-tab-title li .layui-tab-close:hover {
+    border-radius: 50%;
+    background-color: #b4bccc;
+    color: #fff;
+}
+
 .layui-tab-content {
     padding: 0;
+}
+
+.layui-header-text{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.layui-header-item-text{
+    text-align: center;
+    color: #66CDAA;
 }
 
 .user-avatar {
