@@ -77,7 +77,7 @@
         <#list user.roles as r>
         selectedData.push(${r.id});
         </#list>
-        var roleSelect = baselist.renderRadioSelect({
+        var roleSelect = baselist.renderMultiSelect({
             el: '#roleIds',
             name: 'roleIds',
             layVerify: 'required',

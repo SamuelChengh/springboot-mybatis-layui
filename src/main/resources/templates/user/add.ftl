@@ -73,7 +73,7 @@
 
         // 所属角色
         var roleFlag = 1;
-        var roleSelect = baselist.renderRadioSelect({
+        var roleSelect = baselist.renderMultiSelect({
             el: '#roleIds',
             name: 'roleIds',
             layVerify: 'required',
