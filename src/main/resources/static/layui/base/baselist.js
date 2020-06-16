@@ -296,12 +296,17 @@ layui.define(['layer', 'form', 'table'], function (exports) {
         *
         * */
         submitForm: function (url, data) {
+            var loadIndex = parent.layer.load(1, {
+                shade: [0.5, '#c2c2c2']
+            });
             $.ajax({
                 type: "POST",
                 url: url,
                 data: data,
                 dataType: "json",
                 success: function (res) {
+                    parent.layer.close(loadIndex);
+
                     if (res.success) {
                         var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
@@ -318,6 +323,8 @@ layui.define(['layer', 'form', 'table'], function (exports) {
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(loadIndex);
+
                     parent.layer.alert(textStatus, {icon: 5});
                 }
             })
