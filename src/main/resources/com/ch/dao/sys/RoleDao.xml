@@ -9,46 +9,8 @@
         <result column="remark" property="remark"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
-        <collection column="id" property="menus" select="select_menus_by_role_id"></collection>
+        <collection column="id" property="menus" select="com.ch.dao.sys.MenuDao.select_menus_by_role_id"></collection>
     </resultMap>
-
-    <!-- Menu -->
-    <resultMap id="MenuResult" type="Menu">
-        <id column="id" property="id"/>
-        <result column="menu_name" property="menuName"/>
-        <result column="menu_url" property="menuUrl"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="display_sort" property="displaySort"/>
-        <result column="display_type" property="displayType"/>
-        <result column="permission" property="permission"/>
-        <result column="icon" property="icon"/>
-        <result column="remark" property="remark"/>
-        <result column="created_date" property="createdDate"/>
-        <result column="updated_date" property="updatedDate"/>
-    </resultMap>
-
-    <select id="select_menus_by_role_id" resultMap="MenuResult" parameterType="java.lang.Integer">
-        SELECT
-            m.id,
-            m.menu_name,
-            m.menu_url,
-            m.parent_id,
-            m.display_sort,
-            m.display_type,
-            m.permission,
-            m.icon,
-            m.remark,
-            m.created_date,
-            m.updated_date
-        FROM
-            sys_menu m,
-            sys_role_menu rm,
-            sys_role r
-        WHERE
-            m.id = rm.menu_id AND r.id = rm.role_id AND r.id = #{id}
-        ORDER BY
-            m.display_sort ASC
-    </select>
 
     <!-- all column -->
     <sql id="all_column">
@@ -119,4 +81,20 @@
         WHERE
             role_id = #{roleId}
     </delete>
+
+    <select id="select_roles_by_user_id" resultMap="RoleResult" parameterType="java.lang.Integer">
+        SELECT
+            r.id,
+            r.role_name,
+            r.roles,
+            r.remark,
+            r.created_date,
+            r.updated_date
+        FROM
+            sys_role r,
+            sys_user_role ur,
+            sys_user u
+        WHERE
+            r.id = ur.role_id AND ur.user_id = u.id AND u.id = #{id}
+    </select>
 </mapper>

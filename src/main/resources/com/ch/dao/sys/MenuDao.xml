@@ -84,16 +84,33 @@
             sys_role_menu rm,
             sys_menu m
 		WHERE
-		    u.id = ur.user_id
-		AND
-		    ur.role_id = r.id
-		AND
-		    r.id = rm.role_id
-		AND
-		    rm.menu_id = m.id
-		AND
-		    u.user_name = #{userName}
-		GROUP BY m.id
-		ORDER BY m.display_sort ASC
+		    u.id = ur.user_id AND ur.role_id = r.id AND r.id = rm.role_id AND rm.menu_id = m.id AND u.user_name = #{userName}
+		GROUP BY
+		    m.id
+		ORDER BY
+		    m.display_sort ASC
+    </select>
+
+    <select id="select_menus_by_role_id" resultMap="MenuResult" parameterType="java.lang.Integer">
+        SELECT
+            m.id,
+            m.menu_name,
+            m.menu_url,
+            m.parent_id,
+            m.display_sort,
+            m.display_type,
+            m.permission,
+            m.icon,
+            m.remark,
+            m.created_date,
+            m.updated_date
+        FROM
+            sys_menu m,
+            sys_role_menu rm,
+            sys_role r
+        WHERE
+            m.id = rm.menu_id AND r.id = rm.role_id AND r.id = #{id}
+        ORDER BY
+            m.display_sort ASC
     </select>
 </mapper>
