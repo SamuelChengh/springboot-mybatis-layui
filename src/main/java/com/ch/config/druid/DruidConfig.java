@@ -3,7 +3,9 @@ package com.ch.config.druid;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,8 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration
+@ConfigurationProperties(prefix = "druid")
+@Data
 public class DruidConfig {
 
     @Value("${spring.datasource.url}")
@@ -28,58 +32,40 @@ public class DruidConfig {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
-    @Value("${spring.druid.initialSize}")
     private int initialSize;
 
-    @Value("${spring.druid.minIdle}")
     private int minIdle;
 
-    @Value("${spring.druid.maxActive}")
     private int maxActive;
 
-    @Value("${spring.druid.maxWait}")
     private int maxWait;
 
-    @Value("${spring.druid.timeBetweenEvictionRunsMillis}")
     private int timeBetweenEvictionRunsMillis;
 
-    @Value("${spring.druid.minEvictableIdleTimeMillis}")
     private int minEvictableIdleTimeMillis;
 
-    @Value("${spring.druid.validationQuery}")
     private String validationQuery;
 
-    @Value("${spring.druid.testWhileIdle}")
     private boolean testWhileIdle;
 
-    @Value("${spring.druid.testOnBorrow}")
     private boolean testOnBorrow;
 
-    @Value("${spring.druid.testOnReturn}")
     private boolean testOnReturn;
 
-    @Value("${spring.druid.poolPreparedStatements}")
     private boolean poolPreparedStatements;
 
-    @Value("${spring.druid.maxPoolPreparedStatementPerConnectionSize}")
     private int maxPoolPreparedStatementPerConnectionSize;
 
-    @Value("${spring.druid.filters}")
     private String filters;
 
-    @Value("{spring.druid.connectionProperties}")
     private String connectionProperties;
 
-    @Value("${spring.druid.druidAllow}")
     private String druidAllow;
 
-    @Value("${spring.druid.druidDeny}")
     private String druidDeny;
 
-    @Value("${spring.druid.druidLoginName}")
     private String druidLoginName;
 
-    @Value("${spring.druid.druidPassword}")
     private String druidPassword;
 
     @Bean

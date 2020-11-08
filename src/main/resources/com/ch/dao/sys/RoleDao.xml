@@ -72,7 +72,7 @@
 
     <!-- order conditions -->
     <sql id="select_order_conditions">
-        ORDER BY created_date DESC
+        ORDER BY created_date DESC, id DESC
     </sql>
 
     <select id="findAll" resultMap="RoleResult" parameterType="Role">

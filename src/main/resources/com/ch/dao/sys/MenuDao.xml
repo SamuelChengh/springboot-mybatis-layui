@@ -40,7 +40,7 @@
 
     <!-- order conditions -->
     <sql id="select_order_conditions">
-        ORDER BY display_sort ASC
+        ORDER BY display_sort ASC, id DESC
     </sql>
 
     <select id="findAll" resultMap="MenuResult">

@@ -3,41 +3,21 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/test?useSSL=false&autoReconnectForPools=true&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-
-  druid:
-    initialSize: 1
-    minIdle: 5
-    maxActive: 20
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 30000
-    validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxPoolPreparedStatementPerConnectionSize: 20
-    filters: stat,wall,slf4j
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-    useGlobalDataSourceStat: true
-    druidAllow:
-    druidDeny:
-    druidLoginName: druid
-    druidPassword: 123456
 
   redis:
     database: 0
     host: localhost
     port: 6379
     password:
-    pool:
-      max-idle: 300
-      min-idle: 0
+    jedis:
+      pool:
+        max-idle: 300
+        min-idle: 0
 
   freemarker:
     template-loader-path: classpath:/templates/
@@ -65,11 +45,26 @@ spring:
   mvc:
     static-path-pattern: /resources/static/**
 
-  http:
-    multipart:
-      enabled: true
-      max-request-size: 100MB
-      max-file-size: 100MB
+druid:
+  initialSize: 1
+  minIdle: 5
+  maxActive: 20
+  maxWait: 60000
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 30000
+  validationQuery: SELECT 1 FROM DUAL
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  poolPreparedStatements: true
+  maxPoolPreparedStatementPerConnectionSize: 20
+  filters: stat,wall,slf4j
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  useGlobalDataSourceStat: true
+  druidAllow:
+  druidDeny:
+  druidLoginName: druid
+  druidPassword: 123456
 
 mybatis-plus:
   mapper-locations: classpath:com/ch/dao/*.xml
