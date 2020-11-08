@@ -5,14 +5,14 @@ import lombok.Data;
 @Data
 public class ChildNav {
 
-	private Integer	id;
+    private Integer id;
 
-	private String	name;
+    private String name;
 
-	private String	icon;
+    private String icon;
 
-	private Boolean	checked = false;
+    private Boolean checked = false;
 
-	private String	pageUrl;
+    private String pageUrl;
 
 }

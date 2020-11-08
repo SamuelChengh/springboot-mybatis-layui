@@ -7,14 +7,14 @@ import java.util.List;
 @Data
 public class NavVo {
 
-	private Integer         parentId;
+    private Integer parentId;
 
-	private String          parentName;
+    private String parentName;
 
-	private String			parentIcon;
+    private String parentIcon;
 
-	private Boolean         checked;
+    private Boolean checked;
 
-	private List<ChildNav> 	childMenus;
+    private List<ChildNav> childMenus;
 
 }

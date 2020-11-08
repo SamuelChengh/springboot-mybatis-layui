@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class ResponseSelectResult<T> implements Serializable {
 
     private Integer code;
-    private String  msg;
-    private T       data;
+    private String msg;
+    private T data;
 
     public static <T> ResponseSelectResult<T> newInstance() {
         return new ResponseSelectResult<>();

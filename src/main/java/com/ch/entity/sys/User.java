@@ -27,10 +27,10 @@ public class User extends BaseEntity {
 
     @JsonIgnore
     @TableField(exist = false)
-    private String roleIds;     // 前端保存时，传的参数
+    private String roleIds;     // 前端保存角色时，传的参数
 
     @JsonIgnore
     @TableField(exist = false)
-    private Integer roleId;     // 前端查询时，传的参数
+    private Integer roleId;     // 前端查询角色时，传的参数
 
 }

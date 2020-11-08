@@ -20,6 +20,9 @@ public class MenuService extends ServiceImpl<MenuDao, Menu> {
     @Autowired
     private MenuDao menuDao;
 
+    /**
+     * 菜单列表
+     */
     public ResponseResult list() {
 
         List<Menu> list = menuDao.findAll(null);
@@ -27,6 +30,9 @@ public class MenuService extends ServiceImpl<MenuDao, Menu> {
         return RestResultGenerator.createSuccessResult(list);
     }
 
+    /**
+     * 新增菜单
+     */
     public ResponseResult add(Menu form) {
 
         if (form.getDisplayType().equals(1)) {
@@ -41,6 +47,9 @@ public class MenuService extends ServiceImpl<MenuDao, Menu> {
         return RestResultGenerator.createSuccessResult();
     }
 
+    /**
+     * 编辑菜单
+     */
     public ResponseResult update(Menu form) {
 
         form.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
@@ -49,6 +58,9 @@ public class MenuService extends ServiceImpl<MenuDao, Menu> {
         return RestResultGenerator.createSuccessResult();
     }
 
+    /**
+     * 删除菜单
+     */
     public ResponseResult delete(Menu form) {
 
         menuDao.deleteById(form.getId());
@@ -56,6 +68,9 @@ public class MenuService extends ServiceImpl<MenuDao, Menu> {
         return RestResultGenerator.createSuccessResult();
     }
 
+    /**
+     * 获取父节点菜单
+     */
     public ResponseResult getParent(Integer type) {
 
         List<Menu> list = menuDao.findByDisplayType(type);

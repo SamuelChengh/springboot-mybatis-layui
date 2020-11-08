@@ -153,7 +153,7 @@ public class DateUtil {
             return "";
         }
 
-        final String dayNames[] = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        final String[] dayNames = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
@@ -173,9 +173,8 @@ public class DateUtil {
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
-        String first = format.format(c.getTime());
 
-        return first;
+        return format.format(c.getTime());
     }
 
     /**
@@ -211,9 +210,8 @@ public class DateUtil {
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        String last = format.format(c.getTime());
 
-        return last;
+        return format.format(c.getTime());
     }
 
     /**

@@ -45,6 +45,9 @@ public class UserService extends ServiceImpl<UserDao, User> {
         return userDao.findById(userId);
     }
 
+    /**
+     * 用户列表
+     */
     public ResponsePageResult list(User form) {
 
         Integer page = form.getPage();
@@ -55,6 +58,9 @@ public class UserService extends ServiceImpl<UserDao, User> {
         return RestResultGenerator.createSuccessPageResult(pages);
     }
 
+    /**
+     * 新增用户
+     */
     public ResponseResult add(User form) {
 
         if (userDao.findByUserName(form.getUserName()) != null) {
@@ -65,26 +71,26 @@ public class UserService extends ServiceImpl<UserDao, User> {
         form.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         userDao.insert(form);
 
-        if (StringUtils.isNotBlank(form.getRoleIds())) {
-            List<UserRole> list = new ArrayList<>();
-
-            String[] roleIds = form.getRoleIds().split(",");
-            for (String roleId : roleIds) {
-                UserRole ur = new UserRole();
-                ur.setUserId(form.getId());
-                ur.setRoleId(Integer.valueOf(roleId));
-                list.add(ur);
-            }
-
-            userDao.batchInsertUserRole(list);
+        // 批量保存用户--角色
+        String roleIds = form.getRoleIds();
+        if (StringUtils.isNotBlank(roleIds)) {
+            batchInsertUserRole(form.getId(), roleIds);
         }
 
         return RestResultGenerator.createSuccessResult();
     }
 
+    /**
+     * 编辑用户
+     */
     public ResponseResult update(User form) {
 
         User user = userDao.findById(form.getId());
+        if (user == null) {
+            return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "账号不存在或已删除!");
+        }
+
+        // 账号名称不能重复
         if (!user.getUserName().equals(form.getUserName())) {
             if (userDao.findByUserName(form.getUserName()) != null) {
                 return RestResultGenerator.createErrorResult(ResponseEnum.USER_NAME_EXIST);
@@ -99,30 +105,43 @@ public class UserService extends ServiceImpl<UserDao, User> {
         form.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
         userDao.updateById(form);
 
-        if (StringUtils.isNotBlank(form.getRoleIds())) {
-            userDao.deleteByUserId(user.getId());
+        // 批量保存用户--角色
+        String roleIds = form.getRoleIds();
+        if (StringUtils.isNotBlank(roleIds)) {
+            userDao.deleteByUserId(user.getId());   // 先删除
 
-            List<UserRole> list = new ArrayList<>();
-
-            String[] roleIds = form.getRoleIds().split(",");
-            for (String roleId : roleIds) {
-                UserRole ur = new UserRole();
-                ur.setUserId(form.getId());
-                ur.setRoleId(Integer.valueOf(roleId));
-                list.add(ur);
-            }
-
-            userDao.batchInsertUserRole(list);
+            batchInsertUserRole(user.getId(), roleIds);
         }
 
         return RestResultGenerator.createSuccessResult();
     }
 
+    /**
+     * 批量保存用户--角色
+     */
+    private void batchInsertUserRole(Integer userId, String roleIds) {
+
+        List<UserRole> list = new ArrayList<>();
+
+        String[] roleIdArr = roleIds.split(",");
+        for (String roleId : roleIdArr) {
+            UserRole ur = new UserRole();
+            ur.setUserId(userId);
+            ur.setRoleId(Integer.valueOf(roleId));
+            list.add(ur);
+        }
+
+        userDao.batchInsertUserRole(list);
+    }
+
+    /**
+     * 删除用户
+     */
     public ResponseResult delete(User form) {
 
         User user = userDao.findById(form.getId());
         if (user == null) {
-            return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
+            return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "账号不存在或已删除!");
         }
 
         userDao.deleteById(user.getId());
@@ -131,9 +150,12 @@ public class UserService extends ServiceImpl<UserDao, User> {
         return RestResultGenerator.createSuccessResult();
     }
 
+    /**
+     * 用户菜单
+     */
     public List<NavVo> getMenuList(HttpServletRequest request) {
 
-        List<NavVo> list = new ArrayList();
+        List<NavVo> list = new ArrayList<>();
 
         User user = ConstantsCMP.getSessionUser(request);
         List<Role> roles = user.getRoles();
@@ -142,8 +164,8 @@ public class UserService extends ServiceImpl<UserDao, User> {
                 Role r = roleDao.findById(role.getId());
                 List<Menu> authorities = r.getMenus();
 
-                List<Menu> parentMenuList = new ArrayList();   //  父节点菜单
-                List<Menu> childMenuList = new ArrayList();    //  子节点菜单
+                List<Menu> parentMenuList = new ArrayList<>();   //  父节点菜单
+                List<Menu> childMenuList = new ArrayList<>();    //  子节点菜单
                 for (Menu authority : authorities) {
                     if (authority.getParentId().equals(0)) {
                         parentMenuList.add(authority);
@@ -157,7 +179,7 @@ public class UserService extends ServiceImpl<UserDao, User> {
                     vo.setParentId(parentMenu.getId());
                     vo.setParentName(parentMenu.getMenuName());
                     vo.setParentIcon(parentMenu.getIcon());
-                    List<ChildNav> childList = new ArrayList();
+                    List<ChildNav> childList = new ArrayList<>();
                     for (Menu childMenu : childMenuList) {
                         if (childMenu.getParentId().equals(parentMenu.getId())) {
                             ChildNav child = new ChildNav();

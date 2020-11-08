@@ -16,7 +16,7 @@ public class Menu extends BaseEntity {
 
     private Integer displaySort;    // 排序
 
-    private Integer displayType;    // 类型 1:模块 2:菜单
+    private Integer displayType;    // 类型 1:模块 2:菜单 3:按钮
 
     private String permission;      // 授权标识
 

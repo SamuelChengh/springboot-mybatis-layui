@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
-@ToString
 public class BaseEntity implements Serializable {
 
     private Integer id;

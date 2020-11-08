@@ -3,7 +3,6 @@ package com.ch.service.sys;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ch.dao.sys.MenuDao;
 import com.ch.dao.sys.RoleDao;
-import com.ch.dao.sys.UserDao;
 import com.ch.entity.sys.Menu;
 import com.ch.entity.sys.Role;
 import com.ch.entity.sys.RoleMenu;
@@ -36,9 +35,13 @@ public class RoleService extends ServiceImpl<RoleDao, Role> {
     @Autowired
     private MenuDao menuDao;
 
-    @Autowired
-    private UserDao userDao;
+    public Role findById(Integer roleId) {
+        return roleDao.findById(roleId);
+    }
 
+    /**
+     * 角色列表
+     */
     public ResponsePageResult list(Role form) {
 
         Integer page = form.getPage();
@@ -49,6 +52,9 @@ public class RoleService extends ServiceImpl<RoleDao, Role> {
         return RestResultGenerator.createSuccessPageResult(pages);
     }
 
+    /**
+     * 新增角色
+     */
     public ResponseResult add(Role form) {
 
         if (roleDao.findByRoleName(form.getRoleName()) != null) {
@@ -57,78 +63,88 @@ public class RoleService extends ServiceImpl<RoleDao, Role> {
         form.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         roleDao.insert(form);
 
-        if (StringUtils.isNotBlank(form.getMenuIds())) {
-            List<RoleMenu> list = new ArrayList<>();
-
-            String[] menuIds = form.getMenuIds().split(",");
-            for (String menuId : menuIds) {
-                RoleMenu rm = new RoleMenu();
-                rm.setRoleId(form.getId());
-                rm.setMenuId(Integer.valueOf(menuId));
-                list.add(rm);
-            }
-
-            roleDao.batchInsertRoleMenu(list);
+        // 批量保存角色--菜单
+        String menuIds = form.getMenuIds();
+        if (StringUtils.isNotBlank(menuIds)) {
+            batchInsertRoleMenu(form.getId(), menuIds);
         }
 
         return RestResultGenerator.createSuccessResult();
     }
 
-    public Role findById(Integer roleId) {
-        return roleDao.findById(roleId);
-    }
-
+    /**
+     * 编辑角色
+     */
     public ResponseResult update(Role form) {
 
         Role role = roleDao.findById(form.getId());
+        if (role == null) {
+            return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "角色不存在或已删除!");
+        }
+
+        // 角色不能重复
         if (!role.getRoleName().equals(form.getRoleName())) {
             if (roleDao.findByRoleName(form.getRoleName()) != null) {
                 return RestResultGenerator.createErrorResult(ResponseEnum.ROLE_NAME_EXIST);
             }
         }
+
         form.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
         roleDao.updateById(form);
 
-        if (StringUtils.isNotBlank(form.getMenuIds())) {
-            roleDao.deleteByRoleId(role.getId());
+        // 批量保存角色--菜单
+        String menuIds = form.getMenuIds();
+        if (StringUtils.isNotBlank(menuIds)) {
+            roleDao.deleteByRoleId(role.getId());   // 先删除
 
-            List<RoleMenu> list = new ArrayList<>();
-
-            String[] menuIds = form.getMenuIds().split(",");
-            for (String menuId : menuIds) {
-                RoleMenu rm = new RoleMenu();
-                rm.setRoleId(form.getId());
-                rm.setMenuId(Integer.valueOf(menuId));
-                list.add(rm);
-            }
-
-            roleDao.batchInsertRoleMenu(list);
+            batchInsertRoleMenu(role.getId(), menuIds);
         }
 
         return RestResultGenerator.createSuccessResult();
     }
 
+    /**
+     * 批量保存角色--菜单
+     */
+    private void batchInsertRoleMenu(Integer roleId, String menuIds) {
+
+        List<RoleMenu> list = new ArrayList<>();
+
+        String[] menuIdArr = menuIds.split(",");
+        for (String menuId : menuIdArr) {
+            RoleMenu rm = new RoleMenu();
+            rm.setRoleId(roleId);
+            rm.setMenuId(Integer.valueOf(menuId));
+            list.add(rm);
+        }
+
+        roleDao.batchInsertRoleMenu(list);
+    }
+
+    /**
+     * 删除角色
+     */
     public ResponseResult delete(Role form) {
 
         Role role = roleDao.findById(form.getId());
         if (role == null) {
-            return RestResultGenerator.createErrorResult(ResponseEnum.USER_NOT_EXIST);
+            return RestResultGenerator.createErrorResult(ResponseEnum.UNKNOWN, "角色不存在或已删除!");
         }
 
-        roleDao.deleteById(form.getId());
-        roleDao.deleteByRoleId(form.getId());
+        roleDao.deleteById(role.getId());
+        roleDao.deleteByRoleId(role.getId());
 
         return RestResultGenerator.createSuccessResult();
     }
 
     public ResponseResult getRole() {
 
-        List<Map<String, Object>> mapList = new ArrayList();
+        List<Map<String, Object>> mapList = new ArrayList<>();
 
         List<Role> list = roleDao.selectList(null);
         Map<String, Object> jsonMap;
         for (Role role : list) {
-            jsonMap = new HashMap();
+            jsonMap = new HashMap<>();
             jsonMap.put("value", role.getId());
             jsonMap.put("name", role.getRoleName());
             jsonMap.put("roles", role.getRoles());
@@ -138,6 +154,9 @@ public class RoleService extends ServiceImpl<RoleDao, Role> {
         return RestResultGenerator.createSuccessResult(mapList);
     }
 
+    /**
+     * 角色授权
+     */
     public ResponseResult authority() {
 
         // 最终返回的结果

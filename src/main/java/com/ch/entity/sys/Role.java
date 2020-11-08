@@ -23,6 +23,6 @@ public class Role extends BaseEntity {
 
     @JsonIgnore
     @TableField(exist = false)
-    private String menuIds;
+    private String menuIds;     // 前端保存菜单时，传的参数
 
 }

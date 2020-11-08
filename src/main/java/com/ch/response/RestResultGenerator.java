@@ -23,7 +23,7 @@ public class RestResultGenerator {
     public static <T> ResponsePageResult<T> createSuccessPageResult(List<T> data) {
         ResponsePageResult<T> result = ResponsePageResult.newInstance();
         result.setResultInfo(ResponseEnum.SUCCESS, "");
-        result.setCount(Long.valueOf(data.size()));
+        result.setCount((long) data.size());
         result.setData(data);
         return result;
     }
